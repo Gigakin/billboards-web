@@ -1,0 +1,7 @@
+# ides
+/.vs
+/.vscode
+/.idea
+
+# packagers
+/node_modules

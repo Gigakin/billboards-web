@@ -1,0 +1,2 @@
+// Strings
+export default {};

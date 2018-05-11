@@ -1,0 +1,36 @@
+{
+  "name": "billboards-web",
+  "version": "1.0.0-beta",
+  "description": "description",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gihtub.com/itsag/billboards-web.git"
+  },
+  "author": {
+    "name": "Ajay Gupta",
+    "email": "ajay.gupta8308@gmail.com",
+    "url": "https://ajaygupta.me"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.17"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.1.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-less": "^3.4.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglifycss": "^1.0.9",
+    "gulp-watch": "^5.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "gulp release && react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
