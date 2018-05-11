@@ -2,10 +2,14 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
 
+// Services
+import AuthService from "../../services/auth-service";
+
 // Classes
 class Navigation extends React.Component {
   // Logout
   logout = () => {
+    AuthService.logout();
     return this.props.history.push("/login");
   };
 

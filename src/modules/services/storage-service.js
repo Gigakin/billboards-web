@@ -4,8 +4,8 @@ let getLocalData = key => {
 };
 
 // Set Local Data
-let setLocalData = props => {
-  window.localStorage.setItem(props.key, props.value);
+let setLocalData = (key, value) => {
+  window.localStorage.setItem(key, value);
 };
 
 // Remove Local Data
@@ -24,8 +24,8 @@ let getSessionData = key => {
 };
 
 // Set Session Data
-let setSessionData = props => {
-  window.sessionStorage.setItem(props.key, props.value);
+let setSessionData = (key, value) => {
+  window.sessionStorage.setItem(key, value);
 };
 
 // Remove Session Data

@@ -1,6 +1,9 @@
 // Modules
 import React from "react";
 
+// Services
+import AuthService from "../../services/auth-service";
+
 // Classes
 class Login extends React.Component {
   constructor(props) {
@@ -24,6 +27,7 @@ class Login extends React.Component {
 
   // Login
   login = () => {
+    AuthService.login();
     return this.props.history.push("/dashboard");
   };
 
