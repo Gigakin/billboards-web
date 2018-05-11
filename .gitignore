@@ -3,5 +3,16 @@
 /.vscode
 /.idea
 
+# generated content
+/public/assets/css
+
 # packagers
 /node_modules
+
+# os
+.DS_STORE
+
+# output
+/[Dd]ist
+/[Bb]uild
+/[Oo]ut
