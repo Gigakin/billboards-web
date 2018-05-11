@@ -1,10 +1,23 @@
 // Modules
 import React from "react";
+import { Switch } from "react-router-dom";
+
+// Routes
+import { PublicRoute } from "./routes";
 
 // Classes
 class Content extends React.Component {
   render() {
-    return "Content goes here.";
+    return (
+      <main>
+        {/* Routes */}
+        <Switch>
+          <PublicRoute exact path="/login" component={() => "Login"} />
+          <PublicRoute exact path="/dashboard" component={() => "Dashboard"} />
+          <PublicRoute exact path="/jobs" component={() => "Jobsß"} />
+        </Switch>
+      </main>
+    );
   }
 }
 
