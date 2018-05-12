@@ -12,6 +12,9 @@ import Sidebar from "./common/sidebar";
 // Services
 import AuthService from "../services/auth-service";
 
+// Pages
+import JobOrders from "./pages/job-orders";
+
 // Root Component
 const Root = () => <Redirect to="/dashboard" />;
 
@@ -27,14 +30,18 @@ class ProtectedContent extends React.Component {
           <div className="main-container__content">
             <div className="main-container__content__inner">
               <div className="uk-flex">
-                {/* Sidebar */}
-                {AuthService.isLoggedIn() ? <Sidebar /> : null}
-                {/* Routes */}
-                <Switch>
-                  <ProtectedRoute exact path="/" component={Root} />
-                  <ProtectedRoute exact path="/dashboard" component={() => "Dashboard"} />
-                  <ProtectedRoute exact path="/jobs" component={() => "Jobs"} />
-                </Switch>
+                <div className="uk-flex-none">
+                  {/* Sidebar */}
+                  {AuthService.isLoggedIn() ? <Sidebar /> : null}
+                </div>
+                <div className="uk-flex-auto">
+                  {/* Routes */}
+                  <Switch>
+                    <ProtectedRoute exact path="/" component={Root} />
+                    <ProtectedRoute exact path="/dashboard" component={() => "Dashboard"} />
+                    <ProtectedRoute exact path="/jobs" component={JobOrders} />
+                  </Switch>
+                </div>
               </div>
             </div>
           </div>
