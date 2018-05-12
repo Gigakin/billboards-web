@@ -1,5 +1,4 @@
 // Modules
-import Axios from "axios";
 import StorageService from "./storage-service";
 
 // Login
