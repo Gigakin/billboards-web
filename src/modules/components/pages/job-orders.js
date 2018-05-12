@@ -6,6 +6,11 @@ import OrderList from "../common/order-list";
 
 // Classes
 class JobOrders extends React.Component {
+  // Create New Order
+  createNewOrder = event => {
+    return this.props.history.push("/jobs/new");
+  };
+
   render() {
     return (
       <div className="uk-flex">
@@ -17,8 +22,14 @@ class JobOrders extends React.Component {
           </div>
 
           {/* Actions */}
-          <div className="uk-width-1-1">
-            {/* Maybe add buttons here? */}
+          <div className="uk-width-1-1 uk-margin-large-bottom">
+            <button
+              type="button"
+              className="uk-button uk-button-primary uk-button-small"
+              onClick={this.createNewOrder}
+            >
+              Create New Job Order
+            </button>
           </div>
 
           {/* Order List */}

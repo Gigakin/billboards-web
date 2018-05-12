@@ -102,12 +102,23 @@ class NewJobOrder extends React.Component {
     console.log(payload);
   };
 
+  // Back to Order List
+  goBack = event => {
+    return this.props.history.push("/jobs");
+  };
+
   render() {
     return (
       <form className="uk-flex" onSubmit={this.createOrder}>
         <div className="uk-width-1-1 uk-padding-large">
           {/* Header */}
           <div className="uk-width-1-1">
+            <button
+              type="button"
+              className="uk-icon-button"
+              onClick={this.goBack}
+              uk-icon="arrow-left"
+            />
             <h2>New Job Order</h2>
           </div>
           {/* Job Description */}
