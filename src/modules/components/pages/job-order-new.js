@@ -94,6 +94,10 @@ class NewJobOrder extends React.Component {
     });
   };
 
+  switchTab = tabid => {
+    return console.log(tabid);
+  };
+
   // Create Order
   createOrder = event => {
     event.preventDefault();
