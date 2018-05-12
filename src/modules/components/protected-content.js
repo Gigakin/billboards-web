@@ -13,7 +13,7 @@ import Sidebar from "./common/sidebar";
 import AuthService from "../services/auth-service";
 
 // Root Component
-const Root = () => <Redirect to="/dashboard" />
+const Root = () => <Redirect to="/dashboard" />;
 
 // Classes
 class ProtectedContent extends React.Component {
@@ -26,14 +26,16 @@ class ProtectedContent extends React.Component {
         <div className="main-container">
           <div className="main-container__content">
             <div className="main-container__content__inner">
-              {/* Sidebar */}
-              {AuthService.isLoggedIn() ? <Sidebar /> : null}
-              {/* Routes */}
-              <Switch>
-                <ProtectedRoute exact path="/" component={Root} />
-                <ProtectedRoute exact path="/dashboard" component={() => "Dashboard"} />
-                <ProtectedRoute exact path="/jobs" component={() => "Jobs"} />
-              </Switch>
+              <div className="uk-flex">
+                {/* Sidebar */}
+                {AuthService.isLoggedIn() ? <Sidebar /> : null}
+                {/* Routes */}
+                <Switch>
+                  <ProtectedRoute exact path="/" component={Root} />
+                  <ProtectedRoute exact path="/dashboard" component={() => "Dashboard"} />
+                  <ProtectedRoute exact path="/jobs" component={() => "Jobs"} />
+                </Switch>
+              </div>
             </div>
           </div>
         </div>
