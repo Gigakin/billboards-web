@@ -2,13 +2,109 @@
 import React from "react";
 
 // Components
-import OrderList from "../common/order-list"; 
+import OrderList from "../common/order-list";
 
 // Classes
 class NewJobOrder extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      job: {},
+      jobsList: [],
+      customer: {},
+      designer: {},
+      createOrderError: false
+    };
+  }
+
+  // Capture Job Details
+  captureJobDescription = event => {
+    return this.setState({
+      job: {
+        ...this.state.job,
+        [event.target.id]: event.target.value
+      }
+    });
+  };
+
+  // Capture Job Details Options
+  // Maybe push the values in an array?
+  captureJobDescriptionOption = event => {
+    return this.setState({
+      job: {
+        ...this.state.job,
+        [event.target.id]: event.target.value
+      }
+    });
+  };
+
+  // Capture Customer Details
+  captureCustomerInformation = event => {
+    let value = event.target.value;
+    if (event.target.id === "phoneNumber") {
+      value = parseInt(value, 10);
+    }
+    return this.setState({
+      customer: {
+        ...this.state.customer,
+        [event.target.id]: value
+      }
+    });
+  };
+
+  // Capture Billing Address
+  captureBillingAddress = event => {
+    return this.setState({
+      customer: {
+        ...this.state.customer,
+        billingAddress: {
+          ...this.state.customer.billingAddress,
+          [event.target.id]: event.target.value
+        }
+      }
+    });
+  };
+
+  // Capture Shipping Address
+  captureShippingAddress = event => {
+    return this.setState({
+      customer: {
+        ...this.state.customer,
+        shippingAddress: {
+          ...this.state.customer.shippingAddress,
+          [event.target.id]: event.target.value
+        }
+      }
+    });
+  };
+
+  // Match Billing and Shipping Addresses
+  // What can be done here to make it work?
+  matchBillingAndShippinhAddresses = event => {
+    console.log(event.target.value);
+  };
+
+  // Capture Designer Details
+  captureDesignerDetails = event => {
+    return this.setState({
+      designer: {
+        ...this.state.designer,
+        [event.target.id]: event.target.value
+      }
+    });
+  };
+
+  // Create Order
+  createOrder = event => {
+    event.preventDefault();
+    let { customer, designer, job } = this.state;
+    let payload = { customer, designer, job };
+    console.log(payload);
+  };
+
   render() {
     return (
-      <div className="uk-flex">
+      <form className="uk-flex" onSubmit={this.createOrder}>
         <div className="uk-width-1-1 uk-padding-large">
           {/* Header */}
           <div className="uk-width-1-1">
@@ -17,7 +113,7 @@ class NewJobOrder extends React.Component {
           {/* Job Description */}
           <div className="uk-width-1-1 uk-margin-large-bottom">
             <h4>Job Description</h4>
-            <form className="uk-grid uk-grid-small uk-form-stacked">
+            <div className="uk-grid uk-grid-small uk-form-stacked">
               <div className="uk-width-1-2">
                 <label className="uk-form-label">Job Name</label>
                 <div className="uk-form-controls">
@@ -38,7 +134,6 @@ class NewJobOrder extends React.Component {
                   id="description"
                   onChange={this.captureJobDescription}
                   className="uk-input"
-                  required
                 />
               </div>
               <div className="uk-width-1-1 uk-margin">
@@ -61,13 +156,13 @@ class NewJobOrder extends React.Component {
                   Scanning
                 </label>
               </div>
-            </form>
+            </div>
           </div>
 
           {/* Party Information */}
           <div className="uk-width-1-1 uk-margin-large-bottom">
             <h4>Customer Information</h4>
-            <form className="uk-grid uk-grid-small uk-form-stacked">
+            <div className="uk-grid uk-grid-small uk-form-stacked">
               <div className="uk-width-1-2 uk-margin">
                 <label className="uk-form-label">Phone Number</label>
                 <div className="uk-form-controls">
@@ -88,6 +183,7 @@ class NewJobOrder extends React.Component {
                     type="checkbox"
                     onChange={this.matchBillingAndShippinhAddresses}
                     className="uk-checkbox"
+                    value="true"
                   />{" "}
                   Shipping address is the same as Billing Address
                 </label>
@@ -116,7 +212,6 @@ class NewJobOrder extends React.Component {
                       id="contactPerson"
                       onChange={this.captureBillingAddress}
                       className="uk-input"
-                      required
                     />
                   </div>
                 </div>
@@ -140,7 +235,6 @@ class NewJobOrder extends React.Component {
                       id="gstin"
                       onChange={this.captureBillingAddress}
                       className="uk-input"
-                      required
                     />
                   </div>
                 </div>
@@ -161,7 +255,7 @@ class NewJobOrder extends React.Component {
                   <div className="uk-form-controls">
                     <select
                       id="state"
-                      onChange={this.captureBillingAddressState}
+                      onChange={this.captureBillingAddress}
                       className="uk-select"
                       required
                     >
@@ -183,7 +277,6 @@ class NewJobOrder extends React.Component {
                       id="partyName"
                       onChange={this.captureShippingAddress}
                       className="uk-input"
-                      required
                     />
                   </div>
                 </div>
@@ -195,7 +288,6 @@ class NewJobOrder extends React.Component {
                       id="contactPerson"
                       onChange={this.captureShippingAddress}
                       className="uk-input"
-                      required
                     />
                   </div>
                 </div>
@@ -207,7 +299,6 @@ class NewJobOrder extends React.Component {
                       id="email"
                       onChange={this.captureShippingAddress}
                       className="uk-input"
-                      required
                     />
                   </div>
                 </div>
@@ -219,7 +310,6 @@ class NewJobOrder extends React.Component {
                       id="gstin"
                       onChange={this.captureShippingAddress}
                       className="uk-input"
-                      required
                     />
                   </div>
                 </div>
@@ -231,7 +321,6 @@ class NewJobOrder extends React.Component {
                       id="billingAddress"
                       onChange={this.captureShippingAddress}
                       className="uk-input"
-                      required
                     />
                   </div>
                 </div>
@@ -240,9 +329,8 @@ class NewJobOrder extends React.Component {
                   <div className="uk-form-controls">
                     <select
                       id="state"
-                      onChange={this.captureShippingAddressState}
+                      onChange={this.captureShippingAddress}
                       className="uk-select"
-                      required
                     >
                       <option value="" defaultChecked />
                       <option value="mh">Maharashtra</option>
@@ -250,7 +338,7 @@ class NewJobOrder extends React.Component {
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
 
           {/* Job Types */}
@@ -284,11 +372,11 @@ class NewJobOrder extends React.Component {
             <OrderList />
           </div>
 
-          {/* Orders List */}
+          {/* Assign Designer */}
           <div className="uk-grid uk-width-1-1 uk-margin-large-bottom">
             <div className="uk-width-2-3">
               <h4>Assign Designer</h4>
-              <form className="uk-form-stacked">
+              <div className="uk-form-stacked">
                 <div className="uk-width-1-2 uk-margin">
                   <label className="uk-form-label">Designer</label>
                   <div className="uk-form-controls">
@@ -311,21 +399,22 @@ class NewJobOrder extends React.Component {
                   <textarea
                     type="text"
                     id="description"
-                    onChange={this.captureJobDescription}
+                    onChange={this.captureDesignerDetails}
                     className="uk-textarea"
-                    required
                   />
                 </div>
-              </form>
+              </div>
             </div>
+
+            {/* Final Submit */}
             <div className="uk-width-1-3">
-              <button className="uk-button uk-button-primary">
+              <button type="submit" className="uk-button uk-button-primary">
                 Create Order
               </button>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     );
   }
 }
