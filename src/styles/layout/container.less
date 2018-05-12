@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-.main-container {
+.container {
   width: 100%;
   position: absolute;
   left: 0;
@@ -13,6 +13,16 @@
     &__inner {
       overflow-x: hidden;
       overflow-y: auto;
+
+      &--scrollable-x {
+        overflow-x: auto;
+      }
+      &--scrollable-y {
+        height: 100vh;
+        padding-bottom: 70px;
+        position: relative;
+        overflow-y: auto;
+      }
     }
   }
 }

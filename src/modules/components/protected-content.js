@@ -14,6 +14,7 @@ import AuthService from "../services/auth-service";
 
 // Pages
 import JobOrders from "./pages/job-orders";
+import NewJobOrder from "./pages/job-order-new";
 
 // Root Component
 const Root = () => <Redirect to="/dashboard" />;
@@ -26,20 +27,21 @@ class ProtectedContent extends React.Component {
         {/* Navigation */}
         {AuthService.isLoggedIn() ? <Navigation /> : null}
         {/* Container */}
-        <div className="main-container">
-          <div className="main-container__content">
-            <div className="main-container__content__inner">
+        <div className="container">
+          <div className="container__content">
+            <div className="container__content__inner">
               <div className="uk-flex">
                 <div className="uk-flex-none">
                   {/* Sidebar */}
                   {AuthService.isLoggedIn() ? <Sidebar /> : null}
                 </div>
-                <div className="uk-flex-auto">
+                <div className="uk-flex-auto container__content__inner--scrollable-y">
                   {/* Routes */}
                   <Switch>
                     <ProtectedRoute exact path="/" component={Root} />
                     <ProtectedRoute exact path="/dashboard" component={() => "Dashboard"} />
                     <ProtectedRoute exact path="/jobs" component={JobOrders} />
+                    <ProtectedRoute exact path="/jobs/new" component={NewJobOrder} />
                   </Switch>
                 </div>
               </div>
