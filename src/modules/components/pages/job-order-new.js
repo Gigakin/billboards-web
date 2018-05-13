@@ -2,7 +2,7 @@
 import React from "react";
 
 // Components
-import OrderList from "../common/order-list";
+import JobList from "../common/job-list";
 
 // Classes
 class NewJobOrder extends React.Component {
@@ -15,6 +15,7 @@ class NewJobOrder extends React.Component {
       designer: {},
       createOrderError: false
     };
+    this.jobDetails = {};
   }
 
   // Capture Job Details
@@ -373,18 +374,109 @@ class NewJobOrder extends React.Component {
                 <a onClick={() => this.switchTab(4)}>Indoor</a>
               </li>
             </ul>
+
+            {/* Front Lit */}
             <div className="uk-width-1-1">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil
-              delectus maxime vitae ex eius iste similique nemo quidem. Dolorum
-              cum vitae iure veritatis labore obcaecati hic rem! Animi, sunt
-              numquam.
+              <div className="uk-grid uk-form-stacked">
+                {/* Quality */}
+                <div className="uk-width-1-3">
+                  <label className="uk-form-label">Quality</label>
+                  <div className="uk-form-controls">
+                    <select className="uk-select">
+                      <option>Quality Option 01</option>
+                      <option>Quality Option 02</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Dimensions */}
+                <div className="uk-width-1-3">
+                  <label className="uk-form-label" htmlFor="form-stacked-text">
+                    Size
+                  </label>
+                  <div className="uk-form-controls">
+                    <input
+                      type="text"
+                      className="uk-input uk-width-1-3"
+                      placeholder="Width"
+                      required
+                    />
+                    <input
+                      type="text"
+                      className="uk-input uk-width-1-3"
+                      placeholder="Height"
+                      required
+                    />
+                    <select className="uk-select uk-width-1-3" required>
+                      <option>in Meters</option>
+                      <option>in Inches</option>
+                      <option>in Feets</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Quantity */}
+                <div className="uk-width-1-3">
+                  <label className="uk-form-label">Quantity</label>
+                  <div className="uk-form-controls">
+                    <input type="number" className="uk-input" required />
+                  </div>
+                </div>
+
+                {/* Raw Design Files */}
+                <div className="uk-width-1-2 uk-margin">
+                  <label className="uk-form-label">
+                    Customer's Design File
+                  </label>
+                  <div className="uk-form-controls">
+                    <input type="number" className="uk-input" required />
+                  </div>
+                </div>
+                {/* FInalized Design Files */}
+                <div className="uk-width-1-2 uk-margin">
+                  <label className="uk-form-label">Finalized Design File</label>
+                  <div className="uk-form-controls">
+                    <input type="number" className="uk-input" required />
+                  </div>
+                </div>
+
+                {/* Options */}
+                <div className="uk-width-1-1 uk-margin">
+                  <div className="uk-form-label">Options</div>
+                  <div className="uk-form-controls">
+                    <label className="uk-margin-right">
+                      <input className="uk-radio" type="radio" name="1lit" />{" "}
+                      1-Lit
+                    </label>
+                    <label className="uk-margin-right">
+                      <input className="uk-radio" type="radio" name="framing" />{" "}
+                      Framing
+                    </label>
+                    <label className="uk-margin-right">
+                      <input className="uk-radio" type="radio" name="pasting" />{" "}
+                      Pasting
+                    </label>
+                    <label className="uk-margin-right">
+                      <input className="uk-radio" type="radio" name="piping" />{" "}
+                      Piping
+                    </label>
+                  </div>
+                </div>
+
+                {/* Submit */}
+                <div className="uk-width-1-1">
+                  <button type="button" className="uk-button uk-button-primary">
+                    Add to Jobs
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Order List */}
+          {/* Jobs List */}
           <div className="uk-width-1-1 uk-margin-large-bottom">
-            <h4>Order List</h4>
-            <OrderList />
+            <h4>Jobs List</h4>
+            <JobList />
           </div>
 
           {/* Assign Designer */}
