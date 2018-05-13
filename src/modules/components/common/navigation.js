@@ -1,6 +1,7 @@
 // Modules
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
+import Swal from "sweetalert";
 
 // Services
 import AuthService from "../../services/auth-service";
@@ -9,8 +10,16 @@ import AuthService from "../../services/auth-service";
 class Navigation extends React.Component {
   // Logout
   logout = () => {
-    AuthService.logout();
-    return this.props.history.push("/login");
+    Swal({
+      text: "Logout?",
+      buttons: true
+    }).then(logout => {
+      if (logout) {
+        AuthService.logout();
+        return this.props.history.push("/login");
+      }
+      return false;
+    });
   };
 
   render() {

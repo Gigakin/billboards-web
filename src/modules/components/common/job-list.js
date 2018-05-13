@@ -1,9 +1,26 @@
 // Modules
 import React from "react";
+import Swal from "sweetalert";
+
+// Assets
 import Methods from "../../methods";
 
 // Classes
 class JobList extends React.Component {
+  // Delete Item
+  deleteItem = itemid => {
+    Swal({
+      title: "Delete Job Item",
+      text: "Are you sure you want to delete this job item from this order?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true
+    }).then(willdelete => {
+      if (willdelete) return this.props.methods.deleteItem(itemid);
+      return false;
+    });
+  };
+
   render() {
     let { list, methods } = this.props;
     return (
@@ -32,13 +49,13 @@ class JobList extends React.Component {
                     <button
                       type="button"
                       onClick={() => methods.editItem(index)}
-                      className="uk-icon-button uk-text-primary uk-margin-right"
+                      className="uk-icon-button uk-text-primary uk-margin-small-right"
                       uk-icon="pencil"
                     />
                     <button
                       type="button"
-                      onClick={() => methods.deleteItem(index)}
-                      className="uk-icon-button uk-text-danger uk-margin-right"
+                      onClick={() => this.deleteItem(index)}
+                      className="uk-icon-button uk-text-danger uk-margin-small-right"
                       uk-icon="trash"
                     />
                   </td>
