@@ -10,6 +10,11 @@ class NewJobOrder extends React.Component {
     super(props);
     this.state = {
       job: {},
+      jobDetails: {
+        type: "frontlit",
+        quality: "quality1",
+        sizeUnits: "meters"
+      },
       jobsList: [],
       customer: {},
       designer: {},
@@ -81,7 +86,7 @@ class NewJobOrder extends React.Component {
 
   // Match Billing and Shipping Addresses
   // What can be done here to make it work?
-  matchBillingAndShippinhAddresses = event => {
+  matchBillingAndShippingAddresses = event => {
     console.log(event.target.value);
   };
 
@@ -95,8 +100,34 @@ class NewJobOrder extends React.Component {
     });
   };
 
+  // Job Type Tab Switching
   switchTab = tabid => {
-    return console.log(tabid);
+    return this.setState({
+      // Reset job details on tab switch
+      jobDetails: {
+        ...this.state.jobDetails,
+        type: tabid
+      }
+    });
+  };
+
+  // Capture Job Details
+  captureJobDetails = event => {
+    return this.setState({
+      jobDetails: {
+        ...this.state.jobDetails,
+        [event.target.id]: event.target.value
+      }
+    });
+  };
+
+  // Add Job
+  addJob = event => {
+    event.preventDefault();
+    let { jobDetails, jobsList } = this.state;
+    return this.setState({
+      jobsList: jobsList.concat(jobDetails)
+    });
   };
 
   // Create Order
@@ -113,6 +144,8 @@ class NewJobOrder extends React.Component {
   };
 
   render() {
+    let { jobsList } = this.state;
+
     return (
       <form className="uk-flex" onSubmit={this.createOrder}>
         <div className="uk-width-1-1 uk-padding-large">
@@ -197,7 +230,7 @@ class NewJobOrder extends React.Component {
                 <label>
                   <input
                     type="checkbox"
-                    onChange={this.matchBillingAndShippinhAddresses}
+                    onChange={this.matchBillingAndShippingAddresses}
                     className="uk-checkbox"
                     value="true"
                   />{" "}
@@ -362,16 +395,16 @@ class NewJobOrder extends React.Component {
             <h4>Job Types</h4>
             <ul uk-tab="">
               <li className="uk-active">
-                <a onClick={() => this.switchTab(1)}>Front-lit</a>
+                <a onClick={() => this.switchTab("frontlit")}>Front-lit</a>
               </li>
               <li>
-                <a onClick={() => this.switchTab(2)}>Back-lit</a>
+                <a onClick={() => this.switchTab("backlit")}>Back-lit</a>
               </li>
               <li>
-                <a onClick={() => this.switchTab(3)}>Vinyl</a>
+                <a onClick={() => this.switchTab("vinyl")}>Vinyl</a>
               </li>
               <li>
-                <a onClick={() => this.switchTab(4)}>Indoor</a>
+                <a onClick={() => this.switchTab("indoor")}>Indoor</a>
               </li>
             </ul>
 
@@ -382,35 +415,47 @@ class NewJobOrder extends React.Component {
                 <div className="uk-width-1-3">
                   <label className="uk-form-label">Quality</label>
                   <div className="uk-form-controls">
-                    <select className="uk-select">
-                      <option>Quality Option 01</option>
-                      <option>Quality Option 02</option>
+                    <select
+                      className="uk-select"
+                      id="quality"
+                      onChange={this.captureJobDetails}
+                      required
+                    >
+                      <option value="quality1">Quality Option 01</option>
+                      <option value="quality2">Quality Option 02</option>
                     </select>
                   </div>
                 </div>
 
                 {/* Dimensions */}
                 <div className="uk-width-1-3">
-                  <label className="uk-form-label" htmlFor="form-stacked-text">
-                    Size
-                  </label>
+                  <label className="uk-form-label">Size</label>
                   <div className="uk-form-controls">
                     <input
                       type="text"
+                      id="sizeWidth"
+                      onChange={this.captureJobDetails}
                       className="uk-input uk-width-1-3"
                       placeholder="Width"
                       required
                     />
                     <input
                       type="text"
+                      id="sizeHeight"
+                      onChange={this.captureJobDetails}
                       className="uk-input uk-width-1-3"
                       placeholder="Height"
                       required
                     />
-                    <select className="uk-select uk-width-1-3" required>
-                      <option>in Meters</option>
-                      <option>in Inches</option>
-                      <option>in Feets</option>
+                    <select
+                      id="sizeUnits"
+                      onChange={this.captureJobDetails}
+                      className="uk-select uk-width-1-3"
+                      required
+                    >
+                      <option value="meters">in Meters</option>
+                      <option value="inches">in Inches</option>
+                      <option value="feets">in Feets</option>
                     </select>
                   </div>
                 </div>
@@ -419,7 +464,13 @@ class NewJobOrder extends React.Component {
                 <div className="uk-width-1-3">
                   <label className="uk-form-label">Quantity</label>
                   <div className="uk-form-controls">
-                    <input type="number" className="uk-input" required />
+                    <input
+                      type="number"
+                      id="quantity"
+                      onChange={this.captureJobDetails}
+                      className="uk-input"
+                      required
+                    />
                   </div>
                 </div>
 
@@ -465,7 +516,11 @@ class NewJobOrder extends React.Component {
 
                 {/* Submit */}
                 <div className="uk-width-1-1">
-                  <button type="button" className="uk-button uk-button-primary">
+                  <button
+                    type="button"
+                    className="uk-button uk-button-primary"
+                    onClick={this.addJob}
+                  >
                     Add to Jobs
                   </button>
                 </div>
@@ -476,7 +531,7 @@ class NewJobOrder extends React.Component {
           {/* Jobs List */}
           <div className="uk-width-1-1 uk-margin-large-bottom">
             <h4>Jobs List</h4>
-            <JobList />
+            <JobList list={jobsList} />
           </div>
 
           {/* Assign Designer */}
