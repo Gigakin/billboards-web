@@ -130,6 +130,14 @@ class NewJobOrder extends React.Component {
     });
   };
 
+  // Remove Job
+  removeJob = jobid => {
+    let { jobsList } = this.state;
+    return this.setState({
+      jobsList: jobsList.filter((_, index) => index !== jobid)
+    });
+  };
+
   // Create Order
   createOrder = event => {
     event.preventDefault();
@@ -531,7 +539,12 @@ class NewJobOrder extends React.Component {
           {/* Jobs List */}
           <div className="uk-width-1-1 uk-margin-large-bottom">
             <h4>Jobs List</h4>
-            <JobList list={jobsList} />
+            <JobList
+              list={jobsList}
+              methods={{
+                deleteItem: this.removeJob
+              }}
+            />
           </div>
 
           {/* Assign Designer */}

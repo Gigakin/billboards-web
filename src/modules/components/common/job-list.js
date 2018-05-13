@@ -5,8 +5,7 @@ import Methods from "../../methods";
 // Classes
 class JobList extends React.Component {
   render() {
-    let { list } = this.props;
-
+    let { list, methods } = this.props;
     return (
       <div className="job-list">
         {list && list.length ? (
@@ -31,10 +30,14 @@ class JobList extends React.Component {
                   </td>
                   <td>
                     <button
+                      type="button"
+                      onClick={() => methods.editItem(index)}
                       className="uk-icon-button uk-text-primary uk-margin-right"
                       uk-icon="pencil"
                     />
                     <button
+                      type="button"
+                      onClick={() => methods.deleteItem(index)}
                       className="uk-icon-button uk-text-danger uk-margin-right"
                       uk-icon="trash"
                     />
@@ -57,7 +60,8 @@ class JobList extends React.Component {
 
 // Default Props
 JobList.defaultProps = {
-  list: []
+  list: [],
+  methods: null
 };
 
 // Exports
