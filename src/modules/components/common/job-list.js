@@ -45,8 +45,9 @@ class JobList extends React.Component {
           </table>
         ) : (
           <p>
-            There are no jobs to show at the moment. Use the above{" "}
-            <code>Job Types</code> section to add jobs in this order.
+            There are no jobs to show right now.<br />
+            Use the above <code>Job Types</code> section to add jobs in this
+            order.
           </p>
         )}
       </div>
