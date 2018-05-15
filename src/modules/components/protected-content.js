@@ -13,6 +13,7 @@ import Sidebar from "./common/sidebar";
 import AuthService from "../services/auth-service";
 
 // Pages
+import Dashboard from "./pages/dashboard";
 import JobOrders from "./pages/job-orders";
 import NewJobOrder from "./pages/job-order-new";
 
@@ -39,7 +40,7 @@ class ProtectedContent extends React.Component {
                   {/* Routes */}
                   <Switch>
                     <ProtectedRoute exact path="/" component={Root} />
-                    <ProtectedRoute exact path="/dashboard" component={() => "Dashboard"} />
+                    <ProtectedRoute exact path="/dashboard" component={Dashboard} />
                     <ProtectedRoute exact path="/jobs" component={JobOrders} />
                     <ProtectedRoute exact path="/jobs/new" component={NewJobOrder} />
                   </Switch>
