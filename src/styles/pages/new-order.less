@@ -1,0 +1,34 @@
+@charset "utf-8";
+
+.new-order {
+  &__header {
+    margin-bottom: 30px;
+    align-items: center;
+    display: flex;
+
+    &__title {
+      margin: 0;
+      margin-left: 20px;
+    }
+  }
+
+  &__content {
+    &:extend(.uk-card);
+    border: 1px solid @global-border;
+    border-radius: 3px;
+
+    // Tabs
+    ul[uk-tab] {
+      padding-top: 4px;
+      margin-bottom: 0;
+
+      li a {
+        padding: 12px 14px;
+      }
+    }
+
+    &__tab-content {
+      padding: 12px 34px;
+    }
+  }
+}
