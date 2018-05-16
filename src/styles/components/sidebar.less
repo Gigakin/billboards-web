@@ -6,10 +6,17 @@
   min-width: 160px;
   height: 100vh;
   user-select: none;
-  
+
   &__menu {
     padding: 30px 0;
-    marign: none;
+    margin: none;
+
+    &__section-title {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: fadeOut(#ffffff, 35%);
+      padding: 16px 24px;
+    }
 
     &__link {
       color: #ffffff;
@@ -24,10 +31,23 @@
         text-decoration: none;
         background: rgba(255, 255, 255, 0.025);
       }
-      
+
       &.active {
         background: rgba(255, 255, 255, 0.075);
         border-color: @global-primary-background;
+      }
+
+      &--without-effects {
+        border-width: 0;
+
+        &:hover {
+          background: transparent;
+        }
+
+        &.active {
+          background: transparent;
+          border-color: transparent;
+        }
       }
     }
   }

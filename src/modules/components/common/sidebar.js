@@ -1,6 +1,6 @@
 // Modules
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Classes
 class Sidebar extends React.Component {
@@ -8,12 +8,16 @@ class Sidebar extends React.Component {
     return (
       <div className="sidebar">
         <div className="sidebar__menu">
-          <NavLink to="/dashboard" className="sidebar__menu__link">
+          <Link to="/dashboard" className="sidebar__menu__link">
             Dashboard
-          </NavLink>
-          <NavLink to="/jobs" className="sidebar__menu__link">
-            Job Orders
-          </NavLink>
+          </Link>
+          <div className="sidebar__menu__section-title">Job Management</div>
+          <Link to="/jobs" className="sidebar__menu__link">
+            Orders List
+          </Link>
+          <Link to="/jobs/new" className="sidebar__menu__link">
+            Create New Job
+          </Link>
         </div>
       </div>
     );
