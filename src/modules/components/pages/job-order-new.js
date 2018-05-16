@@ -19,7 +19,7 @@ class NewJobOrder extends React.Component {
       customer: {},
       designer: {},
       createOrderError: false,
-      currentTab: "order"
+      currentTab: "jobs"
     };
     this.jobDetails = {};
   }
@@ -154,7 +154,7 @@ class NewJobOrder extends React.Component {
   };
 
   render() {
-    let { currentTab } = this.state;
+    let { currentTab, jobsList } = this.state;
     return (
       <div className="new-order">
         <div className="uk-width-1-1 uk-padding-large">
@@ -192,23 +192,453 @@ class NewJobOrder extends React.Component {
                   </a>
                 </li>
                 <li>
-                  <a onClick={() => this.switchTab("finalize")} href="">
-                    Finalize
+                  <a onClick={() => this.switchTab("review")} href="">
+                    Review
                   </a>
                 </li>
               </ul>
             </div>
 
             {/* Tab Content */}
-            <div className="uk-width-1-1 uk-padding">
+            <div className="uk-width-1-1">
               {/* Order Details */}
-              {currentTab === "order" ? "Order Details" : null}
+              {currentTab === "order" ? (
+                <div className="uk-padding">
+                  <div className="uk-width-1-1">
+                    <div className="uk-grid uk-grid-small uk-form-stacked">
+                      <div className="uk-width-1-2">
+                        <label className="uk-form-label">Job Name</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="text"
+                            id="name"
+                            onChange={this.captureJobDescription}
+                            className="uk-input"
+                            autoFocus
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="uk-width-1-2">
+                        <label className="uk-form-label">Job Description</label>
+                        <input
+                          type="text"
+                          id="description"
+                          onChange={this.captureJobDescription}
+                          className="uk-input"
+                        />
+                      </div>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-margin-right">
+                          <input
+                            type="checkbox"
+                            onChange={this.captureJobDescriptionOption}
+                            className="uk-checkbox"
+                            value="designing"
+                          />{" "}
+                          Designing
+                        </label>
+                        <label className="uk-margin-right">
+                          <input
+                            type="checkbox"
+                            onChange={this.captureJobDescriptionOption}
+                            className="uk-checkbox"
+                            value="scanning"
+                          />{" "}
+                          Scanning
+                        </label>
+                      </div>
+                      <div className="uk-width-1-1">
+                        <button className="uk-button uk-button-primary">
+                          Save and Continue
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
               {/* Customer Details */}
-              {currentTab === "customer" ? "Customer Details" : null}
+              {currentTab === "customer" ? (
+                <div className="uk-padding">
+                  <div className="uk-grid uk-grid-small uk-form-stacked uk-margin">
+                    <div className="uk-width-1-2 uk-margin">
+                      <label className="uk-form-label">Phone Number</label>
+                      <div className="uk-form-controls">
+                        <input
+                          type="number"
+                          id="phoneNumber"
+                          onChange={this.captureCustomerInformation}
+                          className="uk-input"
+                          minLength="10"
+                          maxLength="10"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="uk-width-1-2 uk-margin">
+                      <label>
+                        <input
+                          type="checkbox"
+                          onChange={this.matchBillingAndShippingAddresses}
+                          className="uk-checkbox"
+                          value="true"
+                        />{" "}
+                        Shipping address is the same as Billing Address
+                      </label>
+                    </div>
+
+                    {/* Billing Address */}
+                    <div className="uk-width-1-2">
+                      <h4>Bill to Party</h4>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-form-label">Bill to Party</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="text"
+                            id="partyName"
+                            onChange={this.captureBillingAddress}
+                            className="uk-input"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-form-label">Contact Person</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="text"
+                            id="contactPerson"
+                            onChange={this.captureBillingAddress}
+                            className="uk-input"
+                          />
+                        </div>
+                      </div>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-form-label">Email Address</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="email"
+                            id="email"
+                            onChange={this.captureBillingAddress}
+                            className="uk-input"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-form-label">GSTIN</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="text"
+                            id="gstin"
+                            onChange={this.captureBillingAddress}
+                            className="uk-input"
+                          />
+                        </div>
+                      </div>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-form-label">Billing Address</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="text"
+                            id="billingAddress"
+                            onChange={this.captureBillingAddress}
+                            className="uk-input"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-form-label">State</label>
+                        <div className="uk-form-controls">
+                          <select
+                            id="state"
+                            onChange={this.captureBillingAddress}
+                            className="uk-select"
+                            required
+                          >
+                            <option value="" defaultChecked />
+                            <option value="mh">Maharashtra</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Shipping Address */}
+                    <div className="uk-width-1-2">
+                      <h4>Ship to Party</h4>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-form-label">Ship to Party</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="text"
+                            id="partyName"
+                            onChange={this.captureShippingAddress}
+                            className="uk-input"
+                          />
+                        </div>
+                      </div>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-form-label">Contact Person</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="text"
+                            id="contactPerson"
+                            onChange={this.captureShippingAddress}
+                            className="uk-input"
+                          />
+                        </div>
+                      </div>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-form-label">Email Address</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="email"
+                            id="email"
+                            onChange={this.captureShippingAddress}
+                            className="uk-input"
+                          />
+                        </div>
+                      </div>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-form-label">GSTIN</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="text"
+                            id="gstin"
+                            onChange={this.captureShippingAddress}
+                            className="uk-input"
+                          />
+                        </div>
+                      </div>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-form-label">Billing Address</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="text"
+                            id="billingAddress"
+                            onChange={this.captureShippingAddress}
+                            className="uk-input"
+                          />
+                        </div>
+                      </div>
+                      <div className="uk-width-1-1 uk-margin">
+                        <label className="uk-form-label">State</label>
+                        <div className="uk-form-controls">
+                          <select
+                            id="state"
+                            onChange={this.captureShippingAddress}
+                            className="uk-select"
+                          >
+                            <option value="" defaultChecked />
+                            <option value="mh">Maharashtra</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Submit */}
+                  <div className="uk-width-1-1">
+                    <button className="uk-button uk-button-primary uk-margin-right">
+                      Previous
+                    </button>
+                    <button className="uk-button uk-button-primary">
+                      Save and Continue
+                    </button>
+                  </div>
+                </div>
+              ) : null}
+
               {/* Jobs List */}
-              {currentTab === "jobs" ? "Jobs List" : null}
+              {currentTab === "jobs" ? (
+                <div className="uk-grid uk-form-stacked">
+                  {/* Left */}
+                  <div className="uk-width-1-2">
+                    <div className="uk-grid uk-padding">
+                      <div className="uk-width-1-1 uk-grid uk-margin-small">
+                        {/* Type */}
+                        <div className="uk-width-1-1">
+                          <label className="uk-form-label">Type</label>
+                          <div className="uk-form-controls">
+                            <select
+                              id="type"
+                              className="uk-select"
+                              onChange={this.captureJobDetails}
+                              required
+                            >
+                              <option value="frontlit">Front-lit</option>
+                              <option value="backlit">Back-lit</option>
+                              <option value="vinyl">Vinyl</option>
+                              <option value="indoor">Indoor</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="uk-width-1-1 uk-grid uk-margin-small">
+                        {/* Quantity*/}
+                        <div className="uk-width-1-2">
+                          <label className="uk-form-label">Quantity</label>
+                          <div className="uk-form-controls">
+                            <input
+                              type="number"
+                              id="quantity"
+                              onChange={this.captureJobDetails}
+                              className="uk-input"
+                              required
+                            />
+                          </div>
+                        </div>
+                        {/* Quality */}
+                        <div className="uk-width-1-2">
+                          <label className="uk-form-label">Quality</label>
+                          <div className="uk-form-controls">
+                            <select
+                              id="quality"
+                              className="uk-select"
+                              onChange={this.captureJobDetails}
+                              required
+                            >
+                              <option value="quality1">
+                                Quality Option 01
+                              </option>
+                              <option value="quality2">
+                                Quality Option 02
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Dimensions */}
+                      <div className="uk-width-1-1 uk-grid uk-margin-small">
+                        <label className="uk-form-label">Size</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="text"
+                            id="sizeWidth"
+                            onChange={this.captureJobDetails}
+                            className="uk-input uk-width-1-3"
+                            placeholder="Width"
+                            required
+                          />
+                          <input
+                            type="text"
+                            id="sizeHeight"
+                            onChange={this.captureJobDetails}
+                            className="uk-input uk-width-1-3"
+                            placeholder="Height"
+                            required
+                          />
+                          <select
+                            id="sizeUnits"
+                            onChange={this.captureJobDetails}
+                            className="uk-select uk-width-1-3"
+                            required
+                          >
+                            <option value="meters">in Meters</option>
+                            <option value="inches">in Inches</option>
+                            <option value="feets">in Feets</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Uploads */}
+                      <div className="uk-width-1-1 uk-grid uk-margin-small">
+                        {/* Raw Design Files */}
+                        <div className="uk-width-1-2">
+                          <label className="uk-form-label">
+                            Customer's Design File
+                          </label>
+                          <div className="uk-form-controls">
+                            <input
+                              type="number"
+                              className="uk-input"
+                              required
+                            />
+                          </div>
+                        </div>
+                        {/* Finalized Design Files */}
+                        <div className="uk-width-1-2">
+                          <label className="uk-form-label">
+                            Finalized Design File
+                          </label>
+                          <div className="uk-form-controls">
+                            <input
+                              type="number"
+                              className="uk-input"
+                              required
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Options */}
+                      <div className="uk-width-1-1 uk-margin-small">
+                        <div className="uk-form-label">Options</div>
+                        <div className="uk-form-controls">
+                          <label className="uk-margin-right">
+                            <input
+                              className="uk-radio"
+                              type="radio"
+                              name="1lit"
+                            />{" "}
+                            1-Lit
+                          </label>
+                          <label className="uk-margin-right">
+                            <input
+                              className="uk-radio"
+                              type="radio"
+                              name="framing"
+                            />{" "}
+                            Framing
+                          </label>
+                          <label className="uk-margin-right">
+                            <input
+                              className="uk-radio"
+                              type="radio"
+                              name="pasting"
+                            />{" "}
+                            Pasting
+                          </label>
+                          <label className="uk-margin-right">
+                            <input
+                              className="uk-radio"
+                              type="radio"
+                              name="piping"
+                            />{" "}
+                            Piping
+                          </label>
+                        </div>
+                      </div>
+
+                      {/* Submit */}
+                      <div className="uk-width-1-1 uk-margin-top">
+                        <button
+                          type="button"
+                          className="uk-button uk-button-primary"
+                          onClick={this.addJob}
+                        >
+                          Add to Jobs
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Jobs List */}
+                  <div className="uk-width-1-2">
+                    <JobList
+                      list={jobsList}
+                      methods={{
+                        deleteItem: this.removeJob
+                      }}
+                    />
+                  </div>
+                </div>
+              ) : null}
               {/* Final Submit */}
-              {currentTab === "finalize" ? "Finalize" : null}
+              {currentTab === "review" ? "Finalize" : null}
             </div>
           </div>
         </div>
