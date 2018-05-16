@@ -18,8 +18,7 @@ class NewJobOrder extends React.Component {
       jobsList: [],
       customer: {},
       designer: {},
-      createOrderError: false,
-      currentTab: "jobs"
+      createOrderError: false
     };
     this.jobDetails = {};
   }
@@ -101,18 +100,6 @@ class NewJobOrder extends React.Component {
     });
   };
 
-  // Job Type Tab Switching
-  switchTab = tabid => {
-    return this.setState({
-      currentTab: tabid,
-      // Reset job details on tab switch
-      jobDetails: {
-        ...this.state.jobDetails,
-        type: tabid
-      }
-    });
-  };
-
   // Capture Job Details
   captureJobDetails = event => {
     return this.setState({
@@ -154,7 +141,7 @@ class NewJobOrder extends React.Component {
   };
 
   render() {
-    let { currentTab, jobsList } = this.state;
+    let { jobsList } = this.state;
     return (
       <div className="new-order">
         <div className="uk-width-1-1 uk-padding-large">
@@ -174,35 +161,25 @@ class NewJobOrder extends React.Component {
           {/* Content */}
           <div className="new-order__content">
             {/* Tabs */}
-            <div className="uk-width-1-1">
-              <ul uk-tab="">
-                <li>
-                  <a onClick={() => this.switchTab("order")} href="#">
-                    Order Details
-                  </a>
-                </li>
-                <li>
-                  <a onClick={() => this.switchTab("customer")} href="#">
-                    Customer Details
-                  </a>
-                </li>
-                <li>
-                  <a onClick={() => this.switchTab("jobs")} href="#">
-                    Jobs List
-                  </a>
-                </li>
-                <li>
-                  <a onClick={() => this.switchTab("review")} href="">
-                    Review
-                  </a>
-                </li>
-              </ul>
-            </div>
+            <ul uk-tab="">
+              <li>
+                <a href="#">Order Details</a>
+              </li>
+              <li>
+                <a href="#">Customer Details</a>
+              </li>
+              <li>
+                <a href="#">Jobs List</a>
+              </li>
+              <li>
+                <a href="#">Review</a>
+              </li>
+            </ul>
 
-            {/* Tab Content */}
-            <div className="uk-width-1-1">
+            {/* Switcher */}
+            <ul className="uk-switcher">
               {/* Order Details */}
-              {currentTab === "order" ? (
+              <li>
                 <div className="uk-padding">
                   <div className="uk-width-1-1">
                     <div className="uk-grid uk-grid-small uk-form-stacked">
@@ -256,10 +233,9 @@ class NewJobOrder extends React.Component {
                     </div>
                   </div>
                 </div>
-              ) : null}
-
+              </li>
               {/* Customer Details */}
-              {currentTab === "customer" ? (
+              <li>
                 <div className="uk-padding">
                   <div className="uk-grid uk-grid-small uk-form-stacked uk-margin">
                     <div className="uk-width-1-2 uk-margin">
@@ -448,10 +424,8 @@ class NewJobOrder extends React.Component {
                     </button>
                   </div>
                 </div>
-              ) : null}
-
-              {/* Jobs List */}
-              {currentTab === "jobs" ? (
+              </li>
+              <li>
                 <div className="uk-grid uk-form-stacked">
                   {/* Left */}
                   <div className="uk-width-1-2">
@@ -636,10 +610,8 @@ class NewJobOrder extends React.Component {
                     />
                   </div>
                 </div>
-              ) : null}
-              {/* Final Submit */}
-              {currentTab === "review" ? "Finalize" : null}
-            </div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
