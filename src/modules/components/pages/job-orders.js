@@ -18,19 +18,7 @@ class JobOrders extends React.Component {
           {/* Header */}
           <div className="uk-width-1-1">
             <h2>Job Orders</h2>
-            <p>Create, Review and Manage orders.</p>
-          </div>
-
-          {/* Actions */}
-          <div className="uk-width-1-1 uk-margin-large-bottom">
-            <button
-              type="button"
-              className="uk-button uk-button-primary uk-button-small"
-              onClick={this.createNewOrder}
-            >
-              Create New Job Order
-            </button>
-          </div>
+              </div>
 
           {/* Order List */}
           <div className="uk-width-1-1">
