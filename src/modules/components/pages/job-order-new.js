@@ -182,7 +182,10 @@ class NewJobOrder extends React.Component {
               <li>
                 <div className="uk-padding">
                   <div className="uk-width-1-1">
-                    <div className="uk-grid uk-grid-small uk-form-stacked">
+                    <form
+                      onSubmit={() => false}
+                      className="uk-grid uk-grid-small uk-form-stacked"
+                    >
                       <div className="uk-width-1-2">
                         <label className="uk-form-label">Job Name</label>
                         <div className="uk-form-controls">
@@ -226,11 +229,14 @@ class NewJobOrder extends React.Component {
                         </label>
                       </div>
                       <div className="uk-width-1-1">
-                        <button className="uk-button uk-button-primary">
+                        <button
+                          type="submit"
+                          className="uk-button uk-button-primary"
+                        >
                           Save and Continue
                         </button>
                       </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
               </li>
@@ -430,7 +436,10 @@ class NewJobOrder extends React.Component {
               {/* Jobs List */}
               <li>
                 <div className="new-order__content__two-columns">
-                  <div className="uk-grid uk-form-stacked">
+                  <form
+                    onSubmit={this.addJob}
+                    className="uk-grid uk-form-stacked"
+                  >
                     {/* Left */}
                     <div className="uk-width-1-2">
                       <div className="uk-padding">
@@ -526,11 +535,7 @@ class NewJobOrder extends React.Component {
                               Customer's Design File
                             </label>
                             <div className="uk-form-controls">
-                              <input
-                                type="number"
-                                className="uk-input"
-                                required
-                              />
+                              <input type="number" className="uk-input" />
                             </div>
                           </div>
                           {/* Finalized Design Files */}
@@ -539,11 +544,7 @@ class NewJobOrder extends React.Component {
                               Finalized Design File
                             </label>
                             <div className="uk-form-controls">
-                              <input
-                                type="number"
-                                className="uk-input"
-                                required
-                              />
+                              <input type="number" className="uk-input" />
                             </div>
                           </div>
 
@@ -589,9 +590,8 @@ class NewJobOrder extends React.Component {
                           {/* Submit */}
                           <div className="uk-width-1-1@s">
                             <button
-                              type="button"
+                              type="submit"
                               className="uk-button uk-button-primary"
-                              onClick={this.addJob}
                             >
                               Add to Jobs
                             </button>
@@ -609,17 +609,20 @@ class NewJobOrder extends React.Component {
                         }}
                       />
                     </div>
-                  </div>
+                  </form>
                 </div>
               </li>
 
               {/* Review */}
               <li>
-                <div className="uk-padding">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
-                  recusandae nemo autem repellendus mollitia assumenda totam
-                  harum doloremque voluptatum ut maxime, optio soluta in
-                  cupiditate ab sint qui. Est, minima?
+                <div className="uk-form-stacked uk-padding">
+                  <div className="uk-grid uk-grid-small">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Saepe, iure? Culpa alias assumenda aspernatur dolorem,
+                    accusamus dignissimos. Doloremque aperiam sapiente
+                    distinctio consequuntur, ratione odio iusto quod quia, ea
+                    doloribus voluptatum.
+                  </div>
                 </div>
               </li>
             </ul>
