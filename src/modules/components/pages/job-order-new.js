@@ -234,6 +234,7 @@ class NewJobOrder extends React.Component {
                   </div>
                 </div>
               </li>
+
               {/* Customer Details */}
               <li>
                 <div className="uk-padding">
@@ -425,186 +426,200 @@ class NewJobOrder extends React.Component {
                   </div>
                 </div>
               </li>
+
+              {/* Jobs List */}
               <li>
-                <div className="uk-grid uk-form-stacked">
-                  {/* Left */}
-                  <div className="uk-width-1-2">
-                    <div className="uk-padding">
-                      <div className="uk-grid uk-grid-small">
-                        {/* Type */}
-                        <div className="uk-width-1-1 uk-margin">
-                          <label className="uk-form-label">Type</label>
-                          <div className="uk-form-controls">
-                            <select
-                              id="type"
-                              className="uk-select"
-                              onChange={this.captureJobDetails}
-                              required
+                <div className="new-order__content__two-columns">
+                  <div className="uk-grid uk-form-stacked">
+                    {/* Left */}
+                    <div className="uk-width-1-2">
+                      <div className="uk-padding">
+                        <div className="uk-grid uk-grid-small">
+                          {/* Type */}
+                          <div className="uk-width-1-1 uk-margin">
+                            <label className="uk-form-label">Type</label>
+                            <div className="uk-form-controls">
+                              <select
+                                id="type"
+                                className="uk-select"
+                                onChange={this.captureJobDetails}
+                                required
+                              >
+                                <option value="frontlit">Front-lit</option>
+                                <option value="backlit">Back-lit</option>
+                                <option value="vinyl">Vinyl</option>
+                                <option value="indoor">Indoor</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          {/* Quantity*/}
+                          <div className="uk-width-1-2@s">
+                            <label className="uk-form-label">Quantity</label>
+                            <div className="uk-form-controls">
+                              <input
+                                type="number"
+                                id="quantity"
+                                onChange={this.captureJobDetails}
+                                className="uk-input"
+                                required
+                              />
+                            </div>
+                          </div>
+                          {/* Quality */}
+                          <div className="uk-width-1-2@s">
+                            <label className="uk-form-label">Quality</label>
+                            <div className="uk-form-controls">
+                              <select
+                                id="quality"
+                                className="uk-select"
+                                onChange={this.captureJobDetails}
+                                required
+                              >
+                                <option value="quality1">
+                                  Quality Option 01
+                                </option>
+                                <option value="quality2">
+                                  Quality Option 02
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+
+                          {/* Dimensions */}
+                          <div className="uk-margin">
+                            <label className="uk-form-label">Dimensions</label>
+                            <div className="uk-form-controls">
+                              <input
+                                type="text"
+                                id="sizeWidth"
+                                onChange={this.captureJobDetails}
+                                className="uk-input uk-width-1-3@s"
+                                placeholder="Width"
+                                required
+                              />
+                              <input
+                                type="text"
+                                id="sizeHeight"
+                                onChange={this.captureJobDetails}
+                                className="uk-input uk-width-1-3@s"
+                                placeholder="Height"
+                                required
+                              />
+                              <select
+                                id="sizeUnits"
+                                onChange={this.captureJobDetails}
+                                className="uk-select uk-width-1-3@s"
+                                required
+                              >
+                                <option value="meters">in Meters</option>
+                                <option value="inches">in Inches</option>
+                                <option value="feets">in Feets</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          {/* Uploads */}
+                          {/* Raw Design Files */}
+                          <div className="uk-width-1-2">
+                            <label className="uk-form-label">
+                              Customer's Design File
+                            </label>
+                            <div className="uk-form-controls">
+                              <input
+                                type="number"
+                                className="uk-input"
+                                required
+                              />
+                            </div>
+                          </div>
+                          {/* Finalized Design Files */}
+                          <div className="uk-width-1-2">
+                            <label className="uk-form-label">
+                              Finalized Design File
+                            </label>
+                            <div className="uk-form-controls">
+                              <input
+                                type="number"
+                                className="uk-input"
+                                required
+                              />
+                            </div>
+                          </div>
+
+                          {/* Options */}
+                          <div className="uk-margin">
+                            <div className="uk-form-label">Options</div>
+                            <div className="uk-form-controls">
+                              <label className="uk-margin-right">
+                                <input
+                                  className="uk-radio"
+                                  type="radio"
+                                  name="1lit"
+                                />{" "}
+                                1-Lit
+                              </label>
+                              <label className="uk-margin-right">
+                                <input
+                                  className="uk-radio"
+                                  type="radio"
+                                  name="framing"
+                                />{" "}
+                                Framing
+                              </label>
+                              <label className="uk-margin-right">
+                                <input
+                                  className="uk-radio"
+                                  type="radio"
+                                  name="pasting"
+                                />{" "}
+                                Pasting
+                              </label>
+                              <label className="uk-margin-right">
+                                <input
+                                  className="uk-radio"
+                                  type="radio"
+                                  name="piping"
+                                />{" "}
+                                Piping
+                              </label>
+                            </div>
+                          </div>
+
+                          {/* Submit */}
+                          <div className="uk-width-1-1@s">
+                            <button
+                              type="button"
+                              className="uk-button uk-button-primary"
+                              onClick={this.addJob}
                             >
-                              <option value="frontlit">Front-lit</option>
-                              <option value="backlit">Back-lit</option>
-                              <option value="vinyl">Vinyl</option>
-                              <option value="indoor">Indoor</option>
-                            </select>
+                              Add to Jobs
+                            </button>
                           </div>
-                        </div>
-
-                        {/* Quantity*/}
-                        <div className="uk-width-1-2@s">
-                          <label className="uk-form-label">Quantity</label>
-                          <div className="uk-form-controls">
-                            <input
-                              type="number"
-                              id="quantity"
-                              onChange={this.captureJobDetails}
-                              className="uk-input"
-                              required
-                            />
-                          </div>
-                        </div>
-                        {/* Quality */}
-                        <div className="uk-width-1-2@s">
-                          <label className="uk-form-label">Quality</label>
-                          <div className="uk-form-controls">
-                            <select
-                              id="quality"
-                              className="uk-select"
-                              onChange={this.captureJobDetails}
-                              required
-                            >
-                              <option value="quality1">
-                                Quality Option 01
-                              </option>
-                              <option value="quality2">
-                                Quality Option 02
-                              </option>
-                            </select>
-                          </div>
-                        </div>
-
-                        {/* Dimensions */}
-                        <div className="uk-margin">
-                          <label className="uk-form-label">Dimensions</label>
-                          <div className="uk-form-controls">
-                            <input
-                              type="text"
-                              id="sizeWidth"
-                              onChange={this.captureJobDetails}
-                              className="uk-input uk-width-1-3@s"
-                              placeholder="Width"
-                              required
-                            />
-                            <input
-                              type="text"
-                              id="sizeHeight"
-                              onChange={this.captureJobDetails}
-                              className="uk-input uk-width-1-3@s"
-                              placeholder="Height"
-                              required
-                            />
-                            <select
-                              id="sizeUnits"
-                              onChange={this.captureJobDetails}
-                              className="uk-select uk-width-1-3@s"
-                              required
-                            >
-                              <option value="meters">in Meters</option>
-                              <option value="inches">in Inches</option>
-                              <option value="feets">in Feets</option>
-                            </select>
-                          </div>
-                        </div>
-
-                        {/* Uploads */}
-                        {/* Raw Design Files */}
-                        <div className="uk-width-1-2">
-                          <label className="uk-form-label">
-                            Customer's Design File
-                          </label>
-                          <div className="uk-form-controls">
-                            <input
-                              type="number"
-                              className="uk-input"
-                              required
-                            />
-                          </div>
-                        </div>
-                        {/* Finalized Design Files */}
-                        <div className="uk-width-1-2">
-                          <label className="uk-form-label">
-                            Finalized Design File
-                          </label>
-                          <div className="uk-form-controls">
-                            <input
-                              type="number"
-                              className="uk-input"
-                              required
-                            />
-                          </div>
-                        </div>
-
-                        {/* Options */}
-                        <div className="uk-margin">
-                          <div className="uk-form-label">Options</div>
-                          <div className="uk-form-controls">
-                            <label className="uk-margin-right">
-                              <input
-                                className="uk-radio"
-                                type="radio"
-                                name="1lit"
-                              />{" "}
-                              1-Lit
-                            </label>
-                            <label className="uk-margin-right">
-                              <input
-                                className="uk-radio"
-                                type="radio"
-                                name="framing"
-                              />{" "}
-                              Framing
-                            </label>
-                            <label className="uk-margin-right">
-                              <input
-                                className="uk-radio"
-                                type="radio"
-                                name="pasting"
-                              />{" "}
-                              Pasting
-                            </label>
-                            <label className="uk-margin-right">
-                              <input
-                                className="uk-radio"
-                                type="radio"
-                                name="piping"
-                              />{" "}
-                              Piping
-                            </label>
-                          </div>
-                        </div>
-
-                        {/* Submit */}
-                        <div className="uk-width-1-1@s">
-                          <button
-                            type="button"
-                            className="uk-button uk-button-primary"
-                            onClick={this.addJob}
-                          >
-                            Add to Jobs
-                          </button>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Jobs List */}
-                  <div className="uk-width-1-2">
-                    <JobList
-                      list={jobsList}
-                      methods={{
-                        deleteItem: this.removeJob
-                      }}
-                    />
+                    {/* Jobs List */}
+                    <div className="uk-width-1-2 new-order__content__two-columns__right">
+                      <JobList
+                        list={jobsList}
+                        methods={{
+                          deleteItem: this.removeJob
+                        }}
+                      />
+                    </div>
                   </div>
+                </div>
+              </li>
+
+              {/* Review */}
+              <li>
+                <div className="uk-padding">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
+                  recusandae nemo autem repellendus mollitia assumenda totam
+                  harum doloremque voluptatum ut maxime, optio soluta in
+                  cupiditate ab sint qui. Est, minima?
                 </div>
               </li>
             </ul>
