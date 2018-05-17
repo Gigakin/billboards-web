@@ -163,16 +163,16 @@ class NewJobOrder extends React.Component {
             {/* Tabs */}
             <ul uk-tab="">
               <li>
-                <a href="#">Order Details</a>
+                <a href="#order">Order Details</a>
               </li>
               <li>
-                <a href="#">Customer Details</a>
+                <a href="#customer">Customer Details</a>
               </li>
               <li>
-                <a href="#">Jobs List</a>
+                <a href="#jobs">Jobs List</a>
               </li>
               <li>
-                <a href="#">Review</a>
+                <a href="#review">Review</a>
               </li>
             </ul>
 
@@ -429,10 +429,10 @@ class NewJobOrder extends React.Component {
                 <div className="uk-grid uk-form-stacked">
                   {/* Left */}
                   <div className="uk-width-1-2">
-                    <div className="uk-grid uk-padding">
-                      <div className="uk-width-1-1 uk-grid uk-margin-small">
+                    <div className="uk-padding">
+                      <div className="uk-grid uk-grid-small">
                         {/* Type */}
-                        <div className="uk-width-1-1">
+                        <div className="uk-width-1-1 uk-margin">
                           <label className="uk-form-label">Type</label>
                           <div className="uk-form-controls">
                             <select
@@ -448,11 +448,9 @@ class NewJobOrder extends React.Component {
                             </select>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="uk-width-1-1 uk-grid uk-margin-small">
                         {/* Quantity*/}
-                        <div className="uk-width-1-2">
+                        <div className="uk-width-1-2@s">
                           <label className="uk-form-label">Quantity</label>
                           <div className="uk-form-controls">
                             <input
@@ -465,7 +463,7 @@ class NewJobOrder extends React.Component {
                           </div>
                         </div>
                         {/* Quality */}
-                        <div className="uk-width-1-2">
+                        <div className="uk-width-1-2@s">
                           <label className="uk-form-label">Quality</label>
                           <div className="uk-form-controls">
                             <select
@@ -483,43 +481,41 @@ class NewJobOrder extends React.Component {
                             </select>
                           </div>
                         </div>
-                      </div>
 
-                      {/* Dimensions */}
-                      <div className="uk-width-1-1 uk-grid uk-margin-small">
-                        <label className="uk-form-label">Size</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="text"
-                            id="sizeWidth"
-                            onChange={this.captureJobDetails}
-                            className="uk-input uk-width-1-3"
-                            placeholder="Width"
-                            required
-                          />
-                          <input
-                            type="text"
-                            id="sizeHeight"
-                            onChange={this.captureJobDetails}
-                            className="uk-input uk-width-1-3"
-                            placeholder="Height"
-                            required
-                          />
-                          <select
-                            id="sizeUnits"
-                            onChange={this.captureJobDetails}
-                            className="uk-select uk-width-1-3"
-                            required
-                          >
-                            <option value="meters">in Meters</option>
-                            <option value="inches">in Inches</option>
-                            <option value="feets">in Feets</option>
-                          </select>
+                        {/* Dimensions */}
+                        <div className="uk-margin">
+                          <label className="uk-form-label">Dimensions</label>
+                          <div className="uk-form-controls">
+                            <input
+                              type="text"
+                              id="sizeWidth"
+                              onChange={this.captureJobDetails}
+                              className="uk-input uk-width-1-3@s"
+                              placeholder="Width"
+                              required
+                            />
+                            <input
+                              type="text"
+                              id="sizeHeight"
+                              onChange={this.captureJobDetails}
+                              className="uk-input uk-width-1-3@s"
+                              placeholder="Height"
+                              required
+                            />
+                            <select
+                              id="sizeUnits"
+                              onChange={this.captureJobDetails}
+                              className="uk-select uk-width-1-3@s"
+                              required
+                            >
+                              <option value="meters">in Meters</option>
+                              <option value="inches">in Inches</option>
+                              <option value="feets">in Feets</option>
+                            </select>
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Uploads */}
-                      <div className="uk-width-1-1 uk-grid uk-margin-small">
+                        {/* Uploads */}
                         {/* Raw Design Files */}
                         <div className="uk-width-1-2">
                           <label className="uk-form-label">
@@ -546,56 +542,56 @@ class NewJobOrder extends React.Component {
                             />
                           </div>
                         </div>
-                      </div>
 
-                      {/* Options */}
-                      <div className="uk-width-1-1 uk-margin-small">
-                        <div className="uk-form-label">Options</div>
-                        <div className="uk-form-controls">
-                          <label className="uk-margin-right">
-                            <input
-                              className="uk-radio"
-                              type="radio"
-                              name="1lit"
-                            />{" "}
-                            1-Lit
-                          </label>
-                          <label className="uk-margin-right">
-                            <input
-                              className="uk-radio"
-                              type="radio"
-                              name="framing"
-                            />{" "}
-                            Framing
-                          </label>
-                          <label className="uk-margin-right">
-                            <input
-                              className="uk-radio"
-                              type="radio"
-                              name="pasting"
-                            />{" "}
-                            Pasting
-                          </label>
-                          <label className="uk-margin-right">
-                            <input
-                              className="uk-radio"
-                              type="radio"
-                              name="piping"
-                            />{" "}
-                            Piping
-                          </label>
+                        {/* Options */}
+                        <div className="uk-margin">
+                          <div className="uk-form-label">Options</div>
+                          <div className="uk-form-controls">
+                            <label className="uk-margin-right">
+                              <input
+                                className="uk-radio"
+                                type="radio"
+                                name="1lit"
+                              />{" "}
+                              1-Lit
+                            </label>
+                            <label className="uk-margin-right">
+                              <input
+                                className="uk-radio"
+                                type="radio"
+                                name="framing"
+                              />{" "}
+                              Framing
+                            </label>
+                            <label className="uk-margin-right">
+                              <input
+                                className="uk-radio"
+                                type="radio"
+                                name="pasting"
+                              />{" "}
+                              Pasting
+                            </label>
+                            <label className="uk-margin-right">
+                              <input
+                                className="uk-radio"
+                                type="radio"
+                                name="piping"
+                              />{" "}
+                              Piping
+                            </label>
+                          </div>
                         </div>
-                      </div>
 
-                      {/* Submit */}
-                      <div className="uk-width-1-1 uk-margin-top">
-                        <button
-                          type="button"
-                          className="uk-button uk-button-primary"
-                          onClick={this.addJob}
-                        >
-                          Add to Jobs
-                        </button>
+                        {/* Submit */}
+                        <div className="uk-width-1-1@s">
+                          <button
+                            type="button"
+                            className="uk-button uk-button-primary"
+                            onClick={this.addJob}
+                          >
+                            Add to Jobs
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
