@@ -24,7 +24,8 @@
       padding: 16px 24px;
       background: transparent;
       border-right: 3px solid transparent;
-      display: block;
+      align-items: center;
+      display: flex;
 
       &:hover {
         color: #ffffff;
@@ -35,6 +36,11 @@
       &.active {
         background: rgba(255, 255, 255, 0.075);
         border-color: @global-primary-background;
+      }
+
+      &--indented {
+        padding-left: 42px;
+        font-size: 0.95rem;
       }
 
       &--without-effects {
@@ -48,6 +54,12 @@
           background: transparent;
           border-color: transparent;
         }
+      }
+
+      span[uk-icon] {
+        transform: scale(0.9);
+        margin-top: -1px;
+        margin-right: 8px;
       }
     }
   }
