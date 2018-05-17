@@ -1,6 +1,5 @@
 // Modules
 import React from "react";
-import Swal from "sweetalert";
 
 // Assets
 import Methods from "../../methods";
