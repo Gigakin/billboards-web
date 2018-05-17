@@ -144,16 +144,10 @@ class NewJobOrder extends React.Component {
     let { jobsList } = this.state;
     return (
       <div className="new-order">
-        <div className="uk-width-1-1 uk-padding-large">
+        <div className="uk-width-1-1">
           {/* Header */}
           <div className="new-order__header">
             <div className="uk-width-1-1 uk-flex-inline">
-              <button
-                type="button"
-                className="uk-icon-button"
-                onClick={this.goBack}
-                uk-icon="arrow-left"
-              />
               <h2 className="new-order__header__title">New Job Order</h2>
             </div>
           </div>
@@ -163,16 +157,16 @@ class NewJobOrder extends React.Component {
             {/* Tabs */}
             <ul uk-tab="">
               <li>
-                <a href="#order">Order Details</a>
+                <a href="#order">1. Order Details</a>
               </li>
               <li>
-                <a href="#customer">Customer Details</a>
+                <a href="#customer">2. Party Details</a>
               </li>
               <li>
-                <a href="#jobs">Jobs List</a>
+                <a href="#jobs">3. Job Types</a>
               </li>
               <li>
-                <a href="#review">Review</a>
+                <a href="#review">4. Review</a>
               </li>
             </ul>
 
@@ -208,7 +202,7 @@ class NewJobOrder extends React.Component {
                           className="uk-input"
                         />
                       </div>
-                      <div className="uk-width-1-1 uk-margin">
+                      <div className="uk-width-1-2 uk-margin">
                         <label className="uk-margin-right">
                           <input
                             type="checkbox"
@@ -228,7 +222,7 @@ class NewJobOrder extends React.Component {
                           Scanning
                         </label>
                       </div>
-                      <div className="uk-width-1-1">
+                      <div className="uk-width-1-2 uk-margin-top uk-flex uk-flex-right">
                         <button
                           type="submit"
                           className="uk-button uk-button-primary"
@@ -259,22 +253,13 @@ class NewJobOrder extends React.Component {
                         />
                       </div>
                     </div>
-                    <div className="uk-width-1-2 uk-margin">
-                      <label>
-                        <input
-                          type="checkbox"
-                          onChange={this.matchBillingAndShippingAddresses}
-                          className="uk-checkbox"
-                          value="true"
-                        />{" "}
-                        Shipping address is the same as Billing Address
-                      </label>
-                    </div>
 
                     {/* Billing Address */}
-                    <div className="uk-width-1-2">
-                      <h4>Bill to Party</h4>
-                      <div className="uk-width-1-1 uk-margin">
+                    <div className="uk-width-1-1 uk-grid uk-grid-small">
+                      <div className="uk-width-1-1 uk-margin-small">
+                        <h4>Bill to Party</h4>
+                      </div>
+                      <div className="uk-width-1-2 uk-margin-small">
                         <label className="uk-form-label">Bill to Party</label>
                         <div className="uk-form-controls">
                           <input
@@ -286,7 +271,7 @@ class NewJobOrder extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="uk-width-1-1 uk-margin">
+                      <div className="uk-width-1-2 uk-margin-small">
                         <label className="uk-form-label">Contact Person</label>
                         <div className="uk-form-controls">
                           <input
@@ -297,7 +282,7 @@ class NewJobOrder extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="uk-width-1-1 uk-margin">
+                      <div className="uk-width-1-2 uk-margin-small">
                         <label className="uk-form-label">Email Address</label>
                         <div className="uk-form-controls">
                           <input
@@ -309,7 +294,7 @@ class NewJobOrder extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="uk-width-1-1 uk-margin">
+                      <div className="uk-width-1-2 uk-margin-small">
                         <label className="uk-form-label">GSTIN</label>
                         <div className="uk-form-controls">
                           <input
@@ -320,7 +305,7 @@ class NewJobOrder extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="uk-width-1-1 uk-margin">
+                      <div className="uk-width-1-2 uk-margin-small">
                         <label className="uk-form-label">Billing Address</label>
                         <div className="uk-form-controls">
                           <input
@@ -332,7 +317,7 @@ class NewJobOrder extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="uk-width-1-1 uk-margin">
+                      <div className="uk-width-1-2 uk-margin-small">
                         <label className="uk-form-label">State</label>
                         <div className="uk-form-controls">
                           <select
@@ -340,79 +325,6 @@ class NewJobOrder extends React.Component {
                             onChange={this.captureBillingAddress}
                             className="uk-select"
                             required
-                          >
-                            <option value="" defaultChecked />
-                            <option value="mh">Maharashtra</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Shipping Address */}
-                    <div className="uk-width-1-2">
-                      <h4>Ship to Party</h4>
-                      <div className="uk-width-1-1 uk-margin">
-                        <label className="uk-form-label">Ship to Party</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="text"
-                            id="partyName"
-                            onChange={this.captureShippingAddress}
-                            className="uk-input"
-                          />
-                        </div>
-                      </div>
-                      <div className="uk-width-1-1 uk-margin">
-                        <label className="uk-form-label">Contact Person</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="text"
-                            id="contactPerson"
-                            onChange={this.captureShippingAddress}
-                            className="uk-input"
-                          />
-                        </div>
-                      </div>
-                      <div className="uk-width-1-1 uk-margin">
-                        <label className="uk-form-label">Email Address</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="email"
-                            id="email"
-                            onChange={this.captureShippingAddress}
-                            className="uk-input"
-                          />
-                        </div>
-                      </div>
-                      <div className="uk-width-1-1 uk-margin">
-                        <label className="uk-form-label">GSTIN</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="text"
-                            id="gstin"
-                            onChange={this.captureShippingAddress}
-                            className="uk-input"
-                          />
-                        </div>
-                      </div>
-                      <div className="uk-width-1-1 uk-margin">
-                        <label className="uk-form-label">Billing Address</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="text"
-                            id="billingAddress"
-                            onChange={this.captureShippingAddress}
-                            className="uk-input"
-                          />
-                        </div>
-                      </div>
-                      <div className="uk-width-1-1 uk-margin">
-                        <label className="uk-form-label">State</label>
-                        <div className="uk-form-controls">
-                          <select
-                            id="state"
-                            onChange={this.captureShippingAddress}
-                            className="uk-select"
                           >
                             <option value="" defaultChecked />
                             <option value="mh">Maharashtra</option>
@@ -422,11 +334,17 @@ class NewJobOrder extends React.Component {
                     </div>
                   </div>
                   {/* Submit */}
-                  <div className="uk-width-1-1">
-                    <button className="uk-button uk-button-primary uk-margin-right">
-                      Previous
+                  <div className="uk-width-1-1 uk-flex uk-flex-right">
+                    <button
+                      type="button"
+                      className="uk-button uk-button-primary uk-margin-small-right"
+                    >
+                      Cancel
                     </button>
-                    <button className="uk-button uk-button-primary">
+                    <button
+                      type="submit"
+                      className="uk-button uk-button-primary"
+                    >
                       Save and Continue
                     </button>
                   </div>
