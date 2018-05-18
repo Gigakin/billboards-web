@@ -15,6 +15,7 @@ class JobOrders extends React.Component {
       "Party Name",
       "Job Name",
       "Total Sq. Ft.",
+      "Assigned To",
       "Status",
       "Actions"
     ];
@@ -27,20 +28,12 @@ class JobOrders extends React.Component {
         <div className="uk-width-1-1 uk-padding-large">
           {/* Header */}
           <div className="uk-width-1-1">
-            <h2>Job Orders</h2>
+            <h2>Orders List</h2>
           </div>
 
           {/* Order List */}
           <div className="uk-width-1-1">
-            {jobsList && jobsList.length ? (
-              <SorTable columns={this.tableColumns} data={jobsList} />
-            ) : (
-              <span>
-                There are no orders to show right now.<br />
-                Use the <code>Create New Job</code> link from sidebar to create
-                new orders.
-              </span>
-            )}
+            <SorTable columns={this.tableColumns} data={jobsList} />
           </div>
         </div>
       </div>

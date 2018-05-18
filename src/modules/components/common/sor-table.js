@@ -36,12 +36,44 @@ class SorTable extends React.Component {
       <div className="sor-table">
         {/* Actions */}
         <div className="sor-table__actions">
-          <input
-            type="text"
-            className="uk-input uk-width-medium"
-            onChange={this.filterData}
-            placeholder="Search"
-          />
+          <div className="uk-grid uk-grid-small uk-form-stacked">
+            <div className="uk-width-1-3">
+              <label className="uk-form-label">Search by Party Name</label>
+              <div className="uk-form-controls">
+                <input
+                  type="text"
+                  id="searchPartyName"
+                  onChange={this.filterData}
+                  className="uk-input"
+                />
+              </div>
+            </div>
+            <div className="uk-width-1-3">
+              <label className="uk-form-label">Search by Job Name</label>
+              <div className="uk-form-controls">
+                <input
+                  type="text"
+                  id="searchJobName"
+                  onChange={this.filterData}
+                  className="uk-input"
+                />
+              </div>
+            </div>
+            <div className="uk-width-1-3">
+              <label className="uk-form-label">Search by Job Status</label>
+              <div className="uk-form-controls">
+                <select
+                  id="searchJobStatus"
+                  onChange={this.filterData}
+                  className="uk-select"
+                >
+                  <option defaultChecked />
+                  <option value="assigned">Assigned</option>
+                  <option value="unassigned">Un-assigned</option>
+                </select>
+              </div>
+            </div>
+          </div>
         </div>
         {/* Table */}
         <div className="sor-table__table">
@@ -56,13 +88,30 @@ class SorTable extends React.Component {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Table Data</td>
-                <td>Table Data</td>
-                <td>Table Data</td>
-                <td>Table Data</td>
-                <td>Table Data</td>
-              </tr>
+              {data && data.length ? (
+                data.map((item, index) => (
+                  <tr key={`sortable_item_${index}`}>
+                    <td>Table Data</td>
+                    <td>Table Data</td>
+                    <td>Table Data</td>
+                    <td>Table Data</td>
+                    <td>Table Data</td>
+                    <td>Table Data</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={columns.length}>
+                    <span className="uk-padding">
+                      <div className="uk-text-center">
+                        There are no orders to show right now.<br />
+                        Use the <code>Create New Order</code> option from
+                        sidebar to create a new order
+                      </div>
+                    </span>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
