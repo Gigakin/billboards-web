@@ -1,37 +1,65 @@
 /*
-  Componnet: SorTable
+  Component: SorTable
   Props: columns (array)
          data (array)
 */
 
 // Modules
 import React from "react";
+import Methods from "../../methods";
 
 // Classes
 class SorTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      filteredList: props.data
+      tableData: props.data
     };
+    this.originalList = Methods.clone(props.data);
+    this.filteredList = [];
   }
 
   // Filter Table Data
   filterData = event => {
+    // Extract values
     let query = event.target.value;
-    let { data } = this.props;
-    if (!query) return false;
+    let filterBy = event.target.id;
+
+    // Empty query
+    // assing original list to state
+    if (!query) return this.setState({ tableData: this.originalList });
+
+    // No "FilterBy" property
+    // Assign the default manually
+    if (!filterBy) filterBy = "id";
+
+    // Find Entries and assign
+    // them to filtered list
+    this.filteredList = [];
+    this.originalList.filter(item => {
+      if (item[filterBy]) {
+        query = query.toLowerCase();
+        if (item[filterBy].toLowerCase().includes(query)) {
+          return this.filteredList.push(item);
+        }
+      }
+      return false;
+    });
+
+    // Update results
+    return this.setState({ tableData: this.filteredList });
   };
 
   componentWillReceiveProps(props) {
     if (props.data !== this.props.data) {
       // Assign new list data to component
-      return this.setState({ filteredList: props.data });
+      return this.setState({ tableData: props.data });
     }
   }
 
   render() {
-    let { columns, data } = this.props;
+    let { columns } = this.props;
+    let { tableData } = this.state;
     return (
       <div className="sor-table">
         {/* Actions */}
@@ -41,8 +69,8 @@ class SorTable extends React.Component {
               <label className="uk-form-label">Search by Party Name</label>
               <div className="uk-form-controls">
                 <input
+                  id="party"
                   type="text"
-                  id="searchPartyName"
                   onChange={this.filterData}
                   className="uk-input"
                 />
@@ -52,8 +80,8 @@ class SorTable extends React.Component {
               <label className="uk-form-label">Search by Job Name</label>
               <div className="uk-form-controls">
                 <input
+                  id="job"
                   type="text"
-                  id="searchJobName"
                   onChange={this.filterData}
                   className="uk-input"
                 />
@@ -88,15 +116,15 @@ class SorTable extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {data && data.length ? (
-                data.map((item, index) => (
+              {tableData && tableData.length ? (
+                tableData.map((item, index) => (
                   <tr key={`sortable_item_${index}`}>
-                    <td>Table Data</td>
-                    <td>Table Data</td>
-                    <td>Table Data</td>
-                    <td>Table Data</td>
-                    <td>Table Data</td>
-                    <td>Table Data</td>
+                    <td>{item.id}</td>
+                    <td>{item.a}</td>
+                    <td>{item.b}</td>
+                    <td>{item.c}</td>
+                    <td>{item.d}</td>
+                    <td>{item.a}</td>
                   </tr>
                 ))
               ) : (
@@ -104,9 +132,11 @@ class SorTable extends React.Component {
                   <td colSpan={columns.length}>
                     <span className="uk-padding">
                       <div className="uk-text-center">
-                        There are no orders to show right now.<br />
-                        Use the <code>Create New Order</code> option from
-                        sidebar to create a new order
+                        Nothing here!<br />
+                        <div className="uk-text-meta uk-margin-small-top">
+                          Looking for something? Try using more specific
+                          keywords.
+                        </div>
                       </div>
                     </span>
                   </td>

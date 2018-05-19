@@ -5,6 +5,7 @@
 
 # generated content
 /public/assets/css
+/src/modules/stores
 
 # packagers
 /node_modules

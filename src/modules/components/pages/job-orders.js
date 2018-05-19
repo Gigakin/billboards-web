@@ -3,13 +3,14 @@ import React from "react";
 
 // Components
 import SorTable from "../common/sor-table";
+import MockData from "../../stores/mock_data.json"
 
 // Classes
 class JobOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      jobsList: []
+      jobsList: MockData
     };
     this.tableColumns = [
       "Party Name",
