@@ -105,7 +105,7 @@ class SorTable extends React.Component {
         </div>
         {/* Table */}
         <div className="sor-table__table">
-          <table className="uk-table uk-table-divider">
+          <table className="uk-table uk-table-striped uk-table-divider">
             <thead>
               <tr>
                 {columns && columns.length
@@ -119,12 +119,36 @@ class SorTable extends React.Component {
               {tableData && tableData.length ? (
                 tableData.map((item, index) => (
                   <tr key={`sortable_item_${index}`}>
-                    <td>{item.id}</td>
-                    <td>{item.a}</td>
-                    <td>{item.b}</td>
-                    <td>{item.c}</td>
-                    <td>{item.d}</td>
-                    <td>{item.a}</td>
+                    <td>{item.party}</td>
+                    <td>{item.job}</td>
+                    <td>{item.size}</td>
+                    <td>{item.assignedTo}</td>
+                    <td>{item.status}</td>
+                    <td>
+                      <span>
+                        <button
+                          type="button"
+                          className="uk-button uk-margin-small-right uk-button-link uk-text-primary"
+                          onClick={this.viewOrder}
+                        >
+                          View
+                        </button>
+                        <button
+                          type="button"
+                          className="uk-button uk-margin-small-right uk-button-link uk-text-primary"
+                          onClick={this.editOrder}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          className="uk-button uk-margin-small-right uk-button-link uk-text-danger"
+                          onClick={this.deleteOrder}
+                        >
+                          Delete
+                        </button>
+                      </span>
+                    </td>
                   </tr>
                 ))
               ) : (
