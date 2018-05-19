@@ -13,8 +13,10 @@ class SorTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tableData: props.data
+      tableData: props.data,
+      currentPage: 0
     };
+    this.pageSize = 10;
     this.originalList = Methods.clone(props.data);
     this.filteredList = [];
   }
@@ -27,7 +29,12 @@ class SorTable extends React.Component {
 
     // Empty query
     // assing original list to state
-    if (!query) return this.setState({ tableData: this.originalList });
+    if (!query) {
+      let { tableData, currentPage } = this.state;
+      return this.setState({
+        tableData: this.divideTableData(tableData, currentPage)
+      });
+    }
 
     // No "FilterBy" property
     // Assign the default manually
@@ -50,11 +57,24 @@ class SorTable extends React.Component {
     return this.setState({ tableData: this.filteredList });
   };
 
-  componentWillReceiveProps(props) {
-    if (props.data !== this.props.data) {
-      // Assign new list data to component
-      return this.setState({ tableData: props.data });
+  // [Pagination] Divide Table Data
+  divideTableData = (tabledata, currentpage) => {
+    if (tabledata) {
+      let result = [];
+      if (!currentpage) currentpage = 0;
+      for (let index = currentpage; index < this.pageSize; index++) {
+        result.push(tabledata[index]);
+      }
+      return result;
     }
+  };
+
+  componentDidMount() {
+    let { data } = this.props;
+    let { currentPage } = this.state;
+    return this.setState({
+      tableData: this.divideTableData(data, currentPage)
+    });
   }
 
   render() {
