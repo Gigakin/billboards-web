@@ -3,6 +3,7 @@ import React from "react";
 
 // Components
 import JobList from "../common/job-list";
+import Select from "../common/select";
 
 // Classes
 class NewJobOrder extends React.Component {
@@ -21,6 +22,18 @@ class NewJobOrder extends React.Component {
       createOrderError: false
     };
     this.jobDetails = {};
+
+    // this should be a state property
+    this.dummyParties = [
+      {
+        value: "9420675178",
+        label: "Ajay Gupta (9420675178)"
+      },
+      {
+        value: "8308986944",
+        label: "John Doe (8308986944)"
+      }
+    ];
   }
 
   // Capture Job Details
@@ -56,6 +69,12 @@ class NewJobOrder extends React.Component {
         [event.target.id]: value
       }
     });
+  };
+
+  // Find Party By Phone
+  findPartyByNumber = selectedoption => {
+    // Fetches the list of the customers
+    return console.log(selectedoption);
   };
 
   // Capture Billing Address
@@ -242,14 +261,9 @@ class NewJobOrder extends React.Component {
                     <div className="uk-width-1-2 uk-margin">
                       <label className="uk-form-label">Phone Number</label>
                       <div className="uk-form-controls">
-                        <input
-                          type="number"
-                          id="phoneNumber"
-                          onChange={this.captureCustomerInformation}
-                          className="uk-input"
-                          minLength="10"
-                          maxLength="10"
-                          required
+                        <Select
+                          onChange={this.findPartyByNumber}
+                          options={this.dummyParties}
                         />
                       </div>
                     </div>
