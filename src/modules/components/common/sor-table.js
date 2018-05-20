@@ -127,25 +127,25 @@ class SorTable extends React.Component {
                       <span>
                         <button
                           type="button"
-                          className="uk-button uk-margin-small-right uk-button-link uk-text-primary"
+                          title="View"
                           onClick={this.viewOrder}
-                        >
-                          View
-                        </button>
+                          className="uk-icon-button uk-text-primary uk-margin-small-right"
+                          uk-icon="search"
+                        />
                         <button
                           type="button"
-                          className="uk-button uk-margin-small-right uk-button-link uk-text-primary"
+                          title="Edit"
                           onClick={this.editOrder}
-                        >
-                          Edit
-                        </button>
+                          className="uk-icon-button uk-text-primary uk-margin-small-right"
+                          uk-icon="pencil"
+                        />
                         <button
                           type="button"
-                          className="uk-button uk-margin-small-right uk-button-link uk-text-danger"
+                          title="Delete"
                           onClick={this.deleteOrder}
-                        >
-                          Delete
-                        </button>
+                          className="uk-icon-button uk-text-danger uk-margin-small-right"
+                          uk-icon="trash"
+                        />
                       </span>
                     </td>
                   </tr>

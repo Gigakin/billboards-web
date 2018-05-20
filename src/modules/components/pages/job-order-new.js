@@ -14,7 +14,7 @@ class NewJobOrder extends React.Component {
       jobDetails: {
         type: "frontlit",
         quality: "quality1",
-        sizeUnits: "meters"
+        sizeUnits: "feets"
       },
       jobsList: [],
       customer: {},
@@ -505,9 +505,10 @@ class NewJobOrder extends React.Component {
                                 className="uk-select uk-width-1-3@s"
                                 required
                               >
-                                <option value="meters">in Meters</option>
-                                <option value="inches">in Inches</option>
                                 <option value="feets">in Feets</option>
+                                <option value="inches">in Inches</option>
+                                <option value="meters">in Meters</option>
+                                <option value="centimeters">in Centimeters</option>
                               </select>
                             </div>
                           </div>

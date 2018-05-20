@@ -33,6 +33,14 @@ class JobList extends React.Component {
                   <td>
                     <button
                       type="button"
+                      title="Edit Item"
+                      onClick={() => methods.deleteItem(index)}
+                      className="uk-icon-button uk-text-primary uk-margin-small-right"
+                      uk-icon="pencil"
+                    />
+                    <button
+                      type="button"
+                      title="Delete"
                       onClick={() => methods.deleteItem(index)}
                       className="uk-icon-button uk-text-danger uk-margin-small-right"
                       uk-icon="trash"

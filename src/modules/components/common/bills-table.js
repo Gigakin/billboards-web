@@ -98,7 +98,7 @@ class BillsTable extends React.Component {
               </div>
             </div>
             <div className="uk-width-1-3">
-              <label className="uk-form-label">Search by Job Status</label>
+              <label className="uk-form-label">Search by Billing Status</label>
               <div className="uk-form-controls">
                 <select
                   id="searchJobStatus"
@@ -115,7 +115,7 @@ class BillsTable extends React.Component {
         </div>
         {/* Table */}
         <div className="sor-table__table">
-          <table className="uk-table uk-table-striped uk-table-divider">
+          <table className="uk-table uk-table-middle uk-table-striped uk-table-divider">
             <thead>
               <tr>
                 {columns && columns.length
@@ -137,18 +137,18 @@ class BillsTable extends React.Component {
                       <span>
                         <button
                           type="button"
-                          className="uk-button uk-margin-small-right uk-button-link uk-text-primary"
+                          title="View and Edit Details"
                           onClick={() => this.viewBill(item.id)}
-                        >
-                          View
-                        </button>
+                          className="uk-icon-button uk-text-primary uk-margin-small-right"
+                          uk-icon="pencil"
+                        />
                         <button
                           type="button"
-                          className="uk-button uk-margin-small-right uk-button-link uk-text-primary"
+                          title="Send Reminder"
                           onClick={() => this.sendReminder(item.id)}
-                        >
-                          Send Reminder
-                        </button>
+                          className="uk-icon-button uk-text-primary uk-margin-small-right"
+                          uk-icon="mail"
+                        />
                       </span>
                     </td>
                   </tr>
