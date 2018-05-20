@@ -165,7 +165,7 @@ class NewJobOrder extends React.Component {
   };
 
   render() {
-    let { jobsList, selectedParty } = this.state;
+    let { jobsList, jobDetails, selectedParty } = this.state;
     return (
       <div className="new-order">
         <div className="uk-width-1-1">
@@ -413,24 +413,68 @@ class NewJobOrder extends React.Component {
                               />
                             </div>
                           </div>
-                          {/* Quality */}
-                          <div className="uk-width-1-2@s">
-                            <label className="uk-form-label">Quality</label>
-                            <div className="uk-form-controls">
-                              <select
-                                id="quality"
-                                className="uk-select"
-                                onChange={this.captureJobDetails}
-                                required
-                              >
-                                <option value="quality1">
-                                  Quality Option 01
-                                </option>
-                                <option value="quality2">
-                                  Quality Option 02
-                                </option>
-                              </select>
-                            </div>
+
+                          <div className="uk-width-1-2@s uk-flex uk-flex-middle">
+                            {/* Quality: Frontlit */}
+                            {jobDetails.type === "frontlit" ? (
+                              <div className="uk-width-1-1">
+                                <label className="uk-form-label">Quality</label>
+                                <div className="uk-form-controls">
+                                  <select
+                                    id="quality"
+                                    className="uk-select"
+                                    onChange={this.captureJobDetails}
+                                    required
+                                  >
+                                    <option value="quality1">
+                                      Quality Option 01
+                                    </option>
+                                    <option value="quality2">
+                                      Quality Option 02
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            ) : null}
+                            {/* Quality: Backlit */}
+                            {jobDetails.type === "backlit" ? (
+                              <div className="uk-width-1-1 uk-margin">
+                                <label>
+                                  <input
+                                    type="checkbox"
+                                    className="uk-checkbox"
+                                    value="scanning"
+                                  />{" "}
+                                  Star Backlit
+                                </label>
+                              </div>
+                            ) : null}
+                            {/* Quality: Vinyl */}
+                            {jobDetails.type === "vinyl" ? (
+                              <div className="uk-width-1-1 uk-margin">
+                                <label>
+                                  <input
+                                    type="checkbox"
+                                    className="uk-checkbox"
+                                    value="scanning"
+                                  />{" "}
+                                  Transparent
+                                </label>
+                              </div>
+                            ) : null}
+                            {/* Quality: Indoor */}
+                            {jobDetails.type === "indoor" ? (
+                              <div className="uk-width-1-1 uk-margin">
+                                <label>
+                                  <input
+                                    type="checkbox"
+                                    className="uk-checkbox"
+                                    value="scanning"
+                                  />{" "}
+                                  Eco
+                                </label>
+                              </div>
+                            ) : null}
                           </div>
 
                           {/* Dimensions */}
@@ -489,40 +533,95 @@ class NewJobOrder extends React.Component {
                           {/* Options */}
                           <div className="uk-margin">
                             <div className="uk-form-label">Options</div>
-                            <div className="uk-form-controls">
-                              <label className="uk-margin-right">
-                                <input
-                                  className="uk-radio"
-                                  type="radio"
-                                  name="1lit"
-                                />{" "}
-                                1-Lit
-                              </label>
-                              <label className="uk-margin-right">
-                                <input
-                                  className="uk-radio"
-                                  type="radio"
-                                  name="framing"
-                                />{" "}
-                                Framing
-                              </label>
-                              <label className="uk-margin-right">
-                                <input
-                                  className="uk-radio"
-                                  type="radio"
-                                  name="pasting"
-                                />{" "}
-                                Pasting
-                              </label>
-                              <label className="uk-margin-right">
-                                <input
-                                  className="uk-radio"
-                                  type="radio"
-                                  name="piping"
-                                />{" "}
-                                Piping
-                              </label>
-                            </div>
+                            {/* Frontlit */}
+                            {jobDetails.type === "frontlit" ? (
+                              <div className="uk-form-controls">
+                                <label className="uk-margin-right">
+                                  <input
+                                    className="uk-radio"
+                                    type="radio"
+                                    name="1lit"
+                                  />{" "}
+                                  1-Lit
+                                </label>
+                                <label className="uk-margin-right">
+                                  <input
+                                    className="uk-radio"
+                                    type="radio"
+                                    name="framing"
+                                  />{" "}
+                                  Framing
+                                </label>
+                                <label className="uk-margin-right">
+                                  <input
+                                    className="uk-radio"
+                                    type="radio"
+                                    name="pasting"
+                                  />{" "}
+                                  Pasting
+                                </label>
+                                <label className="uk-margin-right">
+                                  <input
+                                    className="uk-radio"
+                                    type="radio"
+                                    name="piping"
+                                  />{" "}
+                                  Piping
+                                </label>
+                              </div>
+                            ) : null}
+                            {jobDetails.type === "backlit" ? (
+                              <div className="uk-form-controls">
+                                <label className="uk-margin-right">
+                                  <input
+                                    className="uk-radio"
+                                    type="radio"
+                                    name="framing"
+                                  />{" "}
+                                  Framing
+                                </label>
+                                <label className="uk-margin-right">
+                                  <input
+                                    className="uk-radio"
+                                    type="radio"
+                                    name="lolypop"
+                                  />{" "}
+                                  Lolypop
+                                </label>
+                                <label className="uk-margin-right">
+                                  <input
+                                    className="uk-radio"
+                                    type="radio"
+                                    name="onlyprint"
+                                  />{" "}
+                                  Only Print
+                                </label>
+                              </div>
+                            ) : null}
+                            {jobDetails.type === "vinyl" ? (
+                              <div className="uk-form-controls">
+                                <label className="uk-margin-right">
+                                  <input
+                                    className="uk-radio"
+                                    type="radio"
+                                    name="foamsheetpasting"
+                                  />{" "}
+                                  Foamsheet Pasting
+                                </label>
+                              </div>
+                            ) : null}
+                            {jobDetails.type === "indoor" ? (
+                              <div className="uk-form-controls">
+                                <label className="uk-margin-right">
+                                  <input
+                                    className="uk-radio"
+                                    type="radio"
+                                    name="mattelamination"
+                                  />{" "}
+                                  Matte Lamination
+                                </label>
+                              </div>
+                            ) : null}
                           </div>
 
                           {/* Submit */}
