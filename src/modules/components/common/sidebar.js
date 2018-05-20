@@ -7,18 +7,25 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSubmenuVisible: true
+      isJobsSubmenuVisible: false,
+      isInvoiceSubmenuVisible: false
     };
   }
 
-  // Toggle Submenu
-  toggleSubmenu = () => {
-    let { isSubmenuVisible } = this.state;
-    return this.setState({ isSubmenuVisible: !isSubmenuVisible });
+  // Toggle Jobs Submenu
+  toggleJobsSubmenu = () => {
+    let { isJobsSubmenuVisible } = this.state;
+    return this.setState({ isJobsSubmenuVisible: !isJobsSubmenuVisible });
+  };
+
+  // Toggle Invoice Submenu
+  toggleInvoiceSubmenu = () => {
+    let { isInvoiceSubmenuVisible } = this.state;
+    return this.setState({ isInvoiceSubmenuVisible: !isInvoiceSubmenuVisible });
   };
 
   render() {
-    let { isSubmenuVisible } = this.state;
+    let { isJobsSubmenuVisible, isInvoiceSubmenuVisible } = this.state;
     return (
       <div className="sidebar">
         <div className="sidebar__menu">
@@ -28,12 +35,12 @@ class Sidebar extends React.Component {
           <Link
             to="#"
             className="sidebar__menu__link"
-            onClick={this.toggleSubmenu}
+            onClick={this.toggleJobsSubmenu}
           >
-            <span uk-icon="tag" /> Job Management
+            <span uk-icon="tag" /> Order Management
           </Link>
-          {/* Submenu */}
-          {isSubmenuVisible ? (
+          {/* Jobs Submenu */}
+          {isJobsSubmenuVisible ? (
             <div>
               <Link
                 to="/jobs"
@@ -45,14 +52,29 @@ class Sidebar extends React.Component {
                 to="/jobs/new"
                 className="sidebar__menu__link sidebar__menu__link--indented"
               >
-                <span uk-icon="chevron-right" />Create New Job
+                <span uk-icon="chevron-right" />Create New Order
               </Link>
             </div>
           ) : null}
           {/* Billing */}
-          <Link to="/bills" className="sidebar__menu__link">
-            <span uk-icon="cart" /> Billing
+          <Link
+            to="#"
+            className="sidebar__menu__link"
+            onClick={this.toggleInvoiceSubmenu}
+          >
+            <span uk-icon="cart" /> Invoice Management
           </Link>
+          {/* Jobs Submenu */}
+          {isInvoiceSubmenuVisible ? (
+            <div>
+              <Link
+                to="/invoices"
+                className="sidebar__menu__link sidebar__menu__link--indented"
+              >
+                <span uk-icon="chevron-right" />Orders List
+              </Link>
+            </div>
+          ) : null}
         </div>
       </div>
     );

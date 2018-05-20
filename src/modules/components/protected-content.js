@@ -16,7 +16,7 @@ import AuthService from "../services/auth-service";
 import Dashboard from "./pages/dashboard";
 import JobOrders from "./pages/job-orders";
 import NewJobOrder from "./pages/job-order-new";
-import Bills from "./pages/bills";
+import Invoices from "./pages/invoices";
 
 // Root Component
 const Root = () => <Redirect to="/dashboard" />;
@@ -44,7 +44,7 @@ class ProtectedContent extends React.Component {
                     <ProtectedRoute exact path="/dashboard" component={Dashboard} />
                     <ProtectedRoute exact path="/jobs" component={JobOrders} />
                     <ProtectedRoute exact path="/jobs/new" component={NewJobOrder} />
-                    <ProtectedRoute exact path="/bills" component={Bills} />
+                    <ProtectedRoute exact path="/invoices" component={Invoices} />
                   </Switch>
                 </div>
               </div>
