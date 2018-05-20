@@ -18,7 +18,9 @@ class NewJobOrder extends React.Component {
       },
       jobsList: [],
       customer: {},
-      designer: {},
+      designer: {
+        designer: "a"
+      },
       createOrderError: false,
       selectedParty: ""
     };
@@ -652,15 +654,69 @@ class NewJobOrder extends React.Component {
 
               {/* Review */}
               <li>
-                <div className="uk-form-stacked uk-padding">
+                <form className="uk-form-stacked" onSubmit={this.createOrder}>
                   <div className="uk-grid uk-grid-small">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Saepe, iure? Culpa alias assumenda aspernatur dolorem,
-                    accusamus dignissimos. Doloremque aperiam sapiente
-                    distinctio consequuntur, ratione odio iusto quod quia, ea
-                    doloribus voluptatum.
+                    <div className="new-order__content__two-columns uk-flex">
+                      <div className="uk-width-1-2 new-order__content__two-columns__left">
+                        <div className="uk-padding">
+                          {/* Assign Designer */}
+                          <div className="uk-width-1-1 uk-margin">
+                            <label className="uk-form-label">
+                              Assign Designer
+                            </label>
+                            <div className="uk-form-controls">
+                              <select
+                                id="designer"
+                                className="uk-select"
+                                onChange={this.captureDesignerDetails}
+                                required
+                              >
+                                <option value="a">Designer A</option>
+                                <option value="b">Designer B</option>
+                                <option value="c">Designer C</option>
+                              </select>
+                            </div>
+                          </div>
+                          {/* Other Notes */}
+                          <div className="uk-width-1-1 uk-margin">
+                            <label className="uk-form-label">Other Notes</label>
+                            <textarea
+                              type="text"
+                              id="description"
+                              onChange={this.captureDesignerDetails}
+                              className="uk-textarea"
+                            />
+                          </div>
+                          {/* Informative Text */}
+                          <div className="uk-width-1-1 uk-margin">
+                            <p className="uk-text-meta">
+                              Lorem, ipsum dolor sit amet consectetur
+                              adipisicing elit. Excepturi, quia repudiandae
+                              doloribus voluptate quaerat tempora architecto,
+                              sint harum voluptatum id laboriosam.
+                            </p>
+                          </div>
+
+                          {/* Submit Order */}
+                          <div className="uk-width-1-1">
+                            <button
+                              type="submit"
+                              className="uk-button uk-button-primary"
+                            >
+                              Submit Order
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="uk-width-1-2 new-order__content__two-columns__right">
+                        <div className="uk-padding">
+                          Maybe list previous information of the order here?
+                          Provide an overview?
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </form>
               </li>
             </ul>
           </div>
