@@ -11,6 +11,7 @@ class Sidebar extends React.Component {
     };
   }
 
+  // Toggle Submenu
   toggleSubmenu = () => {
     let { isSubmenuVisible } = this.state;
     return this.setState({ isSubmenuVisible: !isSubmenuVisible });
@@ -48,6 +49,10 @@ class Sidebar extends React.Component {
               </Link>
             </div>
           ) : null}
+          {/* Billing */}
+          <Link to="/bills" className="sidebar__menu__link">
+            <span uk-icon="cart" /> Billing
+          </Link>
         </div>
       </div>
     );
