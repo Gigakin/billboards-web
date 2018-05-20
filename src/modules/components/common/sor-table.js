@@ -30,9 +30,8 @@ class SorTable extends React.Component {
     // Empty query
     // assing original list to state
     if (!query) {
-      let { tableData, currentPage } = this.state;
       return this.setState({
-        tableData: this.divideTableData(tableData, currentPage)
+        tableData: this.originalList
       });
     }
 
@@ -56,26 +55,6 @@ class SorTable extends React.Component {
     // Update results
     return this.setState({ tableData: this.filteredList });
   };
-
-  // [Pagination] Divide Table Data
-  divideTableData = (tabledata, currentpage) => {
-    if (tabledata) {
-      let result = [];
-      if (!currentpage) currentpage = 0;
-      for (let index = currentpage; index < this.pageSize; index++) {
-        result.push(tabledata[index]);
-      }
-      return result;
-    }
-  };
-
-  componentDidMount() {
-    let { data } = this.props;
-    let { currentPage } = this.state;
-    return this.setState({
-      tableData: this.divideTableData(data, currentPage)
-    });
-  }
 
   render() {
     let { columns } = this.props;
