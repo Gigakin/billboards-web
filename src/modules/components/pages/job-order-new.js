@@ -19,7 +19,8 @@ class NewJobOrder extends React.Component {
       jobsList: [],
       customer: {},
       designer: {},
-      createOrderError: false
+      createOrderError: false,
+      selectedParty: ""
     };
     this.jobDetails = {};
 
@@ -72,9 +73,13 @@ class NewJobOrder extends React.Component {
   };
 
   // Find Party By Phone
+  // Fetches the list of the customers
   findPartyByNumber = selectedoption => {
-    // Fetches the list of the customers
-    return console.log(selectedoption);
+    if (selectedoption) {
+      return this.setState({
+        selectedParty: selectedoption
+      });
+    }
   };
 
   // Capture Billing Address
@@ -160,7 +165,7 @@ class NewJobOrder extends React.Component {
   };
 
   render() {
-    let { jobsList } = this.state;
+    let { jobsList, selectedParty } = this.state;
     return (
       <div className="new-order">
         <div className="uk-width-1-1">
@@ -262,6 +267,7 @@ class NewJobOrder extends React.Component {
                       <label className="uk-form-label">Phone Number</label>
                       <div className="uk-form-controls">
                         <Select
+                          value={selectedParty}
                           onChange={this.findPartyByNumber}
                           options={this.dummyParties}
                         />
