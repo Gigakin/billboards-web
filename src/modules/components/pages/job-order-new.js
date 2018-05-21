@@ -1,5 +1,6 @@
 // Modules
 import React from "react";
+import Methods from "../../methods";
 
 // Components
 import JobList from "../common/job-list";
@@ -22,7 +23,7 @@ class NewJobOrder extends React.Component {
         designer: "a"
       },
       createOrderError: false,
-      selectedParty: ""
+      selectedParty: {}
     };
     this.jobDetails = {};
 
@@ -167,7 +168,15 @@ class NewJobOrder extends React.Component {
   };
 
   render() {
-    let { jobsList, jobDetails, selectedParty } = this.state;
+    let {
+      job,
+      jobDetails,
+      jobsList,
+      customer,
+      designer,
+      selectedParty
+    } = this.state;
+
     return (
       <div className="new-order">
         <div className="uk-width-1-1">
@@ -508,7 +517,9 @@ class NewJobOrder extends React.Component {
                                 <option value="feets">in Feets</option>
                                 <option value="inches">in Inches</option>
                                 <option value="meters">in Meters</option>
-                                <option value="centimeters">in Centimeters</option>
+                                <option value="centimeters">
+                                  in Centimeters
+                                </option>
                               </select>
                             </div>
                           </div>
@@ -691,10 +702,11 @@ class NewJobOrder extends React.Component {
                           {/* Informative Text */}
                           <div className="uk-width-1-1 uk-margin">
                             <p className="uk-text-meta">
-                              Lorem, ipsum dolor sit amet consectetur
-                              adipisicing elit. Excepturi, quia repudiandae
-                              doloribus voluptate quaerat tempora architecto,
-                              sint harum voluptatum id laboriosam.
+                              <strong>Notes from Front Desk:</strong> Lorem,
+                              ipsum dolor sit amet consectetur adipisicing elit.
+                              Excepturi, quia repudiandae doloribus voluptate
+                              quaerat tempora architecto, sint harum voluptatum
+                              id laboriosam.
                             </p>
                           </div>
 
@@ -711,8 +723,44 @@ class NewJobOrder extends React.Component {
                       </div>
                       <div className="uk-width-1-2 new-order__content__two-columns__right">
                         <div className="uk-padding">
-                          Maybe list previous information of the order here?
-                          Provide an overview?
+                          {/* Review: Order Details */}
+                          <div className="uk-width-1-1 uk-margin-small">
+                            <h5 className="uk-text-muted uk-margin-remove">
+                              Order Details
+                            </h5>
+                            <span>
+                              {job.name} &middot; {job.description}
+                            </span>
+                          </div>
+                          {/* Review: Party Details */}
+                          <div className="uk-width-1-1 uk-margin-small">
+                            <h5 className="uk-text-muted uk-margin-remove">
+                              Party Details
+                            </h5>
+                            <span>Bill to: {selectedParty.label}</span>
+                          </div>
+                          {/* Review: Job Types */}
+                          <div className="uk-width-1-1 uk-margin-small">
+                            <h5 className="uk-text-muted uk-margin-remove">
+                              Job Types
+                            </h5>
+                            <div>
+                              {jobsList && jobsList.length ? (
+                                jobsList.map((job, index) => (
+                                  <li key={`joblist_job_${index}`}>
+                                    {Methods.capitalize(job.type)}
+                                    {" "} &middot;{" "}
+                                    {`${job.sizeWidth} x ${job.sizeHeight} ${job.sizeUnits}`}
+                                  </li>
+                                ))
+                              ) : (
+                                <span className="uk-text-muted">
+                                  There are no jobs in this order. Use the Job
+                                  Types tab to add jobs.
+                                </span>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
