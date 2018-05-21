@@ -169,7 +169,7 @@ class SorTable extends React.Component {
           </table>
         </div>
         {/* Pagination */}
-        <div className="uk-width-1-1 uk-flex uk-flex-right">
+        <div className="uk-width-1-1 uk-flex uk-flex-center">
           <ul className="uk-pagination uk-margin-top">
             <li>
               <a href="#1">1</a>
