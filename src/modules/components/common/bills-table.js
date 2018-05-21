@@ -171,6 +171,23 @@ class BillsTable extends React.Component {
             </tbody>
           </table>
         </div>
+        {/* Pagination */}
+        <div className="uk-width-1-1 uk-flex uk-flex-right">
+          <ul className="uk-pagination uk-margin-top">
+            <li>
+              <a href="#1">1</a>
+            </li>
+            <li>
+              <a href="#2">2</a>
+            </li>
+            <li>
+              <a href="#3">3</a>
+            </li>
+            <li>
+              <a href="#4">4</a>
+            </li>
+          </ul>
+        </div>
       </div>
     );
   }
