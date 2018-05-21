@@ -118,11 +118,11 @@ class SorTable extends React.Component {
               {tableData && tableData.length ? (
                 tableData.map((item, index) => (
                   <tr key={`sortable_item_${index}`}>
-                    <td>{item.party}</td>
-                    <td>{item.job}</td>
-                    <td>{item.size}</td>
-                    <td>{item.assignedTo}</td>
-                    <td>{item.status}</td>
+                    <td>{item ? item.party : "-"}</td>
+                    <td>{item ? item.job : "-"}</td>
+                    <td>{item ? item.size : "-"}</td>
+                    <td>{item ? item.assignedTo : "-"}</td>
+                    <td>{item ? item.status : "-"}</td>
                     <td>
                       <span>
                         <button
@@ -167,6 +167,23 @@ class SorTable extends React.Component {
               )}
             </tbody>
           </table>
+        </div>
+        {/* Pagination */}
+        <div className="uk-width-1-1 uk-flex uk-flex-right">
+          <ul className="uk-pagination uk-margin-top">
+            <li>
+              <a href="#">1</a>
+            </li>
+            <li>
+              <a href="#">2</a>
+            </li>
+            <li>
+              <a href="#">3</a>
+            </li>
+            <li>
+              <a href="#">4</a>
+            </li>
+          </ul>
         </div>
       </div>
     );
