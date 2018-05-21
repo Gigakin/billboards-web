@@ -2,7 +2,7 @@
 import React from "react";
 
 // Components
-import BillsTable from "../common/bills-table";
+import InvoicesList from "../common/invoices-list";
 import MockData from "../../stores/mock_data.json";
 
 // Classes
@@ -18,16 +18,18 @@ class Bills extends React.Component {
   render() {
     let { invoices } = this.state;
     return (
-      <div className="uk-flex">
-        <div className="uk-width-1-1 uk-padding-large">
+      <div className="lists">
+        <div className="uk-width-1-1">
           {/* Header */}
-          <div className="uk-width-1-1">
-            <h2>Invoice Management</h2>
+          <div className="new-order__header">
+            <div className="uk-width-1-1 uk-flex-inline">
+              <h2 className="new-order__header__title">Invoice Management</h2>
+            </div>
           </div>
 
           {/* Bills */}
           <div className="uk-width-1-1">
-            <BillsTable columns={this.tableColumns} data={invoices} />
+            <InvoicesList columns={this.tableColumns} data={invoices} />
           </div>
         </div>
       </div>

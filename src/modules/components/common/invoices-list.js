@@ -1,5 +1,5 @@
 /*
-  Component: Bills Table
+  Component: Invoices List
   Props: columns (array)
          data (array)
 */
@@ -10,7 +10,7 @@ import { withRouter } from "react-router-dom";
 import Methods from "../../methods";
 
 // Classes
-class BillsTable extends React.Component {
+class InvoicesList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -73,42 +73,50 @@ class BillsTable extends React.Component {
     return (
       <div className="sor-table">
         {/* Actions */}
-        <div className="sor-table__actions">
-          <div className="uk-grid uk-grid-small uk-form-stacked">
-            <div className="uk-width-1-3">
-              <label className="uk-form-label">Search by Party Name</label>
-              <div className="uk-form-controls">
-                <input
-                  id="party"
-                  type="text"
-                  onChange={this.filterData}
-                  className="uk-input"
-                />
+        <div className="uk-card uk-card-default uk-margin-bottom uk-padding">
+          <div className="sor-table__actions">
+            <div className="uk-grid uk-grid-small uk-form-stacked">
+              <div className="uk-width-1-3">
+                <label className="uk-form-label uk-text-bold">
+                  Search by Party Name
+                </label>
+                <div className="uk-form-controls">
+                  <input
+                    id="party"
+                    type="text"
+                    onChange={this.filterData}
+                    className="uk-input"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="uk-width-1-3">
-              <label className="uk-form-label">Search by Job Name</label>
-              <div className="uk-form-controls">
-                <input
-                  id="job"
-                  type="text"
-                  onChange={this.filterData}
-                  className="uk-input"
-                />
+              <div className="uk-width-1-3">
+                <label className="uk-form-label uk-text-bold">
+                  Search by Job Name
+                </label>
+                <div className="uk-form-controls">
+                  <input
+                    id="job"
+                    type="text"
+                    onChange={this.filterData}
+                    className="uk-input"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="uk-width-1-3">
-              <label className="uk-form-label">Search by Billing Status</label>
-              <div className="uk-form-controls">
-                <select
-                  id="searchJobStatus"
-                  onChange={this.filterData}
-                  className="uk-select"
-                >
-                  <option defaultChecked />
-                  <option value="ready">Ready for Billing</option>
-                  <option value="waitlisted">Waiting for Pickup</option>
-                </select>
+              <div className="uk-width-1-3">
+                <label className="uk-form-label uk-text-bold">
+                  Search by Billing Status
+                </label>
+                <div className="uk-form-controls">
+                  <select
+                    id="searchJobStatus"
+                    onChange={this.filterData}
+                    className="uk-select"
+                  >
+                    <option defaultChecked />
+                    <option value="ready">Ready for Billing</option>
+                    <option value="waitlisted">Waiting for Pickup</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -194,10 +202,10 @@ class BillsTable extends React.Component {
 }
 
 // Default Props
-BillsTable.defaultProp = {
+InvoicesList.defaultProp = {
   columns: {},
   data: []
 };
 
 // Exports
-export default withRouter(BillsTable);
+export default withRouter(InvoicesList);

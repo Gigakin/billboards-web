@@ -1,5 +1,5 @@
 /*
-  Component: SorTable
+  Component: Orders List
   Props: columns (array)
          data (array)
 */
@@ -9,7 +9,7 @@ import React from "react";
 import Methods from "../../methods";
 
 // Classes
-class SorTable extends React.Component {
+class OrdersList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -62,49 +62,57 @@ class SorTable extends React.Component {
     return (
       <div className="sor-table">
         {/* Actions */}
-        <div className="sor-table__actions">
-          <div className="uk-grid uk-grid-small uk-form-stacked">
-            <div className="uk-width-1-3">
-              <label className="uk-form-label">Search by Party Name</label>
-              <div className="uk-form-controls">
-                <input
-                  id="party"
-                  type="text"
-                  onChange={this.filterData}
-                  className="uk-input"
-                />
+        <div className="uk-card uk-card-default uk-margin-bottom uk-padding">
+          <div className="sor-table__actions">
+            <div className="uk-grid uk-grid-small uk-form-stacked">
+              <div className="uk-width-1-3">
+                <label className="uk-form-label uk-text-bold">
+                  Search by Party Name
+                </label>
+                <div className="uk-form-controls">
+                  <input
+                    id="party"
+                    type="text"
+                    onChange={this.filterData}
+                    className="uk-input"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="uk-width-1-3">
-              <label className="uk-form-label">Search by Job Name</label>
-              <div className="uk-form-controls">
-                <input
-                  id="job"
-                  type="text"
-                  onChange={this.filterData}
-                  className="uk-input"
-                />
+              <div className="uk-width-1-3">
+                <label className="uk-form-label uk-text-bold">
+                  Search by Job Name
+                </label>
+                <div className="uk-form-controls">
+                  <input
+                    id="job"
+                    type="text"
+                    onChange={this.filterData}
+                    className="uk-input"
+                  />
+                </div>
               </div>
-            </div>
-            <div className="uk-width-1-3">
-              <label className="uk-form-label">Search by Job Status</label>
-              <div className="uk-form-controls">
-                <select
-                  id="searchJobStatus"
-                  onChange={this.filterData}
-                  className="uk-select"
-                >
-                  <option defaultChecked />
-                  <option value="assigned">Assigned</option>
-                  <option value="unassigned">Un-assigned</option>
-                </select>
+              <div className="uk-width-1-3">
+                <label className="uk-form-label uk-text-bold">
+                  Search by Job Status
+                </label>
+                <div className="uk-form-controls">
+                  <select
+                    id="searchJobStatus"
+                    onChange={this.filterData}
+                    className="uk-select"
+                  >
+                    <option defaultChecked />
+                    <option value="assigned">Assigned</option>
+                    <option value="unassigned">Un-assigned</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
         </div>
         {/* Table */}
         <div className="sor-table__table">
-          <table className="uk-table uk-table-striped uk-table-divider">
+          <table className="uk-table uk-table-divider">
             <thead>
               <tr>
                 {columns && columns.length
@@ -191,10 +199,10 @@ class SorTable extends React.Component {
 }
 
 // Default Props
-SorTable.defaultProp = {
+OrdersList.defaultProp = {
   columns: {},
   data: []
 };
 
 // Exports
-export default SorTable;
+export default OrdersList;

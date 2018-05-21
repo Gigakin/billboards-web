@@ -2,7 +2,7 @@
 import React from "react";
 
 // Components
-import SorTable from "../common/sor-table";
+import OrdersList from "../common/orders-list";
 import MockData from "../../stores/mock_data.json";
 
 // Classes
@@ -25,16 +25,18 @@ class JobOrders extends React.Component {
   render() {
     let { jobsList } = this.state;
     return (
-      <div className="uk-flex">
-        <div className="uk-width-1-1 uk-padding-large">
+    <div className="lists">
+        <div className="uk-width-1-1">
           {/* Header */}
-          <div className="uk-width-1-1">
-            <h2>Orders List</h2>
+          <div className="new-order__header">
+            <div className="uk-width-1-1 uk-flex-inline">
+              <h2 className="new-order__header__title">Orders List</h2>
+            </div>
           </div>
 
           {/* Order List */}
           <div className="uk-width-1-1">
-            <SorTable columns={this.tableColumns} data={jobsList} />
+            <OrdersList columns={this.tableColumns} data={jobsList} />
           </div>
         </div>
       </div>
