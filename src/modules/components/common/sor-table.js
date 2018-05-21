@@ -30,9 +30,9 @@ class SorTable extends React.Component {
     // Empty query
     // assing original list to state
     if (!query) {
-      let { tableData, currentPage } = this.state;
+      let { currentPage } = this.state;
       return this.setState({
-        tableData: this.divideTableData(tableData, currentPage)
+        tableData: this.divideTableData(this.originalList, currentPage)
       });
     }
 
@@ -62,11 +62,44 @@ class SorTable extends React.Component {
     if (tabledata) {
       let result = [];
       if (!currentpage) currentpage = 0;
-      for (let index = currentpage; index < this.pageSize; index++) {
+      for (
+        let index = currentpage * this.pageSize;
+        index < this.pageSize;
+        index++
+      ) {
         result.push(tabledata[index]);
       }
       return result;
     }
+  };
+
+  // [Pagination] Switch Page
+  switchPage = pagenumber => {
+    return this.setState({
+      tableData: this.divideTableData(this.originalList, pagenumber)
+    });
+  };
+
+  // [Pagination] Render Pagination Buttons
+  renderPaginators = () => {
+    let numbers = [];
+    let { tableData } = this.state;
+    let paginationLength = tableData.length / this.pageSize;
+
+    for (let index = 0; index <= paginationLength; index++) {
+      numbers.push(index);
+    }
+    return numbers.map((number, index) => (
+      <li key={`pagination_key_${index}`}>
+        <button
+          type="button"
+          className="uk-button uk-button-link"
+          onClick={() => this.switchPage(index)}
+        >
+          {number + 1}
+        </button>
+      </li>
+    ));
   };
 
   componentDidMount() {
@@ -139,11 +172,11 @@ class SorTable extends React.Component {
               {tableData && tableData.length ? (
                 tableData.map((item, index) => (
                   <tr key={`sortable_item_${index}`}>
-                    <td>{item.party}</td>
-                    <td>{item.job}</td>
-                    <td>{item.size}</td>
-                    <td>{item.assignedTo}</td>
-                    <td>{item.status}</td>
+                    <td>{item ? item.party : "-"}</td>
+                    <td>{item ? item.job : "-"}</td>
+                    <td>{item ? item.size : "-"}</td>
+                    <td>{item ? item.assignedTo : "-"}</td>
+                    <td>{item ? item.status : "-"}</td>
                     <td>
                       <span>
                         <button
@@ -189,6 +222,10 @@ class SorTable extends React.Component {
             </tbody>
           </table>
         </div>
+        {/* Pagination */}
+        <ul className="uk-pagination uk-margin-top">
+          {this.renderPaginators()}
+        </ul>
       </div>
     );
   }
