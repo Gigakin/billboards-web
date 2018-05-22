@@ -180,9 +180,12 @@ class InvoicesList extends React.Component {
           </table>
         </div>
         {/* Pagination */}
-        <div className="uk-width-1-1 uk-flex uk-flex-center">
+        <div className="uk-width-1-1 uk-flex uk-flex-right">
           <ul className="uk-pagination uk-margin-top">
-            <li>
+            <li className="uk-disabled">
+              <a href="#1">Previous</a>
+            </li>
+            <li className="uk-active">
               <a href="#1">1</a>
             </li>
             <li>
@@ -192,7 +195,7 @@ class InvoicesList extends React.Component {
               <a href="#3">3</a>
             </li>
             <li>
-              <a href="#4">4</a>
+              <a href="#4">Next</a>
             </li>
           </ul>
         </div>

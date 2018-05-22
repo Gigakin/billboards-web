@@ -16,11 +16,16 @@
       border-radius: 0 3px 3px 0;
       border-right-width: 1px;
     }
-  }
 
-  > li a {
-    padding: 12px 20px;
-    border: 1px solid @global-border;
-    border-right-width: 0;
+    > a {
+      padding: 12px 20px;
+      border: 1px solid @global-border;
+      border-right-width: 0;
+    }
+
+    &.uk-active a {
+      background: @global-primary-background;
+      color: #ffffff;
+    }
   }
 }
