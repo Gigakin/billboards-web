@@ -1,5 +1,6 @@
 // Modules
 import React from "react";
+import { Link } from "react-router-dom";
 
 // Components
 import OrdersList from "../common/orders-list";
@@ -35,7 +36,7 @@ class JobOrders extends React.Component {
             <div className="uk-width-1-1">
               <ul className="uk-breadcrumb">
                 <li>
-                  <a href="#">Order Management</a>
+                  <Link to="/orders">Order Management</Link>
                 </li>
                 <li>
                   <span>Orders List</span>

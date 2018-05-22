@@ -43,13 +43,13 @@ class Sidebar extends React.Component {
           {isJobsSubmenuVisible ? (
             <div>
               <Link
-                to="/jobs"
+                to="/orders"
                 className="sidebar__menu__link sidebar__menu__link--indented"
               >
                 <span uk-icon="chevron-right" />Orders List
               </Link>
               <Link
-                to="/jobs/new"
+                to="/orders/new"
                 className="sidebar__menu__link sidebar__menu__link--indented"
               >
                 <span uk-icon="chevron-right" />Create New Order

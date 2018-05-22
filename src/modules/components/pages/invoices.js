@@ -1,5 +1,6 @@
 // Modules
 import React from "react";
+import { Link } from "react-router-dom";
 
 // Components
 import InvoicesList from "../common/invoices-list";
@@ -28,7 +29,7 @@ class Bills extends React.Component {
             <div className="uk-width-1-1">
               <ul className="uk-breadcrumb">
                 <li>
-                  <a href="#">Invoice Management</a>
+                  <Link to="/invoices">Invoice Management</Link>
                 </li>
                 <li>
                   <span>Orders List</span>

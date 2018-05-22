@@ -1,5 +1,6 @@
 // Modules
 import React from "react";
+import { Link } from "react-router-dom";
 import Methods from "../../methods";
 
 // Components
@@ -164,18 +165,11 @@ class NewJobOrder extends React.Component {
 
   // Back to Order List
   goBack = event => {
-    return this.props.history.push("/jobs");
+    return this.props.history.push("/orders");
   };
 
   render() {
-    let {
-      job,
-      jobDetails,
-      jobsList,
-      customer,
-      designer,
-      selectedParty
-    } = this.state;
+    let { job, jobDetails, jobsList, selectedParty } = this.state;
 
     return (
       <div className="new-order">
@@ -188,7 +182,7 @@ class NewJobOrder extends React.Component {
             <div className="uk-width-1-1">
               <ul className="uk-breadcrumb">
                 <li>
-                  <a href="#">Order Management</a>
+                  <Link to="/orders">Order Management</Link>
                 </li>
                 <li>
                   <span>Create New Order</span>
@@ -758,9 +752,10 @@ class NewJobOrder extends React.Component {
                               {jobsList && jobsList.length ? (
                                 jobsList.map((job, index) => (
                                   <li key={`joblist_job_${index}`}>
-                                    {Methods.capitalize(job.type)}
-                                    {" "} &middot;{" "}
-                                    {`${job.sizeWidth} x ${job.sizeHeight} ${job.sizeUnits}`}
+                                    {Methods.capitalize(job.type)} &middot;{" "}
+                                    {`${job.sizeWidth} x ${job.sizeHeight} ${
+                                      job.sizeUnits
+                                    }`}
                                   </li>
                                 ))
                               ) : (

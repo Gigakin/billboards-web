@@ -42,8 +42,8 @@ class ProtectedContent extends React.Component {
                   <Switch>
                     <ProtectedRoute exact path="/" component={Root} />
                     <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-                    <ProtectedRoute exact path="/jobs" component={JobOrders} />
-                    <ProtectedRoute exact path="/jobs/new" component={NewJobOrder} />
+                    <ProtectedRoute exact path="/orders" component={JobOrders} />
+                    <ProtectedRoute exact path="/orders/new" component={NewJobOrder} />
                     <ProtectedRoute exact path="/invoices" component={Invoices} />
                   </Switch>
                 </div>
