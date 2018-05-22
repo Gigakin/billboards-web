@@ -21,9 +21,19 @@ class Bills extends React.Component {
       <div className="lists">
         <div className="uk-width-1-1">
           {/* Header */}
-          <div className="new-order__header">
-            <div className="uk-width-1-1 uk-flex-inline">
-              <h2 className="new-order__header__title">Invoice Management</h2>
+          <div className="lists__header">
+            <div className="uk-width-1-1">
+              <h2 className="lists__header__title">Invoice Management</h2>
+            </div>
+            <div className="uk-width-1-1">
+              <ul className="uk-breadcrumb">
+                <li>
+                  <a href="#">Invoice Management</a>
+                </li>
+                <li>
+                  <span>Orders List</span>
+                </li>
+              </ul>
             </div>
           </div>
 

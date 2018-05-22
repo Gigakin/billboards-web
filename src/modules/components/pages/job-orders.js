@@ -25,12 +25,22 @@ class JobOrders extends React.Component {
   render() {
     let { jobsList } = this.state;
     return (
-    <div className="lists">
+      <div className="lists">
         <div className="uk-width-1-1">
           {/* Header */}
           <div className="new-order__header">
-            <div className="uk-width-1-1 uk-flex-inline">
+            <div className="uk-width-1-1">
               <h2 className="new-order__header__title">Orders List</h2>
+            </div>
+            <div className="uk-width-1-1">
+              <ul className="uk-breadcrumb">
+                <li>
+                  <a href="#">Order Management</a>
+                </li>
+                <li>
+                  <span>Orders List</span>
+                </li>
+              </ul>
             </div>
           </div>
 

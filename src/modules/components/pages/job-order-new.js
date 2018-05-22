@@ -182,8 +182,18 @@ class NewJobOrder extends React.Component {
         <div className="uk-width-1-1">
           {/* Header */}
           <div className="new-order__header">
-            <div className="uk-width-1-1 uk-flex-inline">
+            <div className="uk-width-1-1">
               <h2 className="new-order__header__title">New Job Order</h2>
+            </div>
+            <div className="uk-width-1-1">
+              <ul className="uk-breadcrumb">
+                <li>
+                  <a href="#">Order Management</a>
+                </li>
+                <li>
+                  <span>Create New Order</span>
+                </li>
+              </ul>
             </div>
           </div>
 
