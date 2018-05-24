@@ -2,13 +2,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// Services
+import PermissionService from "../../services/permission-service";
+
 // Classes
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isJobsSubmenuVisible: true,
-      isInvoiceSubmenuVisible: true
+      isInvoiceSubmenuVisible: true,
+      permissions: {}
     };
   }
 
@@ -24,55 +28,83 @@ class Sidebar extends React.Component {
     return this.setState({ isInvoiceSubmenuVisible: !isInvoiceSubmenuVisible });
   };
 
+  componentDidMount() {
+    let role = PermissionService.getRole();
+    let permissions = PermissionService.getPermissions(role);
+    if (permissions) return this.setState({ permissions: permissions });
+    return;
+  }
+
   render() {
-    let { isJobsSubmenuVisible, isInvoiceSubmenuVisible } = this.state;
+    let {
+      permissions,
+      isJobsSubmenuVisible,
+      isInvoiceSubmenuVisible
+    } = this.state;
+
     return (
       <div className="sidebar">
         <div className="sidebar__menu">
-          <Link to="/dashboard" className="sidebar__menu__link">
-            <span uk-icon="thumbnails" /> Dashboard
-          </Link>
-          <Link
-            to="#"
-            className="sidebar__menu__link"
-            onClick={this.toggleJobsSubmenu}
-          >
-            <span uk-icon="tag" /> Order Management
-          </Link>
-          {/* Jobs Submenu */}
-          {isJobsSubmenuVisible ? (
+          {/* Dashboard */}
+          {permissions.canSeeDashboard ? (
+            <Link to="/dashboard" className="sidebar__menu__link">
+              <span uk-icon="thumbnails" /> Dashboard
+            </Link>
+          ) : null}
+
+          {/* Order Management */}
+          {permissions.canSeeOrderManagement ? (
             <div>
               <Link
-                to="/orders"
-                className="sidebar__menu__link sidebar__menu__link--indented"
+                to="#"
+                className="sidebar__menu__link"
+                onClick={this.toggleJobsSubmenu}
               >
-                <span uk-icon="chevron-right" />Orders List
+                <span uk-icon="tag" /> Order Management
               </Link>
-              <Link
-                to="/orders/new"
-                className="sidebar__menu__link sidebar__menu__link--indented"
-              >
-                <span uk-icon="chevron-right" />Create New Order
-              </Link>
+              {/* Jobs Submenu */}
+              {isJobsSubmenuVisible ? (
+                <div>
+                  <Link
+                    to="/orders"
+                    className="sidebar__menu__link sidebar__menu__link--indented"
+                  >
+                    <span uk-icon="chevron-right" />Orders List
+                  </Link>
+                  {permissions.canCreateNewOrder ? (
+                    <Link
+                      to="/orders/new"
+                      className="sidebar__menu__link sidebar__menu__link--indented"
+                    >
+                      <span uk-icon="chevron-right" />Create New Order
+                    </Link>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           ) : null}
+
           {/* Billing */}
-          <Link
-            to="#"
-            className="sidebar__menu__link"
-            onClick={this.toggleInvoiceSubmenu}
-          >
-            <span uk-icon="cart" /> Invoice Management
-          </Link>
-          {/* Jobs Submenu */}
-          {isInvoiceSubmenuVisible ? (
+          {permissions.canSeeInvoiceManagement ? (
             <div>
               <Link
-                to="/invoices"
-                className="sidebar__menu__link sidebar__menu__link--indented"
+                to="#"
+                className="sidebar__menu__link"
+                onClick={this.toggleInvoiceSubmenu}
               >
-                <span uk-icon="chevron-right" />Orders List
+                <span uk-icon="cart" /> Invoice Management
               </Link>
+              {/* Jobs Submenu */}
+              {isInvoiceSubmenuVisible ? (
+                <div>
+                  <Link
+                    to="/invoices"
+                    className="sidebar__menu__link sidebar__menu__link--indented"
+                  >
+                    <span uk-icon="chevron-right" />Orders List
+                  </Link>
+                </div>
+              ) : null}
             </div>
           ) : null}
         </div>

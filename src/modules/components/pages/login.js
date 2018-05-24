@@ -3,6 +3,7 @@ import React from "react";
 
 // Services
 import AuthService from "../../services/auth-service";
+import PermissionService from "../../services/permission-service";
 
 // Classes
 class Login extends React.Component {
@@ -11,7 +12,8 @@ class Login extends React.Component {
     this.state = {
       credentials: {},
       isProcessingForm: false,
-      loginError: false
+      loginError: false,
+      role: "frontdesk"
     };
   }
 
@@ -26,8 +28,10 @@ class Login extends React.Component {
   };
 
   // Login
-  login = () => {
+  login = event => {
+    event.preventDefault();
     AuthService.login();
+    if (this.state.role) PermissionService.setRole(this.state.role);
     return this.props.history.push("/dashboard");
   };
 
@@ -87,8 +91,23 @@ class Login extends React.Component {
                     <button
                       type="submit"
                       className="uk-button uk-button-primary"
+                      onClick={() => this.setState({ role: "frontdesk" })}
                     >
-                      Login
+                      Login FD
+                    </button>
+                    <button
+                      type="submit"
+                      className="uk-button uk-button-primary"
+                      onClick={() => this.setState({ role: "designer" })}
+                    >
+                      Login D
+                    </button>
+                    <button
+                      type="submit"
+                      className="uk-button uk-button-primary"
+                      onClick={() => this.setState({ role: "printer" })}
+                    >
+                      Login P
                     </button>
                   </div>
                 </form>
