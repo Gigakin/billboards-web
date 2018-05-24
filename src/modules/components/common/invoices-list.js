@@ -57,14 +57,14 @@ class InvoicesList extends React.Component {
     return this.setState({ tableData: this.filteredList });
   };
 
-  // View Bill
-  viewBill = billid => {
-    if (billid) return this.props.history.push(`/bills/${billid}`);
+  // Accept Payment
+  acceptPayment = billid => {
+    if (billid) return console.log(billid);
   };
 
-  // Send Reminder
-  sendReminder = billid => {
-    if (billid) return console.log(`Reminder sent for Bill #${billid}`);
+  // Generate Bill
+  generateBill = billid => {
+    if (billid) return console.log(billid);
   };
 
   render() {
