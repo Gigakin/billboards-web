@@ -65,18 +65,29 @@ class Sidebar extends React.Component {
               {/* Jobs Submenu */}
               {isJobsSubmenuVisible ? (
                 <div>
+                  {/* Orders List */}
                   <Link
                     to="/orders"
                     className="sidebar__menu__link sidebar__menu__link--indented"
                   >
                     <span uk-icon="chevron-right" />Orders List
                   </Link>
+                  {/* Create New Order */}
                   {permissions.canCreateNewOrder ? (
                     <Link
                       to="/orders/new"
                       className="sidebar__menu__link sidebar__menu__link--indented"
                     >
                       <span uk-icon="chevron-right" />Create New Order
+                    </Link>
+                  ) : null}
+                  {/* Handovers */}
+                  {permissions.canHandoverJob ? (
+                    <Link
+                      to="/handovers"
+                      className="sidebar__menu__link sidebar__menu__link--indented"
+                    >
+                      <span uk-icon="chevron-right" />Handovers
                     </Link>
                   ) : null}
                 </div>

@@ -11,7 +11,6 @@ import Methods from "../../methods";
 // Services
 import PermissionService from "../../services/permission-service";
 
-
 // Classes
 class OrdersList extends React.Component {
   constructor(props) {
@@ -61,6 +60,11 @@ class OrdersList extends React.Component {
     return this.setState({ tableData: this.filteredList });
   };
 
+  // Handover
+  handover = itemid => {
+    return console.log(itemid);
+  };
+
   componentDidMount() {
     let role = PermissionService.getRole();
     let permissions = PermissionService.getPermissions(role);
@@ -69,8 +73,9 @@ class OrdersList extends React.Component {
   }
 
   render() {
-    let { columns } = this.props;
     let { tableData, permissions } = this.state;
+    let { columns, showActionButtons, showHandoverButton } = this.props;
+
     return (
       <div className="sor-table">
         {/* Actions */}
@@ -145,35 +150,51 @@ class OrdersList extends React.Component {
                     <td>{item ? item.status : "-"}</td>
                     <td>
                       <span>
-                        {/* View Order Details */}
-                        {permissions.canViewOrderDetails ? (
-                          <button
-                            type="button"
-                            onClick={this.viewOrder}
-                            className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
-                          >
-                            View
-                          </button>
+                        {showActionButtons ? (
+                          <span>
+                            {/* View Order Details */}
+                            {permissions.canViewOrderDetails ? (
+                              <button
+                                type="button"
+                                onClick={this.viewOrder}
+                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                              >
+                                View
+                              </button>
+                            ) : null}
+                            {/* Edit Order Details */}
+                            {permissions.canEditOrderDetails ? (
+                              <button
+                                type="button"
+                                onClick={this.editOrder}
+                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                              >
+                                Edit
+                              </button>
+                            ) : null}
+                            {/* Delete Order */}
+                            {permissions.canDeleteOrder ? (
+                              <button
+                                type="button"
+                                onClick={this.deleteOrder}
+                                className="uk-button uk-button-danger uk-button-small uk-margin-small-right"
+                              >
+                                Delete
+                              </button>
+                            ) : null}
+                          </span>
                         ) : null}
-                        {/* Edit Order Details */}
-                        {permissions.canEditOrderDetails ? (
-                          <button
-                            type="button"
-                            onClick={this.editOrder}
-                            className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
-                          >
-                            Edit
-                          </button>
-                        ) : null}
-                        {/* Delete Order */}
-                        {permissions.canDeleteOrder ? (
-                          <button
-                            type="button"
-                            onClick={this.deleteOrder}
-                            className="uk-button uk-button-danger uk-button-small uk-margin-small-right"
-                          >
-                            Delete
-                          </button>
+                        {/* Handover */}
+                        {permissions.canHandoverJob ? (
+                          showHandoverButton ? (
+                            <button
+                              type="button"
+                              onClick={() => this.handover(item.id)}
+                              className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                            >
+                              Handover
+                            </button>
+                          ) : null
                         ) : null}
                       </span>
                     </td>
@@ -223,9 +244,11 @@ class OrdersList extends React.Component {
 }
 
 // Default Props
-OrdersList.defaultProp = {
+OrdersList.defaultProps = {
+  data: [],
   columns: {},
-  data: []
+  showHandoverButton: false,
+  showActionButtons: true
 };
 
 // Exports
