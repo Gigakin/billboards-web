@@ -10,7 +10,7 @@ import Methods from "../../methods";
 
 // Services
 import PermissionService from "../../services/permission-service";
-import permissions from "../../stores/permissions";
+
 
 // Classes
 class OrdersList extends React.Component {
