@@ -8,11 +8,16 @@
 import React from "react";
 import Methods from "../../methods";
 
+// Services
+import PermissionService from "../../services/permission-service";
+import permissions from "../../stores/permissions";
+
 // Classes
 class OrdersList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      permissions: {},
       tableData: props.data,
       currentPage: 0
     };
@@ -56,9 +61,16 @@ class OrdersList extends React.Component {
     return this.setState({ tableData: this.filteredList });
   };
 
+  componentDidMount() {
+    let role = PermissionService.getRole();
+    let permissions = PermissionService.getPermissions(role);
+    if (permissions) return this.setState({ permissions: permissions });
+    return;
+  }
+
   render() {
     let { columns } = this.props;
-    let { tableData } = this.state;
+    let { tableData, permissions } = this.state;
     return (
       <div className="sor-table">
         {/* Actions */}
@@ -112,7 +124,7 @@ class OrdersList extends React.Component {
         </div>
         {/* Table */}
         <div className="sor-table__table">
-          <table className="uk-table uk-table-divider">
+          <table className="uk-table uk-table-middle uk-table-divider">
             <thead>
               <tr>
                 {columns && columns.length
@@ -133,27 +145,36 @@ class OrdersList extends React.Component {
                     <td>{item ? item.status : "-"}</td>
                     <td>
                       <span>
-                        <button
-                          type="button"
-                          title="View"
-                          onClick={this.viewOrder}
-                          className="uk-icon-button uk-text-primary uk-margin-small-right"
-                          uk-icon="search"
-                        />
-                        <button
-                          type="button"
-                          title="Edit"
-                          onClick={this.editOrder}
-                          className="uk-icon-button uk-text-primary uk-margin-small-right"
-                          uk-icon="pencil"
-                        />
-                        <button
-                          type="button"
-                          title="Delete"
-                          onClick={this.deleteOrder}
-                          className="uk-icon-button uk-text-danger uk-margin-small-right"
-                          uk-icon="trash"
-                        />
+                        {/* View Order Details */}
+                        {permissions.canViewOrderDetails ? (
+                          <button
+                            type="button"
+                            onClick={this.viewOrder}
+                            className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                          >
+                            View
+                          </button>
+                        ) : null}
+                        {/* Edit Order Details */}
+                        {permissions.canEditOrderDetails ? (
+                          <button
+                            type="button"
+                            onClick={this.editOrder}
+                            className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                          >
+                            Edit
+                          </button>
+                        ) : null}
+                        {/* Delete Order */}
+                        {permissions.canDeleteOrder ? (
+                          <button
+                            type="button"
+                            onClick={this.deleteOrder}
+                            className="uk-button uk-button-danger uk-button-small uk-margin-small-right"
+                          >
+                            Delete
+                          </button>
+                        ) : null}
                       </span>
                     </td>
                   </tr>
