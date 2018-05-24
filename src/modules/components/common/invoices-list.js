@@ -127,9 +127,19 @@ class InvoicesList extends React.Component {
             <thead>
               <tr>
                 {columns && columns.length
-                  ? columns.map((item, index) => (
-                      <th key={`tableheading_${index}`}>{item}</th>
-                    ))
+                  ? columns.map((item, index) => {
+                      if (index + 1 === columns.length) {
+                        return (
+                          <th
+                            className="uk-text-right"
+                            key={`tableheading_${index}`}
+                          >
+                            {item}
+                          </th>
+                        );
+                      }
+                      return <th key={`tableheading_${index}`}>{item}</th>;
+                    })
                   : null}
               </tr>
             </thead>
@@ -141,22 +151,22 @@ class InvoicesList extends React.Component {
                     <td>{item.party}</td>
                     <td>{item.job}</td>
                     <td>{item.date ? item.date : "1/1/2000"}</td>
-                    <td>
+                    <td className="uk-text-right">
                       <span>
                         <button
                           type="button"
-                          title="View and Edit Details"
-                          onClick={() => this.viewBill(item.id)}
-                          className="uk-icon-button uk-text-primary uk-margin-small-right"
-                          uk-icon="pencil"
-                        />
+                          className="uk-button uk-button-primary uk-button-small uk-margin-small-left"
+                          onClick={() => this.acceptPayment(item.id)}
+                        >
+                          Accept Payment
+                        </button>
                         <button
                           type="button"
-                          title="Send Reminder"
-                          onClick={() => this.sendReminder(item.id)}
-                          className="uk-icon-button uk-text-primary uk-margin-small-right"
-                          uk-icon="mail"
-                        />
+                          className="uk-button uk-button-primary uk-button-small uk-margin-small-left"
+                          onClick={() => this.generateBill(item.id)}
+                        >
+                          Generate Invoice
+                        </button>
                       </span>
                     </td>
                   </tr>
