@@ -90,21 +90,21 @@ class Login extends React.Component {
                   <div className="uk-margin">
                     <button
                       type="submit"
-                      className="uk-button uk-button-primary"
+                      className="uk-button uk-button-primary uk-buttons-small uk-margin-right-small"
                       onClick={() => this.setState({ role: "frontdesk" })}
                     >
                       Login FD
                     </button>
                     <button
                       type="submit"
-                      className="uk-button uk-button-primary"
+                      className="uk-button uk-button-primary uk-buttons-small uk-margin-right-small"
                       onClick={() => this.setState({ role: "designer" })}
                     >
                       Login D
                     </button>
                     <button
                       type="submit"
-                      className="uk-button uk-button-primary"
+                      className="uk-button uk-button-primary uk-buttons-small uk-margin-right-small"
                       onClick={() => this.setState({ role: "printer" })}
                     >
                       Login P
