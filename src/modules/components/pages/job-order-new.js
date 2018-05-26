@@ -441,12 +441,10 @@ class NewJobOrder extends React.Component {
                                     onChange={this.captureJobDetails}
                                     required
                                   >
-                                    <option value="quality1">
-                                      Quality Option 01
-                                    </option>
-                                    <option value="quality2">
-                                      Quality Option 02
-                                    </option>
+                                    <option value="banner">Banner</option>
+                                    <option value="board">Board</option>
+                                    <option value="star">Star</option>
+                                    <option value="hoarding">Hoarding</option>
                                   </select>
                                 </div>
                               </div>
