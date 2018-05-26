@@ -29,18 +29,15 @@ class JobOrders extends React.Component {
       <div className="lists">
         <div className="uk-width-1-1">
           {/* Header */}
-          <div className="new-order__header">
+          <div className="lists__header">
             <div className="uk-width-1-1">
-              <h2 className="new-order__header__title">Orders List</h2>
-            </div>
-            <div className="uk-width-1-1">
-              <ul className="uk-breadcrumb">
-                <li>
-                  <Link to="/orders">Order Management</Link>
-                </li>
-                <li>
-                  <span>Orders List</span>
-                </li>
+              <ul className="breadcrumbs">
+                <Link to="/dashboard" className="breadcrumbs__item">
+                  <span uk-icon="home" />
+                </Link>
+                <Link to="/orders" className="breadcrumbs__item">
+                  Order Management
+                </Link>
               </ul>
             </div>
           </div>

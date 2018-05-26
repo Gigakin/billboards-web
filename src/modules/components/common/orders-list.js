@@ -61,8 +61,11 @@ class OrdersList extends React.Component {
   };
 
   // Handover
-  handover = itemid => {
-    return console.log(itemid);
+  handover = item => {
+    let { methods } = this.props;
+    if (methods.setModalData) methods.setModalData(item);
+    if (methods.triggerModal) return methods.triggerModal();
+    return false;
   };
 
   componentDidMount() {
@@ -172,6 +175,15 @@ class OrdersList extends React.Component {
                                 Edit
                               </button>
                             ) : null}
+                            {/* Start Design */}
+                            {permissions.canStartDesign ? (
+                              <button
+                                type="button"
+                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                              >
+                                Start Design
+                              </button>
+                            ) : null}
                             {/* Delete Order */}
                             {permissions.canDeleteOrder ? (
                               <button
@@ -189,7 +201,7 @@ class OrdersList extends React.Component {
                           showHandoverButton ? (
                             <button
                               type="button"
-                              onClick={() => this.handover(item.id)}
+                              onClick={() => this.handover(item)}
                               className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
                             >
                               Handover

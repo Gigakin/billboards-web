@@ -24,16 +24,16 @@ class Bills extends React.Component {
           {/* Header */}
           <div className="lists__header">
             <div className="uk-width-1-1">
-              <h2 className="lists__header__title">Invoice Management</h2>
-            </div>
-            <div className="uk-width-1-1">
-              <ul className="uk-breadcrumb">
-                <li>
-                  <Link to="/invoices">Invoice Management</Link>
-                </li>
-                <li>
-                  <span>Orders List</span>
-                </li>
+              <ul className="breadcrumbs">
+                <Link to="/dashboard" className="breadcrumbs__item">
+                  <span uk-icon="home" />
+                </Link>
+                <Link to="/invoices" className="breadcrumbs__item">
+                  Invoice Management
+                </Link>
+                <Link to="#" className="breadcrumbs__item">
+                  Orders List
+                </Link>
               </ul>
             </div>
           </div>
