@@ -51,9 +51,9 @@ class Login extends React.Component {
             <div className="uk-flex uk-flex-center">
               <div className="uk-width-1-2">
                 <div className="uk-margin">
-                  <h1>Billboards</h1>
+                  <h1>billboards</h1>
                   <p>
-                    Welcome to Billboards' Management Application. Please enter
+                    Welcome to billboards' Management Application. Please enter
                     your username and password to continue.
                   </p>
                 </div>

@@ -27,7 +27,7 @@ class Navigation extends React.Component {
       <div className="navigation">
         {/* Brand */}
         <Link to="/" className="navigation__brand">
-          Billboards
+          billboards
         </Link>
         {/* Actions */}
         <div className="navigation__actions">
