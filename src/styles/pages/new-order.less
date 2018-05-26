@@ -25,12 +25,16 @@
     // Tabs
     ul[uk-tab] {
       padding-top: 4px;
+      margin-bottom: 2px;
+      margin-left: -2px;
 
       &::before {
         display: none;
       }
 
       li {
+        padding-left: 2px;
+
         a {
           &:extend(.uk-button);
           background: @global-border;
