@@ -118,6 +118,11 @@ class Sidebar extends React.Component {
               ) : null}
             </div>
           ) : null}
+
+          {/* Reports */}
+          <Link to="#" className="sidebar__menu__link">
+            <span uk-icon="album" /> Reports Management
+          </Link>
         </div>
       </div>
     );
