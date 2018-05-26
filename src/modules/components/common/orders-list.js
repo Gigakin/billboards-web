@@ -170,7 +170,7 @@ class OrdersList extends React.Component {
                               <button
                                 type="button"
                                 onClick={this.editOrder}
-                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                                className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
                               >
                                 Edit
                               </button>

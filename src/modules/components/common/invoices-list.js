@@ -162,7 +162,7 @@ class InvoicesList extends React.Component {
                         </button>
                         <button
                           type="button"
-                          className="uk-button uk-button-primary uk-button-small uk-margin-small-left"
+                          className="uk-button uk-button-secondary uk-button-small uk-margin-small-left"
                           onClick={() => this.generateBill(item.id)}
                         >
                           Generate Invoice
