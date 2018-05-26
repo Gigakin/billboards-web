@@ -526,26 +526,6 @@ class NewJobOrder extends React.Component {
                             </div>
                           </div>
 
-                          {/* Uploads */}
-                          {/* Raw Design Files */}
-                          <div className="uk-width-1-2">
-                            <label className="uk-form-label">
-                              Customer's Design File
-                            </label>
-                            <div className="uk-form-controls">
-                              <input type="number" className="uk-input" />
-                            </div>
-                          </div>
-                          {/* Finalized Design Files */}
-                          <div className="uk-width-1-2">
-                            <label className="uk-form-label">
-                              Finalized Design File
-                            </label>
-                            <div className="uk-form-controls">
-                              <input type="number" className="uk-input" />
-                            </div>
-                          </div>
-
                           {/* Options */}
                           <div className="uk-margin">
                             <div className="uk-form-label">Options</div>
@@ -638,6 +618,17 @@ class NewJobOrder extends React.Component {
                                 </label>
                               </div>
                             ) : null}
+                          </div>
+
+                          {/* Uploads */}
+                          {/* Raw Design Files */}
+                          <div className="uk-width-1-1 uk-margin-small">
+                            <label className="uk-form-label">
+                              Customer's Design File
+                            </label>
+                            <div className="uk-form-controls">
+                              <input type="number" className="uk-input" />
+                            </div>
                           </div>
 
                           {/* Submit */}
