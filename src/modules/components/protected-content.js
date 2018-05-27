@@ -16,6 +16,7 @@ import AuthService from "../services/auth-service";
 import Dashboard from "./pages/dashboard";
 import JobOrders from "./pages/job-orders";
 import NewJobOrder from "./pages/job-order-new";
+import JobOrderDetails from "./pages/job-order-details";
 import Handovers from "./pages/handovers";
 import Invoices from "./pages/invoices";
 
@@ -45,6 +46,7 @@ class ProtectedContent extends React.Component {
                     <ProtectedRoute exact path="/dashboard" component={Dashboard} />
                     <ProtectedRoute exact path="/orders" component={JobOrders} />
                     <ProtectedRoute exact path="/orders/new" component={NewJobOrder} />
+                    <ProtectedRoute exact path="/orders/:id" component={JobOrderDetails} />
                     <ProtectedRoute exact path="/handovers" component={Handovers} />
                     <ProtectedRoute exact path="/invoices" component={Invoices} />
                   </Switch>

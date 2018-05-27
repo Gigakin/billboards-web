@@ -6,7 +6,10 @@
 
 // Modules
 import React from "react";
+import { withRouter } from "react-router-dom";
 import Swal from "sweetalert";
+
+// Assets
 import Methods from "../../methods";
 
 // Services
@@ -25,6 +28,15 @@ class OrdersList extends React.Component {
     this.originalList = Methods.clone(props.data);
     this.filteredList = [];
   }
+
+  // View Order
+  viewOrder = itemid => {
+    if (itemid) {
+      let { history } = this.props;
+      return history.push(`/orders/${itemid}`);
+    }
+    return false;
+  };
 
   // Delete Order
   deleteOrder = () => {
@@ -169,7 +181,7 @@ class OrdersList extends React.Component {
                             {permissions.canViewOrderDetails ? (
                               <button
                                 type="button"
-                                onClick={this.viewOrder}
+                                onClick={() => this.viewOrder(item.id)}
                                 className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
                               >
                                 View
@@ -274,4 +286,4 @@ OrdersList.defaultProps = {
 };
 
 // Exports
-export default OrdersList;
+export default withRouter(OrdersList);
