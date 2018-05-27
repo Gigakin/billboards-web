@@ -31,7 +31,10 @@ class OrdersList extends React.Component {
 
   // View Order
   viewOrder = itemid => {
-    // Open a read only Modal here maybe?
+    if (itemid) {
+      let { history } = this.props;
+      return history.push(`/orders/${itemid}`);
+    }
     return false;
   };
 

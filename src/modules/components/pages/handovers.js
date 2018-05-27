@@ -134,7 +134,7 @@ class Handovers extends React.Component {
                   <tbody>
                     <tr>
                       <td>
-                        <input type="checkbox" />
+                        <input type="checkbox" className="uk-checkbox" />
                       </td>
                       <td>Vinyl</td>
                       <td>11 sq.ft.</td>
@@ -144,7 +144,7 @@ class Handovers extends React.Component {
                     </tr>
                     <tr>
                       <td>
-                        <input type="checkbox" />
+                        <input type="checkbox" className="uk-checkbox" />
                       </td>
                       <td>Indoor</td>
                       <td>125 sq.ft.</td>

@@ -58,8 +58,12 @@ class InvoicesList extends React.Component {
   };
 
   // Accept Payment
-  acceptPayment = billid => {
-    if (billid) return console.log(billid);
+  acceptPayment = item => {
+    let { methods } = this.props;
+    if (item) {
+      methods.setModalData(item);
+      return methods.triggerModal();
+    }
   };
 
   // Generate Bill
@@ -156,7 +160,7 @@ class InvoicesList extends React.Component {
                         <button
                           type="button"
                           className="uk-button uk-button-primary uk-button-small uk-margin-small-left"
-                          onClick={() => this.acceptPayment(item.id)}
+                          onClick={() => this.acceptPayment(item)}
                         >
                           Accept Payment
                         </button>
