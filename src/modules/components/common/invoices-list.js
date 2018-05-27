@@ -67,8 +67,12 @@ class InvoicesList extends React.Component {
   };
 
   // Generate Bill
-  generateBill = billid => {
-    if (billid) return console.log(billid);
+  generateBill = itemid => {
+    if (itemid) {
+      let { history } = this.props;
+      return history.push(`/invoices/${itemid}`);
+    }
+    return false;
   };
 
   render() {
