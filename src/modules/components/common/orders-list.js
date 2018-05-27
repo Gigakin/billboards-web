@@ -214,7 +214,7 @@ class OrdersList extends React.Component {
                               <button
                                 type="button"
                                 onClick={() => this.startDesigning(item.id)}
-                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                                className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
                               >
                                 Start Designing
                               </button>
@@ -224,7 +224,7 @@ class OrdersList extends React.Component {
                               <button
                                 type="button"
                                 onClick={() => this.startPrinting(item.id)}
-                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                                className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
                               >
                                 Start Printing
                               </button>
