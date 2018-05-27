@@ -321,13 +321,15 @@ class JobOrderDetails extends React.Component {
                   >
                     Back to List
                   </button>
-                  <button
-                    type="button"
-                    className="uk-button uk-button-small uk-button-primary"
-                    onClick={this.completeOrder}
-                  >
-                    Complete Order
-                  </button>
+                  {permissions.canCompleteOrder ? (
+                    <button
+                      type="button"
+                      className="uk-button uk-button-small uk-button-primary"
+                      onClick={this.completeOrder}
+                    >
+                      Complete Order
+                    </button>
+                  ) : null}
                 </div>
               </div>
             </div>

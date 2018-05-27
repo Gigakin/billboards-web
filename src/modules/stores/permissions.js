@@ -11,6 +11,7 @@ const frontdesk = {
   canStartPrinting: false,
   canCreateNewOrder: true,
   canDeleteOrder: true,
+  canCompleteOrder: false,
   // Jobs
   canDownloadCustomerDesignFile: false,
   canDownloadDesignerDesignFile: false,
@@ -38,6 +39,7 @@ const designer = {
   canStartPrinting: false,
   canCreateNewOrder: false,
   canDeleteOrder: false,
+  canCompleteOrder: true,
   // Jobs
   canDownloadCustomerDesignFile: true,
   canDownloadDesignerDesignFile: false,
@@ -65,6 +67,7 @@ const printer = {
   canStartPrinting: true,
   canCreateNewOrder: false,
   canDeleteOrder: false,
+  canCompleteOrder: true,
   // Jobs
   canDownloadCustomerDesignFile: false,
   canDownloadDesignerDesignFile: true,
