@@ -6,6 +6,7 @@
 
 // Modules
 import React from "react";
+import Swal from "sweetalert";
 import Methods from "../../methods";
 
 // Services
@@ -24,6 +25,15 @@ class OrdersList extends React.Component {
     this.originalList = Methods.clone(props.data);
     this.filteredList = [];
   }
+
+  // Delete Order
+  deleteOrder = () => {
+    return Swal({
+      text: "Delete this order?",
+      buttons: ["Cancel", "Delete"],
+      dangerMode: true
+    });
+  };
 
   // Filter Table Data
   filterData = event => {
