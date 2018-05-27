@@ -38,6 +38,9 @@ class JobOrders extends React.Component {
                 <Link to="/orders" className="breadcrumbs__item">
                   Order Management
                 </Link>
+                <Link to="#" className="breadcrumbs__item">
+                  Orders List
+                </Link>
               </ul>
             </div>
           </div>
