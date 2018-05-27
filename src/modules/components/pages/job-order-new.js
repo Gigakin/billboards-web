@@ -15,7 +15,7 @@ class NewJobOrder extends React.Component {
       job: {},
       jobDetails: {
         type: "frontlit",
-        quality: "quality1",
+        quality: "banner",
         sizeUnits: "feets"
       },
       jobsList: [],
@@ -620,8 +620,19 @@ class NewJobOrder extends React.Component {
                             ) : null}
                           </div>
 
+                          {/* Notes */}
+                          <div className="uk-width-1-1 uk-margin-small">
+                            <label className="uk-form-label">Notes</label>
+                            <div className="uk-form-controls">
+                              <textarea
+                                id="notes"
+                                className="uk-textarea"
+                                onChange={this.captureJobDetails}
+                              />
+                            </div>
+                          </div>
+
                           {/* Uploads */}
-                          {/* Raw Design Files */}
                           <div className="uk-width-1-1 uk-margin-small">
                             <label className="uk-form-label">
                               Customer's Design File
