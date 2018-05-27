@@ -31,10 +31,22 @@ class OrdersList extends React.Component {
 
   // View Order
   viewOrder = itemid => {
+    // Open a read only Modal here maybe?
+    return false;
+  };
+
+  // Start Designing
+  startDesigning = itemid => {
     if (itemid) {
       let { history } = this.props;
       return history.push(`/orders/${itemid}`);
     }
+    return false;
+  };
+
+  // Start Printing
+  startPrinting = itemid => {
+    if (itemid) return this.startDesigning(itemid);
     return false;
   };
 
@@ -201,9 +213,20 @@ class OrdersList extends React.Component {
                             {permissions.canStartDesign ? (
                               <button
                                 type="button"
+                                onClick={() => this.startDesigning(item.id)}
                                 className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
                               >
-                                Start Design
+                                Start Designing
+                              </button>
+                            ) : null}
+                            {/* Start Print */}
+                            {permissions.canStartPrinting ? (
+                              <button
+                                type="button"
+                                onClick={() => this.startPrinting(item.id)}
+                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                              >
+                                Start Printing
                               </button>
                             ) : null}
                             {/* Delete Order */}
