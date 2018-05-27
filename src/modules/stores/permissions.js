@@ -13,10 +13,8 @@ const frontdesk = {
   // Jobs
   canDownloadCustomerDesignFile: false,
   canDownloadDesignerDesignFile: false,
-  canDownloadPrinterDesignFile: false,
-  canUploadCustomerDesignFile: false,
-  canUploadDesignerDesignFile: false,
-  canUploadPrinterDesignFile: false,
+  canAttachDesignFile: false,
+  canAttachPrintFile: false,
   canSendForPrinting: false,
   canMarkAsPrintingDone: false,
   // Invoice Management
@@ -41,10 +39,8 @@ const designer = {
   // Jobs
   canDownloadCustomerDesignFile: true,
   canDownloadDesignerDesignFile: false,
-  canDownloadPrinterDesignFile: false,
-  canUploadCustomerDesignFile: false,
-  canUploadDesignerDesignFile: true,
-  canUploadPrinterDesignFile: false,
+  canAttachDesignFile: true,
+  canAttachPrintFile: false,
   canSendForPrinting: true,
   canMarkAsPrintingDone: false,
   // Invoice Management
@@ -69,10 +65,8 @@ const printer = {
   // Jobs
   canDownloadCustomerDesignFile: false,
   canDownloadDesignerDesignFile: true,
-  canDownloadPrinterDesignFile: false,
-  canUploadCustomerDesignFile: false,
-  canUploadDesignerDesignFile: false,
-  canUploadPrinterDesignFile: true,
+  canAttachDesignFile: false,
+  canAttachPrintFile: true,
   canSendForPrinting: false,
   canMarkAsPrintingDone: true,
   // Invoice Management

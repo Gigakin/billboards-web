@@ -62,6 +62,20 @@
 @button-danger-active-background:               darken(@button-danger-background, 10%);
 @button-danger-active-color:                    @global-inverse-color;
 
+@button-warning-background:                      @global-warning-background;
+@button-warning-color:                           @global-inverse-color;
+@button-warning-hover-background:                darken(@button-warning-background, 5%);
+@button-warning-hover-color:                     @global-inverse-color;
+@button-warning-active-background:               darken(@button-warning-background, 10%);
+@button-warning-active-color:                    @global-inverse-color;
+
+@button-success-background:                      @global-success-background;
+@button-success-color:                           @global-inverse-color;
+@button-success-hover-background:                darken(@button-success-background, 5%);
+@button-success-hover-color:                     @global-inverse-color;
+@button-success-active-background:               darken(@button-success-background, 10%);
+@button-success-active-color:                    @global-inverse-color;
+
 @button-disabled-background:                    @global-muted-background;
 @button-disabled-color:                         @global-muted-color;
 
@@ -260,6 +274,52 @@
     background-color: @button-danger-active-background;
     color: @button-danger-active-color;
     .hook-button-danger-active;
+}
+
+/*
+ * Warning
+ */
+
+.uk-button-warning {
+    background-color: @button-warning-background;
+    color: @button-warning-color;
+}
+
+/* Hover + Focus */
+.uk-button-warning:hover,
+.uk-button-warning:focus {
+    background-color: @button-warning-hover-background;
+    color: @button-warning-hover-color;
+}
+
+/* OnClick + Active */
+.uk-button-warning:active,
+.uk-button-warning.uk-active {
+    background-color: @button-warning-active-background;
+    color: @button-warning-active-color;
+}
+
+/*
+ * Success
+ */
+
+.uk-button-success {
+    background-color: @button-success-background;
+    color: @button-success-color;
+}
+
+/* Hover + Focus */
+.uk-button-success:hover,
+.uk-button-success:focus {
+    background-color: @button-success-hover-background;
+    color: @button-success-hover-color;
+}
+
+/* OnClick + Active */
+.uk-button-success:active,
+.uk-button-success.uk-active {
+    background-color: @button-success-active-background;
+    color: @button-success-active-color;
 }
 
 /*
