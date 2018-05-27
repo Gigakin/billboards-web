@@ -23,6 +23,7 @@ class JobOrderDetails extends React.Component {
   // Complete Ordeer
   completeOrder = event => {
     event.preventDefault();
+    return this.props.history.push("/orders");
   };
 
   componentDidMount() {
