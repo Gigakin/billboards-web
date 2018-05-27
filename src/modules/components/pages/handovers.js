@@ -12,7 +12,8 @@ class Handovers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      jobsList: MockData
+      jobsList: MockData,
+      modalData: {}
     };
     this.tableColumns = [
       "Party Name",
@@ -34,12 +35,13 @@ class Handovers extends React.Component {
 
   // Set Modal Data
   setModalData = data => {
+    console.log(data);
     if (data) return this.setState({ modalData: data });
     return false;
   };
 
   render() {
-    let { jobsList, showModal } = this.state;
+    let { jobsList, modalData, showModal } = this.state;
     return (
       <div className="lists">
         <div className="uk-width-1-1">
@@ -77,17 +79,99 @@ class Handovers extends React.Component {
           {/* Modal */}
           <Modal
             isOpen={showModal}
-            shouldCloseOnEsc={true}
+            overlayClassName="uk-modal uk-open"
+            className="uk-modal-dialog uk-modal-body"
             shouldCloseOnOverlayClick={true}
+            shouldCloseOnEsc={true}
             ariaHideApp={false}
           >
-            <button
-              type="button"
-              className="uk-button uk-button-small uk-button-primary"
-              onClick={this.triggerModal}
-            >
-              Close
-            </button>
+            {/* Order Details */}
+            <div className="uk-width-1-1">
+              <div className="uk-text-lead">{modalData.job}</div>
+              <div className="uk-text-meta">Order ID: {modalData.id}</div>
+            </div>
+            {/* Amount Overview */}
+            <div className="uk-width-1-1 uk-margin">
+              <div className="uk-text-subtitle uk-margin-small-bottom">
+                Amount Overview
+              </div>
+              <div className="sor-table__table">
+                <table className="uk-table uk-table-small uk-table-divider">
+                  <thead>
+                    <tr>
+                      <th>Order Total</th>
+                      <th>Amount Paid</th>
+                      <th>Amount Remaning</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>₹22500</td>
+                      <td>₹2500</td>
+                      <td>₹20000</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {/* Jobs List */}
+            <div className="uk-width-1-1 uk-margin">
+              <div className="uk-text-subtitle uk-margin-small-bottom">
+                Jobs in this order
+              </div>
+              <div className="sor-table__table uk-margin-small-bottom">
+                <table className="uk-table uk-table-small uk-table-divider">
+                  <thead>
+                    <tr>
+                      <th />
+                      <th>Type</th>
+                      <th>Size</th>
+                      <th>Description</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>Vinyl</td>
+                      <td>11 sq.ft.</td>
+                      <td>₹8000</td>
+                      <td>-</td>
+                      <td>Incomplete</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>Indoor</td>
+                      <td>125 sq.ft.</td>
+                      <td>₹12000</td>
+                      <td>-</td>
+                      <td>Incomplete</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="uk-width-1-1 uk-flex uk-flex-center">
+                <button
+                  type="button"
+                  onClick={this.triggerModal}
+                  className="uk-button uk-button-danger uk-button-small uk-margin-small-right"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={this.handover}
+                  className="uk-button uk-button-primary uk-button-small"
+                >
+                  Handover
+                </button>
+              </div>
+            </div>
           </Modal>
         </div>
       </div>
