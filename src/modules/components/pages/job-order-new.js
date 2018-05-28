@@ -672,7 +672,7 @@ class NewJobOrder extends React.Component {
               <li>
                 <form className="uk-form-stacked" onSubmit={this.createOrder}>
                   <div className="uk-grid uk-grid-small">
-                    <div className="new-order__content__two-columns uk-flex">
+                    <div className="new-order__content__two-columns uk-width-1-1 uk-flex">
                       <div className="uk-width-1-2 new-order__content__two-columns__left">
                         <div className="uk-padding">
                           {/* Assign Designer */}
@@ -703,17 +703,6 @@ class NewJobOrder extends React.Component {
                               className="uk-textarea"
                             />
                           </div>
-                          {/* Informative Text */}
-                          <div className="uk-width-1-1 uk-margin">
-                            <p className="uk-text-meta">
-                              <strong>Notes from Front Desk:</strong> Lorem,
-                              ipsum dolor sit amet consectetur adipisicing elit.
-                              Excepturi, quia repudiandae doloribus voluptate
-                              quaerat tempora architecto, sint harum voluptatum
-                              id laboriosam.
-                            </p>
-                          </div>
-
                           {/* Submit Order */}
                           <div className="uk-width-1-1">
                             <button
