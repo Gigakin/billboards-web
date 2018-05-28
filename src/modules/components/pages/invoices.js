@@ -27,7 +27,6 @@ class Bills extends React.Component {
 
   // Set Modal Data
   setModalData = item => {
-    console.log(item);
     if (item) return this.setState({ modalData: item });
     return false;
   };

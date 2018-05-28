@@ -35,7 +35,6 @@ class Handovers extends React.Component {
 
   // Set Modal Data
   setModalData = data => {
-    console.log(data);
     if (data) return this.setState({ modalData: data });
     return false;
   };

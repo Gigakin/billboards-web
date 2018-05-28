@@ -625,12 +625,12 @@ class NewJobOrder extends React.Component {
                             <label className="uk-form-label">
                               Customer's Design File
                             </label>
-                            <div class="js-upload" uk-form-custom="">
+                            <div className="js-upload" uk-form-custom="">
                               <input type="file" />
                               <button
                                 type="button"
-                                class="uk-button uk-button-default"
-                                tabindex="-1"
+                                className="uk-button uk-button-default"
+                                tabIndex="-1"
                               >
                                 Select File
                               </button>
