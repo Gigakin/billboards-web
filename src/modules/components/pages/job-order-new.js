@@ -536,7 +536,8 @@ class NewJobOrder extends React.Component {
                                   <input
                                     className="uk-radio"
                                     type="radio"
-                                    name="1lit"
+                                    name="frontlitOptions"
+                                    value="1lit"
                                   />{" "}
                                   1-Lit
                                 </label>
@@ -544,7 +545,8 @@ class NewJobOrder extends React.Component {
                                   <input
                                     className="uk-radio"
                                     type="radio"
-                                    name="framing"
+                                    name="frontlitOptions"
+                                    value="framing"
                                   />{" "}
                                   Framing
                                 </label>
@@ -552,7 +554,8 @@ class NewJobOrder extends React.Component {
                                   <input
                                     className="uk-radio"
                                     type="radio"
-                                    name="pasting"
+                                    name="frontlitOptions"
+                                    value="pasting"
                                   />{" "}
                                   Pasting
                                 </label>
@@ -560,7 +563,8 @@ class NewJobOrder extends React.Component {
                                   <input
                                     className="uk-radio"
                                     type="radio"
-                                    name="piping"
+                                    name="frontlitOptions"
+                                    value="piping"
                                   />{" "}
                                   Piping
                                 </label>
@@ -572,7 +576,8 @@ class NewJobOrder extends React.Component {
                                   <input
                                     className="uk-radio"
                                     type="radio"
-                                    name="framing"
+                                    name="backlitOptions"
+                                    value="framing"
                                   />{" "}
                                   Framing
                                 </label>
@@ -580,7 +585,8 @@ class NewJobOrder extends React.Component {
                                   <input
                                     className="uk-radio"
                                     type="radio"
-                                    name="lolypop"
+                                    name="backlitOptions"
+                                    value="lolypop"
                                   />{" "}
                                   Lolypop
                                 </label>
@@ -588,7 +594,8 @@ class NewJobOrder extends React.Component {
                                   <input
                                     className="uk-radio"
                                     type="radio"
-                                    name="onlyprint"
+                                    name="backlitOptions"
+                                    value="onlyprint"
                                   />{" "}
                                   Only Print
                                 </label>
