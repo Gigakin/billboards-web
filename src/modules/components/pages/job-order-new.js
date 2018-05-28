@@ -620,6 +620,23 @@ class NewJobOrder extends React.Component {
                             ) : null}
                           </div>
 
+{/* Uploads */}
+<div className="uk-width-1-1 uk-margin-small">
+  <label className="uk-form-label">
+    Customer's Design File
+  </label>
+  <div class="js-upload" uk-form-custom="">
+    <input type="file" />
+    <button
+      type="button"
+      class="uk-button uk-button-default"
+      tabindex="-1"
+    >
+      Select File
+    </button>
+  </div>
+</div>
+
                           {/* Notes */}
                           <div className="uk-width-1-1 uk-margin-small">
                             <label className="uk-form-label">Notes</label>
@@ -632,23 +649,19 @@ class NewJobOrder extends React.Component {
                             </div>
                           </div>
 
-                          {/* Uploads */}
-                          <div className="uk-width-1-1 uk-margin-small">
-                            <label className="uk-form-label">
-                              Customer's Design File
-                            </label>
-                            <div className="uk-form-controls">
-                              <input type="number" className="uk-input" />
-                            </div>
-                          </div>
-
                           {/* Submit */}
-                          <div className="uk-width-1-1@s">
+                          <div className="uk-width-1-1@s uk-flex uk-flex-between">
                             <button
                               type="submit"
                               className="uk-button uk-button-primary"
                             >
                               Add to Jobs
+                            </button>
+                            <button
+                              type="button"
+                              className="uk-button uk-button-primary"
+                            >
+                              Continue
                             </button>
                           </div>
                         </div>
@@ -704,7 +717,7 @@ class NewJobOrder extends React.Component {
                             />
                           </div>
                           {/* Submit Order */}
-                          <div className="uk-width-1-1">
+                          <div className="uk-width-1-1 uk-flex uk-flex-right">
                             <button
                               type="submit"
                               className="uk-button uk-button-primary"
