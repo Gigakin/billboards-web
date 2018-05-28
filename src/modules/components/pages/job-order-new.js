@@ -620,22 +620,22 @@ class NewJobOrder extends React.Component {
                             ) : null}
                           </div>
 
-{/* Uploads */}
-<div className="uk-width-1-1 uk-margin-small">
-  <label className="uk-form-label">
-    Customer's Design File
-  </label>
-  <div class="js-upload" uk-form-custom="">
-    <input type="file" />
-    <button
-      type="button"
-      class="uk-button uk-button-default"
-      tabindex="-1"
-    >
-      Select File
-    </button>
-  </div>
-</div>
+                          {/* Uploads */}
+                          <div className="uk-width-1-1 uk-margin-small">
+                            <label className="uk-form-label">
+                              Customer's Design File
+                            </label>
+                            <div class="js-upload" uk-form-custom="">
+                              <input type="file" />
+                              <button
+                                type="button"
+                                class="uk-button uk-button-default"
+                                tabindex="-1"
+                              >
+                                Select File
+                              </button>
+                            </div>
+                          </div>
 
                           {/* Notes */}
                           <div className="uk-width-1-1 uk-margin-small">
