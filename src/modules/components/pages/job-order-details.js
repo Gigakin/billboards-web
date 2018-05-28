@@ -62,19 +62,7 @@ class JobOrderDetails extends React.Component {
               {/* Order Details */}
               <div className="order-details__header">
                 <div className="uk-text-lead">Soundcloud</div>
-                <div className="uk-text-subtitle uk-margin-small-bottom">
-                  Waylin Zack
-                </div>
-                <div className="uk-text-small">
-                  <strong>Total Size:</strong> 110 sq. ft.
-                </div>
-                <div className="uk-text-small">
-                  <strong>Order Notes:</strong> Lorem ipsum dolor sit, amet
-                  consectetur adipisicing elit. Maiores deleniti inventore ipsum
-                  doloribus dolor nostrum ex aspernatur a incidunt ad vitae,
-                  cupiditate reiciendis consequatur iure possimus eos impedit!
-                  Velit, sequi!
-                </div>
+                <div className="uk-text-subtitle">Waylin Zack</div>
               </div>
               <div className="order-details__jobs-list">
                 <div className="order-details__jobs-list__item">
@@ -336,10 +324,47 @@ class JobOrderDetails extends React.Component {
           </div>
           {/* Sidebar */}
           <div className="uk-width-1-3">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga
-            quibusdam voluptatum ut consectetur magnam ex aliquid reiciendis
-            ducimus, expedita quasi nesciunt doloremque cumque, adipisci
-            praesentium debitis similique at dolor ipsum.
+            <div className="order-details">
+              <div className="order-details__header">
+                <div className="uk-text-subtitle uk-margin-bottom">
+                  Order Details
+                </div>
+                {/* Size */}
+                <div className="uk-text-small uk-margin-small-bottom">
+                  <strong>Total Size: </strong> 110sq. ft.
+                </div>
+                {/* Notes: Frontdesk */}
+                {permissions.canSeeFrontdeskNotes ? (
+                  <div className="uk-text-small uk-margin-small-bottom">
+                    <strong>Notes from Frontdesk: </strong> Lorem ipsum dolor
+                    sit amet consectetur, adipisicing elit. Quia et praesentium
+                    modi dolore pariatur, mollitia doloribus. Repellendus rerum
+                    suscipit, officiis et minus dolor consequatur inventore
+                    pariatur excepturi tempore dolore odit.
+                  </div>
+                ) : null}
+                {/* Notes: Designer */}
+                {permissions.canSeeDesignerNotes ? (
+                  <div className="uk-text-small uk-margin-small-bottom">
+                    <strong>Notes from Designer: </strong> Lorem ipsum dolor sit
+                    amet consectetur, adipisicing elit. Quia et praesentium modi
+                    dolore pariatur, mollitia doloribus. Repellendus rerum
+                    suscipit, officiis et minus dolor consequatur inventore
+                    pariatur excepturi tempore dolore odit.
+                  </div>
+                ) : null}
+                {/* Notes: Printer */}
+                {permissions.canSeePrinterNotes ? (
+                  <div className="uk-text-small uk-margin-small-bottom">
+                    <strong>Notes from Printer: </strong> Lorem ipsum dolor sit
+                    amet consectetur, adipisicing elit. Quia et praesentium modi
+                    dolore pariatur, mollitia doloribus. Repellendus rerum
+                    suscipit, officiis et minus dolor consequatur inventore
+                    pariatur excepturi tempore dolore odit.
+                  </div>
+                ) : null}
+              </div>
+            </div>
           </div>
         </div>
       </div>
