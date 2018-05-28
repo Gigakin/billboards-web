@@ -58,7 +58,7 @@ class InvoicesList extends React.Component {
   };
 
   // Accept Payment
-  acceptPayment = item => {
+  acceptPayments = item => {
     let { methods } = this.props;
     if (item) {
       methods.setModalData(item);
@@ -66,8 +66,8 @@ class InvoicesList extends React.Component {
     }
   };
 
-  // Generate Bill
-  generateBill = itemid => {
+  // View Invoice
+  viewInvoice = itemid => {
     if (itemid) {
       let { history } = this.props;
       return history.push(`/invoices/${itemid}`);
@@ -164,16 +164,16 @@ class InvoicesList extends React.Component {
                         <button
                           type="button"
                           className="uk-button uk-button-primary uk-button-small uk-margin-small-left"
-                          onClick={() => this.acceptPayment(item)}
+                          onClick={() => this.acceptPayments(item)}
                         >
-                          Accept Payment
+                          Accept Payments
                         </button>
                         <button
                           type="button"
                           className="uk-button uk-button-secondary uk-button-small uk-margin-small-left"
-                          onClick={() => this.generateBill(item.id)}
+                          onClick={() => this.viewInvoice(item.id)}
                         >
-                          Generate Invoice
+                          View Invoice
                         </button>
                       </span>
                     </td>
