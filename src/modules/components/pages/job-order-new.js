@@ -738,24 +738,21 @@ class NewJobOrder extends React.Component {
                         <div className="uk-padding">
                           {/* Review: Order Details */}
                           <div className="uk-width-1-1 uk-margin-small">
-                            <h5 className="uk-text-muted uk-margin-remove">
-                              Order Details
-                            </h5>
-                            <span>
-                              {job.name} &middot; {job.description}
-                            </span>
+                            <h2 className="uk-margin-remove">{job.name}</h2>
+                            <span>{job.description}</span>
                           </div>
                           {/* Review: Party Details */}
                           <div className="uk-width-1-1 uk-margin-small">
-                            <h5 className="uk-text-muted uk-margin-remove">
-                              Party Details
-                            </h5>
-                            <span>Bill to: {selectedParty.label}</span>
+                            <span>
+                              {selectedParty.label
+                                ? `Bill to: ${selectedParty.label}`
+                                : null}
+                            </span>
                           </div>
                           {/* Review: Job Types */}
                           <div className="uk-width-1-1 uk-margin-small">
-                            <h5 className="uk-text-muted uk-margin-remove">
-                              Job Types
+                            <h5 className="uk-margin-small-bottom">
+                              Jobs in this Order
                             </h5>
                             <div>
                               {jobsList && jobsList.length ? (
@@ -769,8 +766,8 @@ class NewJobOrder extends React.Component {
                                 ))
                               ) : (
                                 <span className="uk-text-muted">
-                                  There are no jobs in this order. Use the Job
-                                  Types tab to add jobs.
+                                  There are no jobs in this order.<br />Use the
+                                  Job Types tab to add jobs.
                                 </span>
                               )}
                             </div>
