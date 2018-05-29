@@ -121,7 +121,7 @@ class ViewInvoice extends React.Component {
                 Particulars
               </div>
               <div className="invoice__content__element invoice__particulars__table">
-                <table className="uk-table uk-table-small uk-table-divider uk-text-left">
+                <table className="uk-table uk-table-small uk-table-divider uk-table-middle uk-text-left">
                   <thead>
                     <tr>
                       <th>#</th>
@@ -147,7 +147,7 @@ class ViewInvoice extends React.Component {
                       <td>₹1250</td>
                       <td>₹45</td>
                       <td>₹60</td>
-                      <td>₹1520</td>
+                      <td>₹1265</td>
                     </tr>
                     <tr>
                       <td>1</td>
@@ -159,7 +159,7 @@ class ViewInvoice extends React.Component {
                       <td>₹1250</td>
                       <td>₹45</td>
                       <td>₹60</td>
-                      <td>₹1520</td>
+                      <td>₹1265</td>
                     </tr>
                     <tr>
                       <td>1</td>
@@ -171,7 +171,7 @@ class ViewInvoice extends React.Component {
                       <td>₹1250</td>
                       <td>₹45</td>
                       <td>₹60</td>
-                      <td>₹1520</td>
+                      <td>₹1265</td>
                     </tr>
                     <tr>
                       <td>1</td>
@@ -183,7 +183,93 @@ class ViewInvoice extends React.Component {
                       <td>₹1250</td>
                       <td>₹45</td>
                       <td>₹60</td>
-                      <td>₹1520</td>
+                      <td>₹1265</td>
+                    </tr>
+                    {/* Static */}
+                    <tr>
+                      <td className="uk-text-lead" colSpan="4">
+                        Total
+                      </td>
+                      <td className="uk-text-bold">4</td>
+                      <td className="uk-text-bold">₹5000</td>
+                      <td className="uk-text-bold">₹5000</td>
+                      <td className="uk-text-bold">₹180</td>
+                      <td className="uk-text-bold">₹240</td>
+                      <td className="uk-text-bold uk-text-primary">₹5060</td>
+                    </tr>
+                    {/* Static */}
+                    <tr>
+                      <td className="uk-text-small" colSpan="4">
+                        Total amount in words
+                      </td>
+                      <td className="uk-text-small" colSpan="4">
+                        Total amount before Tax
+                      </td>
+                      <td className="uk-text-small" colSpan="2">
+                        ₹
+                      </td>
+                    </tr>
+                    {/* Static */}
+                    <tr>
+                      <td className="uk-text-small" rowSpan="5" colSpan="4" />
+                      <td className="uk-text-small" colSpan="4">
+                        Add: CGST
+                      </td>
+                      <td className="uk-text-small" colSpan="2">
+                        ₹
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="uk-text-small" colSpan="4">
+                        Add: SGST
+                      </td>
+                      <td className="uk-text-small" colSpan="2">
+                        ₹
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="uk-text-small" colSpan="4">
+                        Total Tax Amount
+                      </td>
+                      <td className="uk-text-small" colSpan="2">
+                        ₹
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="uk-text-small" colSpan="4">
+                        Total Amount after Tax
+                      </td>
+                      <td className="uk-text-small" colSpan="2">
+                        ₹
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="uk-text-small" colSpan="4">
+                        GST after Reverse Charge
+                      </td>
+                      <td className="uk-text-small" colSpan="2">
+                        ₹
+                      </td>
+                    </tr>
+                    {/* Static */}
+                    <tr>
+                      <td colSpan="3">
+                        {/* Add Spacing */}
+                        <br /> <br /> <br />
+                      </td>
+                      <td colSpan="4">
+                        {/* Add Spacing */}
+                        <br /> <br /> <br />
+                      </td>
+                      <td colSpan="3">
+                        {/* Add Spacing */}
+                        <br /> <br /> <br />
+                      </td>
+                    </tr>
+                    <tr className="uk-text-center">
+                      <td colSpan="3">Terms and Conditions</td>
+                      <td colSpan="4">Common Seal</td>
+                      <td colSpan="3">Authorised Signatory</td>
                     </tr>
                   </tbody>
                 </table>
