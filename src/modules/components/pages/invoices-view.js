@@ -8,7 +8,11 @@ class ViewInvoice extends React.Component {
     let printContent = document.getElementById("invoice");
     let printWindow = window.open();
     printWindow.document.write(printContent.innerHTML);
-    printWindow.document.write(`<link rel="stylesheet" href="${window.location.origin}/assets/css/app.min.css" />`);
+    printWindow.document.write(
+      `<link rel="stylesheet" href="${
+        window.location.origin
+      }/assets/css/app.min.css" />`
+    );
     printWindow.document.write("<style>html { overflow: scroll }</style>");
     printWindow.document.close();
   };
@@ -135,6 +139,12 @@ class ViewInvoice extends React.Component {
                 <table className="uk-table uk-table-small uk-table-divider uk-table-middle uk-text-left">
                   <thead>
                     <tr>
+                      <th colSpan="9" />
+                      <th colSpan="2" className="uk-text-center">CGST</th>
+                      <th colSpan="2" className="uk-text-center">SGST</th>
+                      <th />
+                    </tr>
+                    <tr>
                       <th>#</th>
                       <th>Product/Service Description</th>
                       <th>HSN/SA Code</th>
@@ -144,6 +154,10 @@ class ViewInvoice extends React.Component {
                       <th>Amount</th>
                       <th>Discount</th>
                       <th>Taxable Amount</th>
+                      <th>Rate</th>
+                      <th>Amount</th>
+                      <th>Rate</th>
+                      <th>Amount</th>
                       <th>Total</th>
                     </tr>
                   </thead>
@@ -158,16 +172,8 @@ class ViewInvoice extends React.Component {
                       <td>₹1250</td>
                       <td>₹45</td>
                       <td>₹60</td>
-                      <td>₹1265</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Some description</td>
-                      <td>X126</td>
-                      <td>cms</td>
-                      <td>1</td>
-                      <td>₹1250</td>
-                      <td>₹1250</td>
+                      <td>₹45</td>
+                      <td>₹60</td>
                       <td>₹45</td>
                       <td>₹60</td>
                       <td>₹1265</td>
@@ -182,6 +188,10 @@ class ViewInvoice extends React.Component {
                       <td>₹1250</td>
                       <td>₹45</td>
                       <td>₹60</td>
+                      <td>₹45</td>
+                      <td>₹60</td>
+                      <td>₹45</td>
+                      <td>₹60</td>
                       <td>₹1265</td>
                     </tr>
                     <tr>
@@ -192,6 +202,26 @@ class ViewInvoice extends React.Component {
                       <td>1</td>
                       <td>₹1250</td>
                       <td>₹1250</td>
+                      <td>₹45</td>
+                      <td>₹60</td>
+                      <td>₹45</td>
+                      <td>₹60</td>
+                      <td>₹45</td>
+                      <td>₹60</td>
+                      <td>₹1265</td>
+                    </tr>
+                    <tr>
+                      <td>1</td>
+                      <td>Some description</td>
+                      <td>X126</td>
+                      <td>cms</td>
+                      <td>1</td>
+                      <td>₹1250</td>
+                      <td>₹1250</td>
+                      <td>₹45</td>
+                      <td>₹60</td>
+                      <td>₹45</td>
+                      <td>₹60</td>
                       <td>₹45</td>
                       <td>₹60</td>
                       <td>₹1265</td>
@@ -206,11 +236,15 @@ class ViewInvoice extends React.Component {
                       <td className="uk-text-bold">₹5000</td>
                       <td className="uk-text-bold">₹180</td>
                       <td className="uk-text-bold">₹240</td>
+                      <td className="uk-text-bold">₹180</td>
+                      <td className="uk-text-bold">₹240</td>
+                      <td className="uk-text-bold">₹180</td>
+                      <td className="uk-text-bold">₹240</td>
                       <td className="uk-text-bold uk-text-primary">₹5060</td>
                     </tr>
                     {/* Static */}
                     <tr>
-                      <td className="uk-text-small" colSpan="4">
+                      <td className="uk-text-small" colSpan="9">
                         Total amount in words
                       </td>
                       <td className="uk-text-small" colSpan="4">
@@ -222,7 +256,7 @@ class ViewInvoice extends React.Component {
                     </tr>
                     {/* Static */}
                     <tr>
-                      <td className="uk-text-small" rowSpan="5" colSpan="4" />
+                      <td className="uk-text-small" rowSpan="5" colSpan="9" />
                       <td className="uk-text-small" colSpan="4">
                         Add: CGST
                       </td>
