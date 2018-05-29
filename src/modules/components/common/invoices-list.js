@@ -168,13 +168,24 @@ class InvoicesList extends React.Component {
                         >
                           Accept Payments
                         </button>
-                        <button
-                          type="button"
-                          className="uk-button uk-button-secondary uk-button-small uk-margin-small-left"
-                          onClick={() => this.viewInvoice(item.id)}
-                        >
-                          View Invoice
-                        </button>
+                        {index % 2 === 0 ? (
+                          <button
+                            type="button"
+                            className="uk-button uk-button-secondary uk-button-small uk-margin-small-left"
+                            onClick={() => this.viewInvoice(item.id)}
+                            disabled
+                          >
+                            View Invoice
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className="uk-button uk-button-secondary uk-button-small uk-margin-small-left"
+                            onClick={() => this.viewInvoice(item.id)}
+                          >
+                            View Invoice
+                          </button>
+                        )}
                       </span>
                     </td>
                   </tr>
