@@ -262,26 +262,6 @@ class ViewInvoice extends React.Component {
                         ₹
                       </td>
                     </tr>
-                    {/* Static */}
-                    <tr>
-                      <td colSpan="3">
-                        {/* Add Spacing */}
-                        <br /> <br /> <br />
-                      </td>
-                      <td colSpan="4">
-                        {/* Add Spacing */}
-                        <br /> <br /> <br />
-                      </td>
-                      <td colSpan="3">
-                        {/* Add Spacing */}
-                        <br /> <br /> <br />
-                      </td>
-                    </tr>
-                    <tr className="uk-text-center">
-                      <td colSpan="3">Terms and Conditions</td>
-                      <td colSpan="4">Common Seal</td>
-                      <td colSpan="3">Authorised Signatory</td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
