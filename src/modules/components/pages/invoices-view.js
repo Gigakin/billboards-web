@@ -4,6 +4,15 @@ import { Link } from "react-router-dom";
 
 // Classes
 class ViewInvoice extends React.Component {
+  showPrintModal = () => {
+    let printContent = document.getElementById("invoice");
+    let printWindow = window.open();
+    printWindow.document.write(printContent.innerHTML);
+    printWindow.document.write(`<link rel="stylesheet" href="${window.location.origin}/assets/css/app.min.css" />`);
+    printWindow.document.write("<style>html { overflow: scroll }</style>");
+    printWindow.document.close();
+  };
+
   render() {
     return (
       <div className="lists">
@@ -27,16 +36,18 @@ class ViewInvoice extends React.Component {
             <div>
               <button
                 type="button"
-                className="uk-icon-button uk-button-primary"
-                uk-icon="cloud-download"
-              />
+                className="uk-button uk-button-primary"
+                onClick={this.showPrintModal}
+              >
+                Print Invoice
+              </button>
             </div>
           </div>
         </div>
 
         {/* Content */}
         <div className="lists__content">
-          <div className="invoice">
+          <div className="invoice" id="invoice">
             <div className="invoice__header">
               <div className="invoice__header__element invoice__logo">
                 Company logo
