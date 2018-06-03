@@ -1,9 +1,20 @@
 // Modules
+import Axios from "./http-interceptors";
+
+// Imports
+import Constants from "../constants";
+
+// Services
 import StorageService from "./storage-service";
 
 // Login
 const login = credentials => {
-  return StorageService.setLocalData("isLoggedIn", true);
+  return Axios.post(`${Constants.URLS.PATHS.LOGIN}`, credentials).then(
+    response => {
+      if (response.data) return response.data;
+      return response;
+    }
+  );
 };
 
 // Logout

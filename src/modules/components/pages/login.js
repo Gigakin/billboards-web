@@ -12,8 +12,7 @@ class Login extends React.Component {
     this.state = {
       credentials: {},
       isProcessingForm: false,
-      loginError: false,
-      role: "frontdesk"
+      loginError: false
     };
   }
 
@@ -30,9 +29,13 @@ class Login extends React.Component {
   // Login
   login = event => {
     event.preventDefault();
-    AuthService.login();
-    if (this.state.role) PermissionService.setRole(this.state.role);
-    return this.props.history.push("/dashboard");
+    let { credentials } = this.state;
+    AuthService.login(credentials).then(
+      tokens => console.log(tokens),
+      error => console.log(error)
+    );
+    // if (this.state.role) PermissionService.setRole(this.state.role);
+    // return this.props.history.push("/dashboard");
   };
 
   render() {
