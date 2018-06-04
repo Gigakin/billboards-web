@@ -1,5 +1,6 @@
 // Modules
 import Axios from "./http-interceptors";
+import decode from "jwt-decode";
 
 // Imports
 import Constants from "../constants";
@@ -26,7 +27,17 @@ const logout = credentials => {
 
 // Is Logged In
 const isLoggedIn = () => {
-  if (StorageService.getLocalData("isLoggedIn")) return true;
+  let token = StorageService.getLocalData("access_token");
+  if (token && !isTokenExpired(token)) return true;
+  return false;
+};
+
+// Is Token Expired
+const isTokenExpired = token => {
+  if (token) {
+    token = decode(token);
+    if (token.exp < Date.now() / 1000) return true;
+  }
   return false;
 };
 

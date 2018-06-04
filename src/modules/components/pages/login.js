@@ -1,9 +1,16 @@
 // Modules
 import React from "react";
 
+// Imports
+import Strings from "../../strings";
+
+// Components
+import Alert from "../common/alert";
+
 // Services
 import AuthService from "../../services/auth-service";
 import PermissionService from "../../services/permission-service";
+import StorageService from "../../services/storage-service";
 
 // Classes
 class Login extends React.Component {
@@ -30,15 +37,30 @@ class Login extends React.Component {
   login = event => {
     event.preventDefault();
     let { credentials } = this.state;
+    this.setState({ loginError: null, isProcessingForm: true });
     AuthService.login(credentials).then(
-      tokens => console.log(tokens),
-      error => console.log(error)
+      response => {
+        let { user, access_token } = response;
+        PermissionService.setRole(user.user_role);
+        StorageService.setLocalData("access_token", access_token);
+        return this.props.history.push("/dashboard");
+      },
+      error => {
+        let { response } = error;
+        this.setState({
+          loginError:
+            response && response.data
+              ? response.data.message
+              : Strings.COMMON.UNKNOWN_NETWORK_ERROR,
+          isProcessingForm: false
+        });
+      }
     );
-    // if (this.state.role) PermissionService.setRole(this.state.role);
-    // return this.props.history.push("/dashboard");
   };
 
   render() {
+    let { loginError } = this.state;
+
     return (
       <div className="login">
         <div
@@ -61,6 +83,11 @@ class Login extends React.Component {
                   </p>
                 </div>
                 <form onSubmit={this.login} className="uk-form-stacked">
+                  {/* Alert */}
+                  {loginError ? (
+                    <Alert type="danger" message={loginError} />
+                  ) : null}
+                  {/* Form */}
                   <div className="uk-margin">
                     <label className="uk-form-label" htmlFor="username">
                       Email or Username
@@ -94,25 +121,9 @@ class Login extends React.Component {
                     <button
                       type="submit"
                       className="uk-button uk-button-primary"
-                      onClick={() => this.setState({ role: "frontdesk" })}
+                      onClick={this.login}
                     >
                       Login
-                    </button>
-                  </div>
-                  <div className="uk-margin">
-                    <button
-                      type="submit"
-                      className="uk-button uk-button-small uk-button-link uk-margin-small-right"
-                      onClick={() => this.setState({ role: "designer" })}
-                    >
-                      Login D
-                    </button>
-                    <button
-                      type="submit"
-                      className="uk-button uk-button-small uk-button-link uk-margin-small-right"
-                      onClick={() => this.setState({ role: "printer" })}
-                    >
-                      Login P
                     </button>
                   </div>
                 </form>
