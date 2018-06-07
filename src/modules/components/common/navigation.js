@@ -11,7 +11,7 @@ class Navigation extends React.Component {
   // Logout
   logout = () => {
     Swal({
-      text: "Logout?",
+      title: "Logout?",
       buttons: true
     }).then(logout => {
       if (logout) {

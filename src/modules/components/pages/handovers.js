@@ -16,11 +16,12 @@ class Handovers extends React.Component {
       modalData: {}
     };
     this.tableColumns = [
+      "Order #",
+      "Order Name",
       "Party Name",
-      "Job Name",
-      "Total Sq. Ft.",
-      "Assigned To",
-      "Status",
+      "Expected Delivery Date & Time",
+      "Account Owner",
+      "Order Status",
       "Actions"
     ];
   }

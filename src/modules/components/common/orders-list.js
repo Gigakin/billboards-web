@@ -122,10 +122,24 @@ class OrdersList extends React.Component {
         <div className="uk-card uk-card-default uk-margin-bottom uk-padding">
           <div className="sor-table__actions">
             <div className="uk-grid uk-grid-small uk-form-stacked">
-              <div className="uk-width-1-3">
+              <div className="uk-width-1-1">
+                <div className="uk-text-lead uk-margin-bottom">Search</div>
+              </div>
+              <div className="uk-width-1-6">
                 <label className="uk-form-label uk-text-bold">
-                  Search by Party Name
+                  Order Number
                 </label>
+                <div className="uk-form-controls">
+                  <input
+                    id="ordernumber"
+                    type="text"
+                    onChange={this.filterData}
+                    className="uk-input"
+                  />
+                </div>
+              </div>
+              <div className="uk-width-1-6">
+                <label className="uk-form-label uk-text-bold">Party Name</label>
                 <div className="uk-form-controls">
                   <input
                     id="party"
@@ -135,23 +149,8 @@ class OrdersList extends React.Component {
                   />
                 </div>
               </div>
-              <div className="uk-width-1-3">
-                <label className="uk-form-label uk-text-bold">
-                  Search by Job Name
-                </label>
-                <div className="uk-form-controls">
-                  <input
-                    id="job"
-                    type="text"
-                    onChange={this.filterData}
-                    className="uk-input"
-                  />
-                </div>
-              </div>
-              <div className="uk-width-1-3">
-                <label className="uk-form-label uk-text-bold">
-                  Search by Job Status
-                </label>
+              <div className="uk-width-1-6">
+                <label className="uk-form-label uk-text-bold">Job Status</label>
                 <div className="uk-form-controls">
                   <select
                     id="searchJobStatus"
@@ -164,6 +163,49 @@ class OrdersList extends React.Component {
                   </select>
                 </div>
               </div>
+              <div className="uk-width-1-6">
+                <label className="uk-form-label uk-text-bold">
+                  Account Owner
+                </label>
+                <div className="uk-form-controls">
+                  <input
+                    id="accountNumber"
+                    type="text"
+                    onChange={this.filterData}
+                    className="uk-input"
+                  />
+                </div>
+              </div>
+              <div className="uk-width-1-6">
+                <label className="uk-form-label uk-text-bold">
+                  Priority Status
+                </label>
+                <div className="uk-form-controls">
+                  <select
+                    id="searchPriorityStatus"
+                    onChange={this.filterData}
+                    className="uk-select"
+                  >
+                    <option value="normal" defaultChecked>
+                      Normal
+                    </option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+              </div>
+              <div className="uk-width-1-6">
+                <label className="uk-form-label uk-text-bold">
+                  Time Period
+                </label>
+                <div className="uk-form-controls">
+                  <input
+                    id="timePeriod"
+                    type="text"
+                    onChange={this.filterData}
+                    className="uk-input"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -172,6 +214,7 @@ class OrdersList extends React.Component {
           <table className="uk-table uk-table-middle uk-table-divider">
             <thead>
               <tr>
+                <th /> {/* High Priority Icon */}
                 {columns && columns.length
                   ? columns.map((item, index) => (
                       <th key={`tableheading_${index}`}>{item}</th>
@@ -183,11 +226,19 @@ class OrdersList extends React.Component {
               {tableData && tableData.length ? (
                 tableData.map((item, index) => (
                   <tr key={`sortable_item_${index}`}>
-                    <td>{item ? item.party : "-"}</td>
-                    <td>{item ? item.job : "-"}</td>
-                    <td>{item ? item.size : "-"}</td>
-                    <td>{item ? item.assignedTo : "-"}</td>
-                    <td>{item ? item.status : "-"}</td>
+                    <td>
+                      {item.isHighPriority ? (
+                        <span className="uk-text-danger" uk-icon="bolt" />
+                      ) : null}
+                    </td>
+                    <td>{item.orderNumber ? item.orderNumber : "-"}</td>
+                    <td>{item.orderName ? item.orderName : "-"}</td>
+                    <td>{item.party ? item.party : "-"}</td>
+                    <td>
+                      {item.expectedDelivery ? item.expectedDelivery : "-"}
+                    </td>
+                    <td>{item.accountOwner ? item.accountOwner : "-"}</td>
+                    <td>{item.status ? item.status : "-"}</td>
                     <td>
                       <span>
                         {showActionButtons ? (
