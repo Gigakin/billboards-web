@@ -56,7 +56,8 @@ class OrdersList extends React.Component {
   // Delete Order
   deleteOrder = () => {
     return Swal({
-      text: "Delete this order?",
+      title: "Delete?",
+      text: "Are you sure you want to delete this order?",
       buttons: ["Cancel", "Delete"],
       dangerMode: true
     });
@@ -114,7 +115,12 @@ class OrdersList extends React.Component {
 
   render() {
     let { tableData, permissions } = this.state;
-    let { columns, showActionButtons, showHandoverButton } = this.props;
+    let {
+      columns,
+      showActionButtons,
+      showHandoverButton,
+      showPriorityIcon
+    } = this.props;
 
     return (
       <div className="sor-table">
@@ -214,7 +220,7 @@ class OrdersList extends React.Component {
           <table className="uk-table uk-table-middle uk-table-divider">
             <thead>
               <tr>
-                <th /> {/* High Priority Icon */}
+                {showPriorityIcon ? <th /> : null}
                 {columns && columns.length
                   ? columns.map((item, index) => (
                       <th key={`tableheading_${index}`}>{item}</th>
@@ -226,11 +232,13 @@ class OrdersList extends React.Component {
               {tableData && tableData.length ? (
                 tableData.map((item, index) => (
                   <tr key={`sortable_item_${index}`}>
-                    <td>
-                      {item.isHighPriority ? (
-                        <span className="uk-text-danger" uk-icon="bolt" />
-                      ) : null}
-                    </td>
+                    {showPriorityIcon ? (
+                      <td>
+                        {item.isHighPriority ? (
+                          <span className="uk-text-danger" uk-icon="bolt" />
+                        ) : null}
+                      </td>
+                    ) : null}
                     <td>{item.orderNumber ? item.orderNumber : "-"}</td>
                     <td>{item.orderName ? item.orderName : "-"}</td>
                     <td>{item.party ? item.party : "-"}</td>
@@ -359,7 +367,8 @@ OrdersList.defaultProps = {
   data: [],
   columns: {},
   showHandoverButton: false,
-  showActionButtons: true
+  showActionButtons: true,
+  showPriorityIcon: true
 };
 
 // Exports

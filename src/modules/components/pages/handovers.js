@@ -72,6 +72,7 @@ class Handovers extends React.Component {
                 setModalData: this.setModalData
               }}
               showActionButtons={false}
+              showPriorityIcon={false}
               showHandoverButton
             />
           </div>
