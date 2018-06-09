@@ -122,6 +122,16 @@ class OrdersList extends React.Component {
       showPriorityIcon
     } = this.props;
 
+    let isViewDisabled = false,
+      isEditDisabled = false,
+      isDeleteDisabled = false;
+
+    if (permissions) {
+      isViewDisabled = !permissions.canViewOrderDetails;
+      isEditDisabled = !permissions.canEditOrderDetails;
+      isDeleteDisabled = !permissions.canDeleteOrder;
+    }
+
     return (
       <div className="sor-table">
         {/* Actions */}
@@ -257,6 +267,7 @@ class OrdersList extends React.Component {
                                 type="button"
                                 onClick={() => this.viewOrder(item.id)}
                                 className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                                disabled={isViewDisabled}
                               >
                                 View
                               </button>
@@ -267,6 +278,7 @@ class OrdersList extends React.Component {
                                 type="button"
                                 onClick={this.editOrder}
                                 className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
+                                disabled={isEditDisabled}
                               >
                                 Edit
                               </button>
@@ -297,6 +309,7 @@ class OrdersList extends React.Component {
                                 type="button"
                                 onClick={this.deleteOrder}
                                 className="uk-button uk-button-danger uk-button-small uk-margin-small-right"
+                                disabled={isDeleteDisabled}
                               >
                                 Delete
                               </button>
