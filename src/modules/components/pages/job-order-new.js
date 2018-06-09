@@ -250,7 +250,9 @@ class NewJobOrder extends React.Component {
                             className="uk-select"
                             required
                           >
-                            <option value="1" defaultChecked>Billboards</option>
+                            <option value="1" defaultChecked>
+                              Billboards
+                            </option>
                             <option value="2">Owner 1</option>
                             <option value="3">Owner 2</option>
                             <option value="4">Owner 3</option>
@@ -369,6 +371,18 @@ class NewJobOrder extends React.Component {
                         </div>
                       </div>
                       <div className="uk-width-1-2 uk-margin-small">
+                        <label className="uk-form-label">City</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="text"
+                            id="city"
+                            onChange={this.captureBillingAddress}
+                            className="uk-input"
+                            required
+                          />
+                        </div>
+                      </div>
+                      <div className="uk-width-1-2 uk-margin-small">
                         <label className="uk-form-label">State</label>
                         <div className="uk-form-controls">
                           <select
@@ -380,6 +394,20 @@ class NewJobOrder extends React.Component {
                             <option value="" defaultChecked />
                             <option value="mh">Maharashtra</option>
                           </select>
+                        </div>
+                      </div>
+                      <div className="uk-width-1-2 uk-margin-small">
+                        <label className="uk-form-label">Postal Code</label>
+                        <div className="uk-form-controls">
+                          <input
+                            type="number"
+                            id="postalCode"
+                            onChange={this.captureBillingAddress}
+                            className="uk-input"
+                            minLength="6"
+                            maxLength="6"
+                            required
+                          />
                         </div>
                       </div>
                     </div>
