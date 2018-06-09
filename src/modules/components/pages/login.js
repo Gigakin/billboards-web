@@ -41,7 +41,7 @@ class Login extends React.Component {
     AuthService.login(credentials).then(
       response => {
         let { user, access_token } = response;
-        PermissionService.setRole(user.user_role);
+        PermissionService.setRole(user.role);
         StorageService.setLocalData("access_token", access_token);
         return this.props.history.push("/dashboard");
       },
