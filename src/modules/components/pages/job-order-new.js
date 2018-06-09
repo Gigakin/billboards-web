@@ -219,7 +219,7 @@ class NewJobOrder extends React.Component {
                       onSubmit={() => false}
                       className="uk-grid uk-grid-small uk-form-stacked"
                     >
-                      <div className="uk-width-1-2">
+                      <div className="uk-width-1-3">
                         <label className="uk-form-label">Job Name</label>
                         <div className="uk-form-controls">
                           <input
@@ -232,7 +232,7 @@ class NewJobOrder extends React.Component {
                           />
                         </div>
                       </div>
-                      <div className="uk-width-1-2">
+                      <div className="uk-width-1-3">
                         <label className="uk-form-label">Job Description</label>
                         <input
                           type="text"
@@ -240,6 +240,22 @@ class NewJobOrder extends React.Component {
                           onChange={this.captureJobDescription}
                           className="uk-input"
                         />
+                      </div>
+                      <div className="uk-width-1-3">
+                        <label className="uk-form-label">Account Owner</label>
+                        <div className="uk-form-control">
+                          <select
+                            id="accountOwner"
+                            onChange={this.captureJobDescription}
+                            className="uk-select"
+                            required
+                          >
+                            <option value="1" defaultChecked>Billboards</option>
+                            <option value="2">Owner 1</option>
+                            <option value="3">Owner 2</option>
+                            <option value="4">Owner 3</option>
+                          </select>
+                        </div>
                       </div>
                       <div className="uk-width-1-2 uk-margin">
                         <label className="uk-margin-right">
