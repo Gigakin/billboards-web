@@ -1,13 +1,14 @@
 // Modules
 import React from "react";
 import { Link } from "react-router-dom";
+
+// Imports
 import Methods from "../../methods";
 
 // Components
 import JobList from "../common/job-list";
-import Select from "../common/select";
-
 import OrderDetails from "./job-order-new/order-details";
+import PartyDetails from "./job-order-new/party-details";
 
 // Services
 import AccountOwnerService from "../../services/account-owners-service";
@@ -67,39 +68,14 @@ class NewJobOrder extends React.Component {
     }
   };
 
-  // Capture Job Details
-  captureJobDescription = event => {
-    return this.setState({
-      job: {
-        ...this.state.job,
-        [event.target.id]: event.target.value
-      }
-    });
-  };
-
-  // Capture Job Details Options
-  // Maybe push the values in an array?
-  captureJobDescriptionOption = event => {
-    return this.setState({
-      job: {
-        ...this.state.job,
-        [event.target.id]: event.target.value
-      }
-    });
-  };
-
-  // Capture Customer Details
-  captureCustomerInformation = event => {
-    let value = event.target.value;
-    if (event.target.id === "phoneNumber") {
-      value = parseInt(value, 10);
+  // Get Party Details from Component
+  getPartyDetailsFromComponent = partydetails => {
+    if (partydetails) {
+      return this.setState({
+        party: partydetails,
+        currentTab: "party"
+      });
     }
-    return this.setState({
-      customer: {
-        ...this.state.customer,
-        [event.target.id]: value
-      }
-    });
   };
 
   // Find Party By Phone
@@ -123,25 +99,6 @@ class NewJobOrder extends React.Component {
         }
       }
     });
-  };
-
-  // Capture Shipping Address
-  captureShippingAddress = event => {
-    return this.setState({
-      customer: {
-        ...this.state.customer,
-        shippingAddress: {
-          ...this.state.customer.shippingAddress,
-          [event.target.id]: event.target.value
-        }
-      }
-    });
-  };
-
-  // Match Billing and Shipping Addresses
-  // What can be done here to make it work?
-  matchBillingAndShippingAddresses = event => {
-    console.log(event.target.value);
   };
 
   // Capture Designer Details
@@ -266,146 +223,11 @@ class NewJobOrder extends React.Component {
 
               {/* Party Details */}
               {currentTab === "party" ? (
-                <div>
-                  <div className="uk-padding">
-                    <div className="uk-grid uk-grid-small uk-form-stacked uk-margin">
-                      <div className="uk-width-1-2 uk-margin">
-                        <label className="uk-form-label">Phone Number</label>
-                        <div className="uk-form-controls">
-                          <Select
-                            value={selectedParty}
-                            onChange={this.findPartyByNumber}
-                            options={this.dummyParties}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Billing Address */}
-                      <div className="uk-width-1-1 uk-grid uk-grid-small">
-                        <div className="uk-width-1-1 uk-margin-small">
-                          <h4>Bill to Party</h4>
-                        </div>
-                        <div className="uk-width-1-2 uk-margin-small">
-                          <label className="uk-form-label">Bill to Party</label>
-                          <div className="uk-form-controls">
-                            <input
-                              type="text"
-                              id="partyName"
-                              onChange={this.captureBillingAddress}
-                              className="uk-input"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <div className="uk-width-1-2 uk-margin-small">
-                          <label className="uk-form-label">
-                            Contact Person
-                          </label>
-                          <div className="uk-form-controls">
-                            <input
-                              type="text"
-                              id="contactPerson"
-                              onChange={this.captureBillingAddress}
-                              className="uk-input"
-                            />
-                          </div>
-                        </div>
-                        <div className="uk-width-1-2 uk-margin-small">
-                          <label className="uk-form-label">Email Address</label>
-                          <div className="uk-form-controls">
-                            <input
-                              type="email"
-                              id="email"
-                              onChange={this.captureBillingAddress}
-                              className="uk-input"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <div className="uk-width-1-2 uk-margin-small">
-                          <label className="uk-form-label">GSTIN</label>
-                          <div className="uk-form-controls">
-                            <input
-                              type="text"
-                              id="gstin"
-                              onChange={this.captureBillingAddress}
-                              className="uk-input"
-                            />
-                          </div>
-                        </div>
-                        <div className="uk-width-1-2 uk-margin-small">
-                          <label className="uk-form-label">
-                            Billing Address
-                          </label>
-                          <div className="uk-form-controls">
-                            <input
-                              type="text"
-                              id="billingAddress"
-                              onChange={this.captureBillingAddress}
-                              className="uk-input"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <div className="uk-width-1-2 uk-margin-small">
-                          <label className="uk-form-label">City</label>
-                          <div className="uk-form-controls">
-                            <input
-                              type="text"
-                              id="city"
-                              onChange={this.captureBillingAddress}
-                              className="uk-input"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <div className="uk-width-1-2 uk-margin-small">
-                          <label className="uk-form-label">State</label>
-                          <div className="uk-form-controls">
-                            <select
-                              id="state"
-                              onChange={this.captureBillingAddress}
-                              className="uk-select"
-                              required
-                            >
-                              <option value="" defaultChecked />
-                              <option value="mh">Maharashtra</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div className="uk-width-1-2 uk-margin-small">
-                          <label className="uk-form-label">Postal Code</label>
-                          <div className="uk-form-controls">
-                            <input
-                              type="number"
-                              id="postalCode"
-                              onChange={this.captureBillingAddress}
-                              className="uk-input"
-                              minLength="6"
-                              maxLength="6"
-                              required
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* Submit */}
-                    <div className="uk-width-1-1 uk-flex uk-flex-right">
-                      <button
-                        type="button"
-                        className="uk-button uk-button-primary uk-margin-small-right"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="submit"
-                        className="uk-button uk-button-primary"
-                      >
-                        Save and Continue
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <PartyDetails
+                  methods={{
+                    savePartyDetails: this.getPartyDetailsFromComponent
+                  }}
+                />
               ) : null}
 
               {/* Jobs List */}

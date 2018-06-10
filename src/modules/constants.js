@@ -5,7 +5,8 @@ export default {
     PATHS: {
       LOGIN: "auth/login",
       ORDERS: "api/orders",
-      ACCOUNT_OWNERS: "/api/account-owners"
+      ACCOUNT_OWNERS: "/api/account-owners",
+      PARTIES: "/api/parties"
     }
   }
 };
