@@ -7,11 +7,20 @@ import Methods from "../../methods";
 import JobList from "../common/job-list";
 import Select from "../common/select";
 
+import OrderDetails from "./job-order-new/order-details";
+
+// Services
+import AccountOwnerService from "../../services/account-owners-service";
+
 // Classes
 class NewJobOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      order: {},
+      accountOwners: [],
+      currentTab: "order",
+
       job: {},
       jobDetails: {
         type: "frontlit",
@@ -40,6 +49,23 @@ class NewJobOrder extends React.Component {
       }
     ];
   }
+
+  // Get Account Owners
+  getAccountOwners = () => {
+    AccountOwnerService.getAccountOwners().then(owners => {
+      return this.setState({ accountOwners: owners });
+    });
+  };
+
+  // Get Order Details from Component
+  getOrderDetailsFromComponent = orderdetails => {
+    if (orderdetails) {
+      return this.setState({
+        order: orderdetails,
+        currentTab: "party"
+      });
+    }
+  };
 
   // Capture Job Details
   captureJobDescription = event => {
@@ -168,7 +194,18 @@ class NewJobOrder extends React.Component {
     return this.props.history.push("/orders");
   };
 
+  // Switch Tab
+  switchTab = tab => {
+    if (tab) return this.setState({ currentTab: tab });
+    return false;
+  };
+
+  componentDidMount() {
+    return this.getAccountOwners();
+  }
+
   render() {
+    let { accountOwners, currentTab } = this.state;
     let { job, jobDetails, jobsList, selectedParty } = this.state;
 
     return (
@@ -195,634 +232,585 @@ class NewJobOrder extends React.Component {
           <div className="new-order__content">
             {/* Tabs */}
             <ul uk-tab="">
-              <li>
-                <a href="#order">1. Order Details</a>
+              <li className={currentTab === "order" ? "uk-active" : null}>
+                <a onClick={() => this.switchTab("order")}>1. Order Details</a>
               </li>
-              <li>
-                <a href="#customer">2. Party Details</a>
+              <li className={currentTab === "party" ? "uk-active" : null}>
+                <a onClick={() => this.switchTab("party")}>2. Party Details</a>
               </li>
-              <li>
-                <a href="#jobs">3. Job Types</a>
+              <li className={currentTab === "jobs" ? "uk-active" : null}>
+                <a onClick={() => this.switchTab("jobs")}>3. Job Types</a>
               </li>
-              <li>
-                <a href="#review">4. Review</a>
+              <li className={currentTab === "review" ? "uk-active" : null}>
+                <a onClick={() => this.switchTab("review")}>4. Review</a>
               </li>
             </ul>
 
             {/* Switcher */}
-            <ul className="uk-switcher">
+            <div className="uk-tab-content">
               {/* Order Details */}
-              <li>
-                <div className="uk-padding">
-                  <div className="uk-width-1-1">
-                    <form
-                      onSubmit={() => false}
-                      className="uk-grid uk-grid-small uk-form-stacked"
-                    >
-                      <div className="uk-width-1-3">
-                        <label className="uk-form-label">Job Name</label>
+              {currentTab === "order" ? (
+                <div>
+                  <div className="uk-padding">
+                    <div className="uk-width-1-1">
+                      <OrderDetails
+                        accountOwners={accountOwners}
+                        methods={{
+                          saveOrderDetails: this.getOrderDetailsFromComponent
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              {/* Party Details */}
+              {currentTab === "party" ? (
+                <div>
+                  <div className="uk-padding">
+                    <div className="uk-grid uk-grid-small uk-form-stacked uk-margin">
+                      <div className="uk-width-1-2 uk-margin">
+                        <label className="uk-form-label">Phone Number</label>
                         <div className="uk-form-controls">
-                          <input
-                            type="text"
-                            id="name"
-                            onChange={this.captureJobDescription}
-                            className="uk-input"
-                            autoFocus
-                            required
+                          <Select
+                            value={selectedParty}
+                            onChange={this.findPartyByNumber}
+                            options={this.dummyParties}
                           />
                         </div>
                       </div>
-                      <div className="uk-width-1-3">
-                        <label className="uk-form-label">Job Description</label>
-                        <input
-                          type="text"
-                          id="description"
-                          onChange={this.captureJobDescription}
-                          className="uk-input"
-                        />
-                      </div>
-                      <div className="uk-width-1-3">
-                        <label className="uk-form-label">Account Owner</label>
-                        <div className="uk-form-control">
-                          <select
-                            id="accountOwner"
-                            onChange={this.captureJobDescription}
-                            className="uk-select"
-                            required
-                          >
-                            <option value="1" defaultChecked>
-                              Billboards
-                            </option>
-                            <option value="2">Owner 1</option>
-                            <option value="3">Owner 2</option>
-                            <option value="4">Owner 3</option>
-                          </select>
+
+                      {/* Billing Address */}
+                      <div className="uk-width-1-1 uk-grid uk-grid-small">
+                        <div className="uk-width-1-1 uk-margin-small">
+                          <h4>Bill to Party</h4>
+                        </div>
+                        <div className="uk-width-1-2 uk-margin-small">
+                          <label className="uk-form-label">Bill to Party</label>
+                          <div className="uk-form-controls">
+                            <input
+                              type="text"
+                              id="partyName"
+                              onChange={this.captureBillingAddress}
+                              className="uk-input"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className="uk-width-1-2 uk-margin-small">
+                          <label className="uk-form-label">
+                            Contact Person
+                          </label>
+                          <div className="uk-form-controls">
+                            <input
+                              type="text"
+                              id="contactPerson"
+                              onChange={this.captureBillingAddress}
+                              className="uk-input"
+                            />
+                          </div>
+                        </div>
+                        <div className="uk-width-1-2 uk-margin-small">
+                          <label className="uk-form-label">Email Address</label>
+                          <div className="uk-form-controls">
+                            <input
+                              type="email"
+                              id="email"
+                              onChange={this.captureBillingAddress}
+                              className="uk-input"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className="uk-width-1-2 uk-margin-small">
+                          <label className="uk-form-label">GSTIN</label>
+                          <div className="uk-form-controls">
+                            <input
+                              type="text"
+                              id="gstin"
+                              onChange={this.captureBillingAddress}
+                              className="uk-input"
+                            />
+                          </div>
+                        </div>
+                        <div className="uk-width-1-2 uk-margin-small">
+                          <label className="uk-form-label">
+                            Billing Address
+                          </label>
+                          <div className="uk-form-controls">
+                            <input
+                              type="text"
+                              id="billingAddress"
+                              onChange={this.captureBillingAddress}
+                              className="uk-input"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className="uk-width-1-2 uk-margin-small">
+                          <label className="uk-form-label">City</label>
+                          <div className="uk-form-controls">
+                            <input
+                              type="text"
+                              id="city"
+                              onChange={this.captureBillingAddress}
+                              className="uk-input"
+                              required
+                            />
+                          </div>
+                        </div>
+                        <div className="uk-width-1-2 uk-margin-small">
+                          <label className="uk-form-label">State</label>
+                          <div className="uk-form-controls">
+                            <select
+                              id="state"
+                              onChange={this.captureBillingAddress}
+                              className="uk-select"
+                              required
+                            >
+                              <option value="" defaultChecked />
+                              <option value="mh">Maharashtra</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="uk-width-1-2 uk-margin-small">
+                          <label className="uk-form-label">Postal Code</label>
+                          <div className="uk-form-controls">
+                            <input
+                              type="number"
+                              id="postalCode"
+                              onChange={this.captureBillingAddress}
+                              className="uk-input"
+                              minLength="6"
+                              maxLength="6"
+                              required
+                            />
+                          </div>
                         </div>
                       </div>
-                      <div className="uk-width-1-2 uk-margin">
-                        <label className="uk-margin-right">
-                          <input
-                            type="checkbox"
-                            onChange={this.captureJobDescriptionOption}
-                            className="uk-checkbox"
-                            value="designing"
-                          />{" "}
-                          Designing
-                        </label>
-                        <label className="uk-margin-right">
-                          <input
-                            type="checkbox"
-                            onChange={this.captureJobDescriptionOption}
-                            className="uk-checkbox"
-                            value="scanning"
-                          />{" "}
-                          Scanning
-                        </label>
+                    </div>
+                    {/* Submit */}
+                    <div className="uk-width-1-1 uk-flex uk-flex-right">
+                      <button
+                        type="button"
+                        className="uk-button uk-button-primary uk-margin-small-right"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        className="uk-button uk-button-primary"
+                      >
+                        Save and Continue
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              {/* Jobs List */}
+              {currentTab === "jobs" ? (
+                <div>
+                  <div className="new-order__content__two-columns">
+                    <form
+                      onSubmit={this.addJob}
+                      className="uk-grid uk-form-stacked"
+                    >
+                      {/* Left */}
+                      <div className="uk-width-1-2">
+                        <div className="uk-padding">
+                          <div className="uk-grid uk-grid-small">
+                            {/* Type */}
+                            <div className="uk-width-1-1 uk-margin">
+                              <label className="uk-form-label">Type</label>
+                              <div className="uk-form-controls">
+                                <select
+                                  id="type"
+                                  className="uk-select"
+                                  onChange={this.captureJobDetails}
+                                  required
+                                >
+                                  <option value="frontlit">Front-lit</option>
+                                  <option value="backlit">Back-lit</option>
+                                  <option value="vinyl">Vinyl</option>
+                                  <option value="indoor">Indoor</option>
+                                </select>
+                              </div>
+                            </div>
+
+                            {/* Quantity*/}
+                            <div className="uk-width-1-2@s">
+                              <label className="uk-form-label">Quantity</label>
+                              <div className="uk-form-controls">
+                                <input
+                                  type="number"
+                                  id="quantity"
+                                  onChange={this.captureJobDetails}
+                                  className="uk-input"
+                                  required
+                                />
+                              </div>
+                            </div>
+
+                            <div className="uk-width-1-2@s uk-flex uk-flex-middle">
+                              {/* Quality: Frontlit */}
+                              {jobDetails.type === "frontlit" ? (
+                                <div className="uk-width-1-1">
+                                  <label className="uk-form-label">
+                                    Quality
+                                  </label>
+                                  <div className="uk-form-controls">
+                                    <select
+                                      id="quality"
+                                      className="uk-select"
+                                      onChange={this.captureJobDetails}
+                                      required
+                                    >
+                                      <option value="banner">Banner</option>
+                                      <option value="board">Board</option>
+                                      <option value="star">Star</option>
+                                      <option value="hoarding">Hoarding</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              ) : null}
+                              {/* Quality: Backlit */}
+                              {jobDetails.type === "backlit" ? (
+                                <div className="uk-width-1-1 uk-margin">
+                                  <label>
+                                    <input
+                                      type="checkbox"
+                                      className="uk-checkbox"
+                                      value="scanning"
+                                    />{" "}
+                                    Star Backlit
+                                  </label>
+                                </div>
+                              ) : null}
+                              {/* Quality: Vinyl */}
+                              {jobDetails.type === "vinyl" ? (
+                                <div className="uk-width-1-1 uk-margin">
+                                  <label>
+                                    <input
+                                      type="checkbox"
+                                      className="uk-checkbox"
+                                      value="scanning"
+                                    />{" "}
+                                    Transparent
+                                  </label>
+                                </div>
+                              ) : null}
+                              {/* Quality: Indoor */}
+                              {jobDetails.type === "indoor" ? (
+                                <div className="uk-width-1-1 uk-margin">
+                                  <label>
+                                    <input
+                                      type="checkbox"
+                                      className="uk-checkbox"
+                                      value="scanning"
+                                    />{" "}
+                                    Eco
+                                  </label>
+                                </div>
+                              ) : null}
+                            </div>
+
+                            {/* Dimensions */}
+                            <div className="uk-margin">
+                              <label className="uk-form-label">
+                                Dimensions
+                              </label>
+                              <div className="uk-form-controls">
+                                <input
+                                  type="text"
+                                  id="sizeWidth"
+                                  onChange={this.captureJobDetails}
+                                  className="uk-input uk-width-1-3@s"
+                                  placeholder="Width"
+                                  required
+                                />
+                                <input
+                                  type="text"
+                                  id="sizeHeight"
+                                  onChange={this.captureJobDetails}
+                                  className="uk-input uk-width-1-3@s"
+                                  placeholder="Height"
+                                  required
+                                />
+                                <select
+                                  id="sizeUnits"
+                                  onChange={this.captureJobDetails}
+                                  className="uk-select uk-width-1-3@s"
+                                  required
+                                >
+                                  <option value="feets">in Feets</option>
+                                  <option value="inches">in Inches</option>
+                                  <option value="meters">in Meters</option>
+                                  <option value="centimeters">
+                                    in Centimeters
+                                  </option>
+                                </select>
+                              </div>
+                            </div>
+
+                            {/* Options */}
+                            <div className="uk-margin">
+                              <div className="uk-form-label">Options</div>
+                              {/* Frontlit */}
+                              {jobDetails.type === "frontlit" ? (
+                                <div className="uk-form-controls">
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="frontlitOptions"
+                                      value="1lit"
+                                    />{" "}
+                                    1-Lit
+                                  </label>
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="frontlitOptions"
+                                      value="framing"
+                                    />{" "}
+                                    Framing
+                                  </label>
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="frontlitOptions"
+                                      value="pasting"
+                                    />{" "}
+                                    Pasting
+                                  </label>
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="frontlitOptions"
+                                      value="piping"
+                                    />{" "}
+                                    Piping
+                                  </label>
+                                </div>
+                              ) : null}
+                              {jobDetails.type === "backlit" ? (
+                                <div className="uk-form-controls">
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="backlitOptions"
+                                      value="framing"
+                                    />{" "}
+                                    Framing
+                                  </label>
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="backlitOptions"
+                                      value="lolypop"
+                                    />{" "}
+                                    Lolypop
+                                  </label>
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="backlitOptions"
+                                      value="onlyprint"
+                                    />{" "}
+                                    Only Print
+                                  </label>
+                                </div>
+                              ) : null}
+                              {jobDetails.type === "vinyl" ? (
+                                <div className="uk-form-controls">
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="foamsheetpasting"
+                                    />{" "}
+                                    Foamsheet Pasting
+                                  </label>
+                                </div>
+                              ) : null}
+                              {jobDetails.type === "indoor" ? (
+                                <div className="uk-form-controls">
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="mattelamination"
+                                    />{" "}
+                                    Matte Lamination
+                                  </label>
+                                </div>
+                              ) : null}
+                            </div>
+
+                            {/* Uploads */}
+                            <div className="uk-width-1-1 uk-margin-small">
+                              <label className="uk-form-label">
+                                Customer's Design File
+                              </label>
+                              <div className="js-upload" uk-form-custom="">
+                                <input type="file" />
+                                <button
+                                  type="button"
+                                  className="uk-button uk-button-default"
+                                  tabIndex="-1"
+                                >
+                                  Select File
+                                </button>
+                              </div>
+                            </div>
+
+                            {/* Notes */}
+                            <div className="uk-width-1-1 uk-margin-small">
+                              <label className="uk-form-label">Notes</label>
+                              <div className="uk-form-controls">
+                                <textarea
+                                  id="notes"
+                                  className="uk-textarea"
+                                  onChange={this.captureJobDetails}
+                                />
+                              </div>
+                            </div>
+
+                            {/* Submit */}
+                            <div className="uk-width-1-1@s uk-flex uk-flex-between">
+                              <button
+                                type="submit"
+                                className="uk-button uk-button-primary"
+                              >
+                                Add to Jobs
+                              </button>
+                              <button
+                                type="button"
+                                className="uk-button uk-button-primary"
+                              >
+                                Continue
+                              </button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="uk-width-1-2 uk-margin-top uk-flex uk-flex-right">
-                        <button
-                          type="submit"
-                          className="uk-button uk-button-primary"
-                        >
-                          Save and Continue
-                        </button>
+
+                      {/* Jobs List */}
+                      <div className="uk-width-1-2 new-order__content__two-columns__right">
+                        <JobList
+                          list={jobsList}
+                          methods={{
+                            deleteItem: this.removeJob
+                          }}
+                        />
                       </div>
                     </form>
                   </div>
                 </div>
-              </li>
+              ) : null}
 
-              {/* Customer Details */}
-              <li>
-                <div className="uk-padding">
-                  <div className="uk-grid uk-grid-small uk-form-stacked uk-margin">
-                    <div className="uk-width-1-2 uk-margin">
-                      <label className="uk-form-label">Phone Number</label>
-                      <div className="uk-form-controls">
-                        <Select
-                          value={selectedParty}
-                          onChange={this.findPartyByNumber}
-                          options={this.dummyParties}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Billing Address */}
-                    <div className="uk-width-1-1 uk-grid uk-grid-small">
-                      <div className="uk-width-1-1 uk-margin-small">
-                        <h4>Bill to Party</h4>
-                      </div>
-                      <div className="uk-width-1-2 uk-margin-small">
-                        <label className="uk-form-label">Bill to Party</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="text"
-                            id="partyName"
-                            onChange={this.captureBillingAddress}
-                            className="uk-input"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="uk-width-1-2 uk-margin-small">
-                        <label className="uk-form-label">Contact Person</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="text"
-                            id="contactPerson"
-                            onChange={this.captureBillingAddress}
-                            className="uk-input"
-                          />
-                        </div>
-                      </div>
-                      <div className="uk-width-1-2 uk-margin-small">
-                        <label className="uk-form-label">Email Address</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="email"
-                            id="email"
-                            onChange={this.captureBillingAddress}
-                            className="uk-input"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="uk-width-1-2 uk-margin-small">
-                        <label className="uk-form-label">GSTIN</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="text"
-                            id="gstin"
-                            onChange={this.captureBillingAddress}
-                            className="uk-input"
-                          />
-                        </div>
-                      </div>
-                      <div className="uk-width-1-2 uk-margin-small">
-                        <label className="uk-form-label">Billing Address</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="text"
-                            id="billingAddress"
-                            onChange={this.captureBillingAddress}
-                            className="uk-input"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="uk-width-1-2 uk-margin-small">
-                        <label className="uk-form-label">City</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="text"
-                            id="city"
-                            onChange={this.captureBillingAddress}
-                            className="uk-input"
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="uk-width-1-2 uk-margin-small">
-                        <label className="uk-form-label">State</label>
-                        <div className="uk-form-controls">
-                          <select
-                            id="state"
-                            onChange={this.captureBillingAddress}
-                            className="uk-select"
-                            required
-                          >
-                            <option value="" defaultChecked />
-                            <option value="mh">Maharashtra</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="uk-width-1-2 uk-margin-small">
-                        <label className="uk-form-label">Postal Code</label>
-                        <div className="uk-form-controls">
-                          <input
-                            type="number"
-                            id="postalCode"
-                            onChange={this.captureBillingAddress}
-                            className="uk-input"
-                            minLength="6"
-                            maxLength="6"
-                            required
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Submit */}
-                  <div className="uk-width-1-1 uk-flex uk-flex-right">
-                    <button
-                      type="button"
-                      className="uk-button uk-button-primary uk-margin-small-right"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      className="uk-button uk-button-primary"
-                    >
-                      Save and Continue
-                    </button>
-                  </div>
-                </div>
-              </li>
-
-              {/* Jobs List */}
-              <li>
-                <div className="new-order__content__two-columns">
-                  <form
-                    onSubmit={this.addJob}
-                    className="uk-grid uk-form-stacked"
-                  >
-                    {/* Left */}
-                    <div className="uk-width-1-2">
-                      <div className="uk-padding">
-                        <div className="uk-grid uk-grid-small">
-                          {/* Type */}
-                          <div className="uk-width-1-1 uk-margin">
-                            <label className="uk-form-label">Type</label>
-                            <div className="uk-form-controls">
-                              <select
-                                id="type"
-                                className="uk-select"
-                                onChange={this.captureJobDetails}
-                                required
-                              >
-                                <option value="frontlit">Front-lit</option>
-                                <option value="backlit">Back-lit</option>
-                                <option value="vinyl">Vinyl</option>
-                                <option value="indoor">Indoor</option>
-                              </select>
+              {/* Review */}
+              {currentTab === "review" ? (
+                <div>
+                  <form className="uk-form-stacked" onSubmit={this.createOrder}>
+                    <div className="uk-grid uk-grid-small">
+                      <div className="new-order__content__two-columns uk-width-1-1 uk-flex">
+                        <div className="uk-width-1-2 new-order__content__two-columns__left">
+                          <div className="uk-padding">
+                            {/* Assign Designer */}
+                            <div className="uk-width-1-1 uk-margin">
+                              <label className="uk-form-label">
+                                Assign Designer
+                              </label>
+                              <div className="uk-form-controls">
+                                <select
+                                  id="designer"
+                                  className="uk-select"
+                                  onChange={this.captureDesignerDetails}
+                                  required
+                                >
+                                  <option value="a">Designer A</option>
+                                  <option value="b">Designer B</option>
+                                  <option value="c">Designer C</option>
+                                </select>
+                              </div>
                             </div>
-                          </div>
-
-                          {/* Quantity*/}
-                          <div className="uk-width-1-2@s">
-                            <label className="uk-form-label">Quantity</label>
-                            <div className="uk-form-controls">
-                              <input
-                                type="number"
-                                id="quantity"
-                                onChange={this.captureJobDetails}
-                                className="uk-input"
-                                required
-                              />
-                            </div>
-                          </div>
-
-                          <div className="uk-width-1-2@s uk-flex uk-flex-middle">
-                            {/* Quality: Frontlit */}
-                            {jobDetails.type === "frontlit" ? (
-                              <div className="uk-width-1-1">
-                                <label className="uk-form-label">Quality</label>
-                                <div className="uk-form-controls">
-                                  <select
-                                    id="quality"
-                                    className="uk-select"
-                                    onChange={this.captureJobDetails}
-                                    required
-                                  >
-                                    <option value="banner">Banner</option>
-                                    <option value="board">Board</option>
-                                    <option value="star">Star</option>
-                                    <option value="hoarding">Hoarding</option>
-                                  </select>
-                                </div>
-                              </div>
-                            ) : null}
-                            {/* Quality: Backlit */}
-                            {jobDetails.type === "backlit" ? (
-                              <div className="uk-width-1-1 uk-margin">
-                                <label>
-                                  <input
-                                    type="checkbox"
-                                    className="uk-checkbox"
-                                    value="scanning"
-                                  />{" "}
-                                  Star Backlit
-                                </label>
-                              </div>
-                            ) : null}
-                            {/* Quality: Vinyl */}
-                            {jobDetails.type === "vinyl" ? (
-                              <div className="uk-width-1-1 uk-margin">
-                                <label>
-                                  <input
-                                    type="checkbox"
-                                    className="uk-checkbox"
-                                    value="scanning"
-                                  />{" "}
-                                  Transparent
-                                </label>
-                              </div>
-                            ) : null}
-                            {/* Quality: Indoor */}
-                            {jobDetails.type === "indoor" ? (
-                              <div className="uk-width-1-1 uk-margin">
-                                <label>
-                                  <input
-                                    type="checkbox"
-                                    className="uk-checkbox"
-                                    value="scanning"
-                                  />{" "}
-                                  Eco
-                                </label>
-                              </div>
-                            ) : null}
-                          </div>
-
-                          {/* Dimensions */}
-                          <div className="uk-margin">
-                            <label className="uk-form-label">Dimensions</label>
-                            <div className="uk-form-controls">
-                              <input
+                            {/* Other Notes */}
+                            <div className="uk-width-1-1 uk-margin">
+                              <label className="uk-form-label">
+                                Other Notes
+                              </label>
+                              <textarea
                                 type="text"
-                                id="sizeWidth"
-                                onChange={this.captureJobDetails}
-                                className="uk-input uk-width-1-3@s"
-                                placeholder="Width"
-                                required
+                                id="description"
+                                onChange={this.captureDesignerDetails}
+                                className="uk-textarea"
                               />
-                              <input
-                                type="text"
-                                id="sizeHeight"
-                                onChange={this.captureJobDetails}
-                                className="uk-input uk-width-1-3@s"
-                                placeholder="Height"
-                                required
-                              />
-                              <select
-                                id="sizeUnits"
-                                onChange={this.captureJobDetails}
-                                className="uk-select uk-width-1-3@s"
-                                required
-                              >
-                                <option value="feets">in Feets</option>
-                                <option value="inches">in Inches</option>
-                                <option value="meters">in Meters</option>
-                                <option value="centimeters">
-                                  in Centimeters
-                                </option>
-                              </select>
                             </div>
-                          </div>
-
-                          {/* Options */}
-                          <div className="uk-margin">
-                            <div className="uk-form-label">Options</div>
-                            {/* Frontlit */}
-                            {jobDetails.type === "frontlit" ? (
-                              <div className="uk-form-controls">
-                                <label className="uk-margin-right">
-                                  <input
-                                    className="uk-radio"
-                                    type="radio"
-                                    name="frontlitOptions"
-                                    value="1lit"
-                                  />{" "}
-                                  1-Lit
-                                </label>
-                                <label className="uk-margin-right">
-                                  <input
-                                    className="uk-radio"
-                                    type="radio"
-                                    name="frontlitOptions"
-                                    value="framing"
-                                  />{" "}
-                                  Framing
-                                </label>
-                                <label className="uk-margin-right">
-                                  <input
-                                    className="uk-radio"
-                                    type="radio"
-                                    name="frontlitOptions"
-                                    value="pasting"
-                                  />{" "}
-                                  Pasting
-                                </label>
-                                <label className="uk-margin-right">
-                                  <input
-                                    className="uk-radio"
-                                    type="radio"
-                                    name="frontlitOptions"
-                                    value="piping"
-                                  />{" "}
-                                  Piping
-                                </label>
-                              </div>
-                            ) : null}
-                            {jobDetails.type === "backlit" ? (
-                              <div className="uk-form-controls">
-                                <label className="uk-margin-right">
-                                  <input
-                                    className="uk-radio"
-                                    type="radio"
-                                    name="backlitOptions"
-                                    value="framing"
-                                  />{" "}
-                                  Framing
-                                </label>
-                                <label className="uk-margin-right">
-                                  <input
-                                    className="uk-radio"
-                                    type="radio"
-                                    name="backlitOptions"
-                                    value="lolypop"
-                                  />{" "}
-                                  Lolypop
-                                </label>
-                                <label className="uk-margin-right">
-                                  <input
-                                    className="uk-radio"
-                                    type="radio"
-                                    name="backlitOptions"
-                                    value="onlyprint"
-                                  />{" "}
-                                  Only Print
-                                </label>
-                              </div>
-                            ) : null}
-                            {jobDetails.type === "vinyl" ? (
-                              <div className="uk-form-controls">
-                                <label className="uk-margin-right">
-                                  <input
-                                    className="uk-radio"
-                                    type="radio"
-                                    name="foamsheetpasting"
-                                  />{" "}
-                                  Foamsheet Pasting
-                                </label>
-                              </div>
-                            ) : null}
-                            {jobDetails.type === "indoor" ? (
-                              <div className="uk-form-controls">
-                                <label className="uk-margin-right">
-                                  <input
-                                    className="uk-radio"
-                                    type="radio"
-                                    name="mattelamination"
-                                  />{" "}
-                                  Matte Lamination
-                                </label>
-                              </div>
-                            ) : null}
-                          </div>
-
-                          {/* Uploads */}
-                          <div className="uk-width-1-1 uk-margin-small">
-                            <label className="uk-form-label">
-                              Customer's Design File
-                            </label>
-                            <div className="js-upload" uk-form-custom="">
-                              <input type="file" />
+                            {/* Submit Order */}
+                            <div className="uk-width-1-1 uk-flex uk-flex-right">
                               <button
-                                type="button"
-                                className="uk-button uk-button-default"
-                                tabIndex="-1"
+                                type="submit"
+                                className="uk-button uk-button-primary"
                               >
-                                Select File
+                                Submit Order
                               </button>
                             </div>
                           </div>
-
-                          {/* Notes */}
-                          <div className="uk-width-1-1 uk-margin-small">
-                            <label className="uk-form-label">Notes</label>
-                            <div className="uk-form-controls">
-                              <textarea
-                                id="notes"
-                                className="uk-textarea"
-                                onChange={this.captureJobDetails}
-                              />
+                        </div>
+                        <div className="uk-width-1-2 new-order__content__two-columns__right">
+                          <div className="uk-padding">
+                            {/* Review: Order Details */}
+                            <div className="uk-width-1-1 uk-margin-small">
+                              <h2 className="uk-margin-remove">{job.name}</h2>
+                              <span>{job.description}</span>
                             </div>
-                          </div>
-
-                          {/* Submit */}
-                          <div className="uk-width-1-1@s uk-flex uk-flex-between">
-                            <button
-                              type="submit"
-                              className="uk-button uk-button-primary"
-                            >
-                              Add to Jobs
-                            </button>
-                            <button
-                              type="button"
-                              className="uk-button uk-button-primary"
-                            >
-                              Continue
-                            </button>
+                            {/* Review: Party Details */}
+                            <div className="uk-width-1-1 uk-margin-small">
+                              <span>
+                                {selectedParty.label
+                                  ? `Bill to: ${selectedParty.label}`
+                                  : null}
+                              </span>
+                            </div>
+                            {/* Review: Job Types */}
+                            <div className="uk-width-1-1 uk-margin-small">
+                              <h5 className="uk-margin-small-bottom">
+                                Jobs in this Order
+                              </h5>
+                              <div>
+                                {jobsList && jobsList.length ? (
+                                  jobsList.map((job, index) => (
+                                    <li key={`joblist_job_${index}`}>
+                                      {Methods.capitalize(job.type)} &middot;{" "}
+                                      {`${job.sizeWidth} x ${job.sizeHeight} ${
+                                        job.sizeUnits
+                                      }`}
+                                    </li>
+                                  ))
+                                ) : (
+                                  <span className="uk-text-muted">
+                                    There are no jobs in this order.<br />Use
+                                    the Job Types tab to add jobs.
+                                  </span>
+                                )}
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-
-                    {/* Jobs List */}
-                    <div className="uk-width-1-2 new-order__content__two-columns__right">
-                      <JobList
-                        list={jobsList}
-                        methods={{
-                          deleteItem: this.removeJob
-                        }}
-                      />
                     </div>
                   </form>
                 </div>
-              </li>
-
-              {/* Review */}
-              <li>
-                <form className="uk-form-stacked" onSubmit={this.createOrder}>
-                  <div className="uk-grid uk-grid-small">
-                    <div className="new-order__content__two-columns uk-width-1-1 uk-flex">
-                      <div className="uk-width-1-2 new-order__content__two-columns__left">
-                        <div className="uk-padding">
-                          {/* Assign Designer */}
-                          <div className="uk-width-1-1 uk-margin">
-                            <label className="uk-form-label">
-                              Assign Designer
-                            </label>
-                            <div className="uk-form-controls">
-                              <select
-                                id="designer"
-                                className="uk-select"
-                                onChange={this.captureDesignerDetails}
-                                required
-                              >
-                                <option value="a">Designer A</option>
-                                <option value="b">Designer B</option>
-                                <option value="c">Designer C</option>
-                              </select>
-                            </div>
-                          </div>
-                          {/* Other Notes */}
-                          <div className="uk-width-1-1 uk-margin">
-                            <label className="uk-form-label">Other Notes</label>
-                            <textarea
-                              type="text"
-                              id="description"
-                              onChange={this.captureDesignerDetails}
-                              className="uk-textarea"
-                            />
-                          </div>
-                          {/* Submit Order */}
-                          <div className="uk-width-1-1 uk-flex uk-flex-right">
-                            <button
-                              type="submit"
-                              className="uk-button uk-button-primary"
-                            >
-                              Submit Order
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="uk-width-1-2 new-order__content__two-columns__right">
-                        <div className="uk-padding">
-                          {/* Review: Order Details */}
-                          <div className="uk-width-1-1 uk-margin-small">
-                            <h2 className="uk-margin-remove">{job.name}</h2>
-                            <span>{job.description}</span>
-                          </div>
-                          {/* Review: Party Details */}
-                          <div className="uk-width-1-1 uk-margin-small">
-                            <span>
-                              {selectedParty.label
-                                ? `Bill to: ${selectedParty.label}`
-                                : null}
-                            </span>
-                          </div>
-                          {/* Review: Job Types */}
-                          <div className="uk-width-1-1 uk-margin-small">
-                            <h5 className="uk-margin-small-bottom">
-                              Jobs in this Order
-                            </h5>
-                            <div>
-                              {jobsList && jobsList.length ? (
-                                jobsList.map((job, index) => (
-                                  <li key={`joblist_job_${index}`}>
-                                    {Methods.capitalize(job.type)} &middot;{" "}
-                                    {`${job.sizeWidth} x ${job.sizeHeight} ${
-                                      job.sizeUnits
-                                    }`}
-                                  </li>
-                                ))
-                              ) : (
-                                <span className="uk-text-muted">
-                                  There are no jobs in this order.<br />Use the
-                                  Job Types tab to add jobs.
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </li>
-            </ul>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>
