@@ -117,7 +117,12 @@ class NewJobOrder extends React.Component {
 
     // Call service
     OrderService.createOrder(order).then(order => {
-      console.log(order);
+      alert("Draft Order created!");
+      return this.setState({
+        order: { owner: 1 },
+        party: {},
+        currentTab: "order"
+      });
     });
   };
 
