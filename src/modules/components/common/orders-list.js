@@ -252,26 +252,12 @@ class OrdersList extends React.Component {
                     <td>{item.orderNumber ? item.orderNumber : "-"}</td>
                     <td>{item.orderName ? item.orderName : "-"}</td>
                     <td>{item.party ? item.party : "-"}</td>
-                    <td>
-                      {item.expectedDelivery ? item.expectedDelivery : "-"}
-                    </td>
                     <td>{item.accountOwner ? item.accountOwner : "-"}</td>
                     <td>{item.status ? item.status : "-"}</td>
                     <td>
                       <span>
                         {showActionButtons ? (
                           <span>
-                            {/* View Order Details */}
-                            {permissions.canViewOrderDetails ? (
-                              <button
-                                type="button"
-                                onClick={() => this.viewOrder(item.id)}
-                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
-                                disabled={isViewDisabled}
-                              >
-                                View
-                              </button>
-                            ) : null}
                             {/* Edit Order Details */}
                             {permissions.canEditOrderDetails ? (
                               <button

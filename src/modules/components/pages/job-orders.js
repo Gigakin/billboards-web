@@ -17,7 +17,6 @@ class JobOrders extends React.Component {
       "Order #",
       "Order Name",
       "Party Name",
-      "Expected Delivery Date & Time",
       "Account Owner",
       "Order Status",
       "Actions"
