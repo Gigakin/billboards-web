@@ -62,9 +62,11 @@ class NewJobOrder extends React.Component {
   getPartyInformation = partynumber => {
     if (partynumber) {
       let { parties } = this.state;
-      let selectedParty = parties.find(party => {
-        if (party.mobile === partynumber) return party;
-        return {};
+      let selectedParty = {};
+      parties.forEach(party => {
+        if (party.mobile === partynumber) {
+          return (selectedParty = party);
+        }
       });
       return this.setState({
         party: selectedParty
