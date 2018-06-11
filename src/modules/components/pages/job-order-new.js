@@ -21,6 +21,7 @@ class NewJobOrder extends React.Component {
         owner: 1
       },
       party: {
+        id: "",
         name: "",
         contact_person: "",
         mobile: "",
@@ -108,7 +109,12 @@ class NewJobOrder extends React.Component {
   createOrder = event => {
     event.preventDefault();
     let { order, party } = this.state;
-    OrderService.createOrder({ order: order, party: party }).then(order => {
+
+    // Append additional info
+    order.party = party.id;
+
+    // Call service
+    OrderService.createOrder(order).then(order => {
       console.log(order);
     });
   };
@@ -128,7 +134,7 @@ class NewJobOrder extends React.Component {
     let { accountOwners, currentTab } = this.state;
 
     return (
-      <form className="new-order">
+      <form className="new-order" onSubmit={this.createOrder}>
         <div className="uk-width-1-1">
           {/* Header */}
           <div className="lists__header">
@@ -235,8 +241,9 @@ class NewJobOrder extends React.Component {
                         </div>
                         <div className="uk-width-1-2 uk-margin-top uk-flex uk-flex-right">
                           <button
-                            type="submit"
+                            type="button"
                             className="uk-button uk-button-primary"
+                            onClick={() => this.switchTab("party")}
                           >
                             Save and Continue
                           </button>
@@ -386,6 +393,7 @@ class NewJobOrder extends React.Component {
                     <button
                       type="button"
                       className="uk-button uk-button-primary uk-margin-small-right"
+                      onClick={() => this.switchTab("order")}
                     >
                       Previous
                     </button>
