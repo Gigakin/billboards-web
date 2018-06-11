@@ -122,12 +122,10 @@ class OrdersList extends React.Component {
       showPriorityIcon
     } = this.props;
 
-    let isViewDisabled = false,
-      isEditDisabled = false,
+    let isEditDisabled = false,
       isDeleteDisabled = false;
 
     if (permissions) {
-      isViewDisabled = !permissions.canViewOrderDetails;
       isEditDisabled = !permissions.canEditOrderDetails;
       isDeleteDisabled = !permissions.canDeleteOrder;
     }
