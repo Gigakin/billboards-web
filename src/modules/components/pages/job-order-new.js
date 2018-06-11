@@ -3,11 +3,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 // Components
-import Select from "../common/select";
+import Typeahead from "../common/typeahead";
 
 // Services
 import OrderService from "../../services/order-service";
 import AccountOwnerService from "../../services/account-owners-service";
+import PartyService from "../../services/party-service";
 
 // Classes
 class NewJobOrder extends React.Component {
@@ -15,13 +16,28 @@ class NewJobOrder extends React.Component {
     super(props);
     this.state = {
       order: {
+        name: "",
+        description: "",
         owner: 1
       },
-      party: {},
-      selectedParty: {},
+      party: {
+        name: "",
+        contact_person: "",
+        mobile: "",
+        gstin: "",
+        email: "",
+        address_line_1: "",
+        city: "",
+        state: "",
+        postal_code: ""
+      },
       accountOwners: [],
+      parties: [],
       currentTab: "order"
     };
+
+    // Dummy Parties
+    this.parties = [];
   }
 
   // Get Account Owners
@@ -29,6 +45,30 @@ class NewJobOrder extends React.Component {
     AccountOwnerService.getAccountOwners().then(owners => {
       return this.setState({ accountOwners: owners });
     });
+  };
+
+  // Get Parties
+  getParties = () => {
+    PartyService.getParties().then(parties => {
+      parties.forEach(party => {
+        this.parties.push(party.mobile);
+        this.setState({ parties: parties });
+      });
+    });
+  };
+
+  // Get Party Information
+  getPartyInformation = partynumber => {
+    if (partynumber) {
+      let { parties } = this.state;
+      let selectedParty = parties.find(party => {
+        if (party.mobile === partynumber) return party;
+        return {};
+      });
+      return this.setState({
+        party: selectedParty
+      });
+    }
   };
 
   // Find Party By Number
@@ -80,11 +120,12 @@ class NewJobOrder extends React.Component {
   };
 
   componentDidMount() {
-    return this.getAccountOwners();
+    this.getParties();
+    this.getAccountOwners();
   }
 
   render() {
-    let { accountOwners, selectedParty, currentTab } = this.state;
+    let { accountOwners, currentTab } = this.state;
 
     return (
       <form className="new-order">
@@ -132,6 +173,7 @@ class NewJobOrder extends React.Component {
                             <input
                               id="name"
                               onChange={this.captureOrderDetails}
+                              value={this.state.order.name}
                               className="uk-input"
                               autoFocus
                               required
@@ -145,6 +187,7 @@ class NewJobOrder extends React.Component {
                           <input
                             id="description"
                             onChange={this.captureOrderDetails}
+                            value={this.state.order.description}
                             className="uk-input"
                             required
                           />
@@ -155,6 +198,7 @@ class NewJobOrder extends React.Component {
                             <select
                               id="owner"
                               onChange={this.captureOrderDetails}
+                              value={this.state.order.owner}
                               className="uk-select"
                               required
                             >
@@ -210,10 +254,16 @@ class NewJobOrder extends React.Component {
                     <div className="uk-width-1-2 uk-margin">
                       <label className="uk-form-label">Phone Number</label>
                       <div className="uk-form-controls">
-                        <Select
-                          value={selectedParty}
-                          onChange={this.findPartyByNumber}
-                          options={this.dummyParties}
+                        <Typeahead
+                          maxVisible={4}
+                          options={this.parties}
+                          customClasses={{ input: "uk-input" }}
+                          onOptionSelected={option =>
+                            this.getPartyInformation(option)
+                          }
+                          inputProps={{
+                            type: "number"
+                          }}
                         />
                       </div>
                     </div>
@@ -228,8 +278,9 @@ class NewJobOrder extends React.Component {
                         <div className="uk-form-controls">
                           <input
                             type="text"
-                            id="partyName"
+                            id="name"
                             onChange={this.capturePartyDetails}
+                            value={this.state.party.name}
                             className="uk-input"
                             required
                           />
@@ -240,8 +291,9 @@ class NewJobOrder extends React.Component {
                         <div className="uk-form-controls">
                           <input
                             type="text"
-                            id="contactPerson"
+                            id="contact_person"
                             onChange={this.capturePartyDetails}
+                            value={this.state.party.contact_person}
                             className="uk-input"
                           />
                         </div>
@@ -253,6 +305,7 @@ class NewJobOrder extends React.Component {
                             type="email"
                             id="email"
                             onChange={this.capturePartyDetails}
+                            value={this.state.party.email}
                             className="uk-input"
                             required
                           />
@@ -265,6 +318,7 @@ class NewJobOrder extends React.Component {
                             type="text"
                             id="gstin"
                             onChange={this.capturePartyDetails}
+                            value={this.state.party.gstin}
                             className="uk-input"
                           />
                         </div>
@@ -274,8 +328,9 @@ class NewJobOrder extends React.Component {
                         <div className="uk-form-controls">
                           <input
                             type="text"
-                            id="addressLine1"
+                            id="address_line_1"
                             onChange={this.capturePartyDetails}
+                            value={this.state.party.address_line_1}
                             className="uk-input"
                             required
                           />
@@ -288,6 +343,7 @@ class NewJobOrder extends React.Component {
                             type="text"
                             id="city"
                             onChange={this.capturePartyDetails}
+                            value={this.state.party.city}
                             className="uk-input"
                             required
                           />
@@ -299,6 +355,7 @@ class NewJobOrder extends React.Component {
                           <select
                             id="state"
                             onChange={this.capturePartyDetails}
+                            value={this.state.party.state}
                             className="uk-select"
                             required
                           >
@@ -312,8 +369,9 @@ class NewJobOrder extends React.Component {
                         <div className="uk-form-controls">
                           <input
                             type="number"
-                            id="postalCode"
+                            id="postal_code"
                             onChange={this.capturePartyDetails}
+                            value={this.state.party.postal_code}
                             className="uk-input"
                             minLength="6"
                             maxLength="6"
