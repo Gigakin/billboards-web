@@ -32,10 +32,15 @@ class JobOrders extends React.Component {
     });
   };
 
+  // Edit Order
+  editOrder = order => {
+    return console.log(order);
+  };
+
   // Delete Order
-  deleteOrder = orderid => {
-    OrderService.deleteOrder(orderid).then(order => {
-      console.log(order);
+  deleteOrder = order => {
+    OrderService.deleteOrder(order.id).then(response => {
+      return this.getOrders();
     });
   };
 
@@ -67,7 +72,14 @@ class JobOrders extends React.Component {
 
           {/* Order List */}
           <div className="uk-width-1-1">
-            <OrdersList columns={this.tableColumns} data={orders} />
+            <OrdersList
+              data={orders}
+              columns={this.tableColumns}
+              methods={{
+                editOrder: this.editOrder,
+                deleteOrder: this.deleteOrder
+              }}
+            />
           </div>
         </div>
       </div>

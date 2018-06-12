@@ -14,7 +14,6 @@ import Methods from "../../methods";
 
 // Services
 import PermissionService from "../../services/permission-service";
-import OrderService from "../../services/order-service";
 
 // Classes
 class OrdersList extends React.Component {
@@ -29,15 +28,6 @@ class OrdersList extends React.Component {
     this.originalList = Methods.clone(props.data);
     this.filteredList = [];
   }
-
-  // View Order
-  viewOrder = itemid => {
-    if (itemid) {
-      let { history } = this.props;
-      return history.push(`/orders/${itemid}`);
-    }
-    return false;
-  };
 
   // Start Designing
   startDesigning = itemid => {
@@ -54,19 +44,20 @@ class OrdersList extends React.Component {
     return false;
   };
 
+  // Edit Order
+  editOrder = order => {
+    return this.props.methods.editOrder(order);
+  };
+
   // Delete Order
-  deleteOrder = item => {
+  deleteOrder = order => {
     return Swal({
       title: "Delete?",
       text: "Are you sure you want to delete this order?",
       buttons: ["Cancel", "Delete"],
       dangerMode: true
     }).then(shouldDelete => {
-      if (shouldDelete) {
-        OrderService.deleteOrder(item.id).then(response => {
-          alert(response.message);
-        });
-      }
+      if (shouldDelete) return this.props.methods.deleteOrder(order);
     });
   };
 
@@ -150,7 +141,7 @@ class OrdersList extends React.Component {
                 </label>
                 <div className="uk-form-controls">
                   <input
-                    id="ordernumber"
+                    id="id"
                     type="text"
                     onChange={this.filterData}
                     className="uk-input"
@@ -161,7 +152,7 @@ class OrdersList extends React.Component {
                 <label className="uk-form-label uk-text-bold">Party Name</label>
                 <div className="uk-form-controls">
                   <input
-                    id="party"
+                    id="name"
                     type="text"
                     onChange={this.filterData}
                     className="uk-input"
@@ -169,16 +160,18 @@ class OrdersList extends React.Component {
                 </div>
               </div>
               <div className="uk-width-1-6">
-                <label className="uk-form-label uk-text-bold">Job Status</label>
+                <label className="uk-form-label uk-text-bold">
+                  Order Status
+                </label>
                 <div className="uk-form-controls">
                   <select
-                    id="searchJobStatus"
+                    id="status"
                     onChange={this.filterData}
                     className="uk-select"
                   >
                     <option defaultChecked />
-                    <option value="assigned">Assigned</option>
-                    <option value="unassigned">Un-assigned</option>
+                    <option value="1">Draft</option>
+                    <option value="2">In Progress</option>
                   </select>
                 </div>
               </div>
@@ -188,7 +181,7 @@ class OrdersList extends React.Component {
                 </label>
                 <div className="uk-form-controls">
                   <input
-                    id="accountNumber"
+                    id="owner"
                     type="text"
                     onChange={this.filterData}
                     className="uk-input"
@@ -201,7 +194,7 @@ class OrdersList extends React.Component {
                 </label>
                 <div className="uk-form-controls">
                   <select
-                    id="searchPriorityStatus"
+                    id="priority"
                     onChange={this.filterData}
                     className="uk-select"
                   >
@@ -266,7 +259,7 @@ class OrdersList extends React.Component {
                               {permissions.canEditOrderDetails ? (
                                 <button
                                   type="button"
-                                  onClick={this.editOrder}
+                                  onClick={() => this.editOrder(item)}
                                   className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
                                   disabled={item.status.id !== 1}
                                 >
