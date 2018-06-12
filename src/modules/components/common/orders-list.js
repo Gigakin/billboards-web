@@ -14,6 +14,7 @@ import Methods from "../../methods";
 
 // Services
 import PermissionService from "../../services/permission-service";
+import OrderService from "../../services/order-service";
 
 // Classes
 class OrdersList extends React.Component {
@@ -54,12 +55,18 @@ class OrdersList extends React.Component {
   };
 
   // Delete Order
-  deleteOrder = () => {
+  deleteOrder = item => {
     return Swal({
       title: "Delete?",
       text: "Are you sure you want to delete this order?",
       buttons: ["Cancel", "Delete"],
       dangerMode: true
+    }).then(shouldDelete => {
+      if (shouldDelete) {
+        OrderService.deleteOrder(item.id).then(response => {
+          alert(response.message);
+        });
+      }
     });
   };
 
@@ -113,6 +120,12 @@ class OrdersList extends React.Component {
     return;
   }
 
+  componentWillReceiveProps(props) {
+    if (props.data) {
+      return this.setState({ tableData: props.data });
+    }
+  }
+
   render() {
     let { tableData, permissions } = this.state;
     let {
@@ -121,14 +134,6 @@ class OrdersList extends React.Component {
       showHandoverButton,
       showPriorityIcon
     } = this.props;
-
-    let isEditDisabled = false,
-      isDeleteDisabled = false;
-
-    if (permissions) {
-      isEditDisabled = !permissions.canEditOrderDetails;
-      isDeleteDisabled = !permissions.canDeleteOrder;
-    }
 
     return (
       <div className="sor-table">
@@ -238,84 +243,90 @@ class OrdersList extends React.Component {
             </thead>
             <tbody>
               {tableData && tableData.length ? (
-                tableData.map((item, index) => (
-                  <tr key={`sortable_item_${index}`}>
-                    {showPriorityIcon ? (
+                tableData.map((item, index) => {
+                  return (
+                    <tr key={`sortable_item_${index}`}>
+                      {showPriorityIcon ? (
+                        <td>
+                          {item.isHighPriority ? (
+                            <span className="uk-text-danger" uk-icon="bolt" />
+                          ) : null}
+                        </td>
+                      ) : null}
+                      <td>{item.id ? item.id : "-"}</td>
+                      <td>{item.name ? item.name : "-"}</td>
+                      <td>{item.party ? item.party.name : "-"}</td>
+                      <td>{item.owner ? item.owner.owner : "-"}</td>
+                      <td>{item.status ? item.status.status : "-"}</td>
                       <td>
-                        {item.isHighPriority ? (
-                          <span className="uk-text-danger" uk-icon="bolt" />
-                        ) : null}
+                        <span>
+                          {showActionButtons ? (
+                            <span>
+                              {/* Edit Order Details */}
+                              {permissions.canEditOrderDetails ? (
+                                <button
+                                  type="button"
+                                  onClick={this.editOrder}
+                                  className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
+                                  disabled={item.status.id !== 1}
+                                >
+                                  Edit
+                                </button>
+                              ) : null}
+
+                              {/* Delete Order */}
+                              {/* Allow delete only if order is draft */}
+                              {permissions.canDeleteOrder ? (
+                                <button
+                                  type="button"
+                                  onClick={() => this.deleteOrder(item)}
+                                  className="uk-button uk-button-danger uk-button-small uk-margin-small-right"
+                                  disabled={item.status.id !== 1}
+                                >
+                                  Delete
+                                </button>
+                              ) : null}
+
+                              {/* Start Design */}
+                              {permissions.canStartDesign ? (
+                                <button
+                                  type="button"
+                                  onClick={() => this.startDesigning(item.id)}
+                                  className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
+                                >
+                                  Start Designing
+                                </button>
+                              ) : null}
+
+                              {/* Start Print */}
+                              {permissions.canStartPrinting ? (
+                                <button
+                                  type="button"
+                                  onClick={() => this.startPrinting(item.id)}
+                                  className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
+                                >
+                                  Start Printing
+                                </button>
+                              ) : null}
+                            </span>
+                          ) : null}
+                          {/* Handover */}
+                          {permissions.canHandoverJob ? (
+                            showHandoverButton ? (
+                              <button
+                                type="button"
+                                onClick={() => this.handover(item)}
+                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                              >
+                                Handover
+                              </button>
+                            ) : null
+                          ) : null}
+                        </span>
                       </td>
-                    ) : null}
-                    <td>{item.orderNumber ? item.orderNumber : "-"}</td>
-                    <td>{item.orderName ? item.orderName : "-"}</td>
-                    <td>{item.party ? item.party : "-"}</td>
-                    <td>{item.accountOwner ? item.accountOwner : "-"}</td>
-                    <td>{item.status ? item.status : "-"}</td>
-                    <td>
-                      <span>
-                        {showActionButtons ? (
-                          <span>
-                            {/* Edit Order Details */}
-                            {permissions.canEditOrderDetails ? (
-                              <button
-                                type="button"
-                                onClick={this.editOrder}
-                                className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
-                                disabled={isEditDisabled}
-                              >
-                                Edit
-                              </button>
-                            ) : null}
-                            {/* Start Design */}
-                            {permissions.canStartDesign ? (
-                              <button
-                                type="button"
-                                onClick={() => this.startDesigning(item.id)}
-                                className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
-                              >
-                                Start Designing
-                              </button>
-                            ) : null}
-                            {/* Start Print */}
-                            {permissions.canStartPrinting ? (
-                              <button
-                                type="button"
-                                onClick={() => this.startPrinting(item.id)}
-                                className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
-                              >
-                                Start Printing
-                              </button>
-                            ) : null}
-                            {/* Delete Order */}
-                            {permissions.canDeleteOrder ? (
-                              <button
-                                type="button"
-                                onClick={this.deleteOrder}
-                                className="uk-button uk-button-danger uk-button-small uk-margin-small-right"
-                                disabled={isDeleteDisabled}
-                              >
-                                Delete
-                              </button>
-                            ) : null}
-                          </span>
-                        ) : null}
-                        {/* Handover */}
-                        {permissions.canHandoverJob ? (
-                          showHandoverButton ? (
-                            <button
-                              type="button"
-                              onClick={() => this.handover(item)}
-                              className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
-                            >
-                              Handover
-                            </button>
-                          ) : null
-                        ) : null}
-                      </span>
-                    </td>
-                  </tr>
-                ))
+                    </tr>
+                  );
+                })
               ) : (
                 <tr>
                   <td colSpan={columns.length}>

@@ -4,14 +4,16 @@ import { Link } from "react-router-dom";
 
 // Components
 import OrdersList from "../common/orders-list";
-import MockData from "../../stores/mock_data.json";
+
+// Services
+import OrderService from "../../services/order-service";
 
 // Classes
 class JobOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      jobsList: MockData
+      orders: []
     };
     this.tableColumns = [
       "Order #",
@@ -23,8 +25,26 @@ class JobOrders extends React.Component {
     ];
   }
 
+  // Get Orders
+  getOrders = () => {
+    OrderService.getOrders().then(orders => {
+      return this.setState({ orders: orders });
+    });
+  };
+
+  // Delete Order
+  deleteOrder = orderid => {
+    OrderService.deleteOrder(orderid).then(order => {
+      console.log(order);
+    });
+  };
+
+  componentDidMount() {
+    this.getOrders();
+  }
+
   render() {
-    let { jobsList } = this.state;
+    let { orders } = this.state;
     return (
       <div className="lists">
         <div className="uk-width-1-1">
@@ -47,7 +67,7 @@ class JobOrders extends React.Component {
 
           {/* Order List */}
           <div className="uk-width-1-1">
-            <OrdersList columns={this.tableColumns} data={jobsList} />
+            <OrdersList columns={this.tableColumns} data={orders} />
           </div>
         </div>
       </div>
