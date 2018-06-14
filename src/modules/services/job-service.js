@@ -10,7 +10,7 @@ let getJobTypes = () => {
   });
 };
 
-// Get Job Qualitites
+// Get Job Qualities
 let getJobQualities = () => {
   return Axios.get(`${Constants.URLS.PATHS.JOBS}/qualities`).then(response => {
     if (response.data) return response.data;
@@ -18,5 +18,13 @@ let getJobQualities = () => {
   });
 };
 
+// Get Job Uoms
+let getJobUoms = () => {
+  return Axios.get(`${Constants.URLS.PATHS.JOBS}/uoms`).then(response => {
+    if (response.data) return response.data;
+    return response;
+  });
+};
+
 // Exports
-export default { getJobTypes, getJobQualities };
+export default { getJobTypes, getJobQualities, getJobUoms };

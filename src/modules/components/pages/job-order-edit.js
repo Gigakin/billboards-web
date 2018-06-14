@@ -41,6 +41,7 @@ class EditJobOrder extends React.Component {
       },
       jobTypes: [],
       jobQualities: [],
+      jobMeasurements: [],
       currentTab: "order"
     };
   }
@@ -67,6 +68,13 @@ class EditJobOrder extends React.Component {
   getJobQualities = () => {
     JobService.getJobQualities().then(jobqualities => {
       return this.setState({ jobQualities: jobqualities });
+    });
+  };
+
+  // Get Job Uoms
+  getJobQualities = () => {
+    JobService.getJobUoms().then(uoms => {
+      return this.setState({ jobMeasurements: uoms });
     });
   };
 
@@ -129,6 +137,7 @@ class EditJobOrder extends React.Component {
       jobs,
       jobTypes,
       jobQualities,
+      jobMeasurements,
       currentTab
     } = this.state;
 
@@ -537,12 +546,18 @@ class EditJobOrder extends React.Component {
                                   className="uk-select uk-width-1-3@s"
                                   required
                                 >
-                                  <option value="feets">in Feets</option>
-                                  <option value="inches">in Inches</option>
-                                  <option value="meters">in Meters</option>
-                                  <option value="centimeters">
-                                    in Centimeters
-                                  </option>
+                                  {jobMeasurements && jobMeasurements.length
+                                    ? jobMeasurements.map(
+                                        (measurement, index) => (
+                                          <option
+                                            value={measurement.id}
+                                            key={`job_uom_${index}`}
+                                          >
+                                            {`In ${measurement.unit}`}
+                                          </option>
+                                        )
+                                      )
+                                    : null}
                                 </select>
                               </div>
                             </div>
