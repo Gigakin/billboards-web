@@ -6,6 +6,7 @@ export default {
       LOGIN: "auth/login",
       ORDERS: "api/orders",
       ACCOUNT_OWNERS: "/api/account-owners",
+      JOB_TYPES: "/api/job-types",
       PARTIES: "/api/parties"
     }
   }

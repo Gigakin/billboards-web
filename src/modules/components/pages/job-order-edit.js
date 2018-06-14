@@ -7,6 +7,7 @@ import JobList from "../common/job-list";
 
 // Services
 import OrderService from "../../services/order-service";
+import JobTypesService from "../../services/job-types-service";
 
 // Classes
 class EditJobOrder extends React.Component {
@@ -35,10 +36,11 @@ class EditJobOrder extends React.Component {
       },
       jobs: [],
       jobDetails: {
-        type: "frontlit",
+        type: "1",
         quality: "banner",
         sizeUnits: "feets"
       },
+      jobTypes: [],
       currentTab: "order"
     };
   }
@@ -51,6 +53,13 @@ class EditJobOrder extends React.Component {
         party: details.party,
         owner: details.owner
       });
+    });
+  };
+
+  // Get Job Types
+  getJobTypes = () => {
+    JobTypesService.getJobTypes().then(jobtypes => {
+      return this.setState({ jobTypes: jobtypes });
     });
   };
 
@@ -97,11 +106,22 @@ class EditJobOrder extends React.Component {
 
   componentDidMount() {
     let { params } = this.props.match;
-    if (params.id) return this.getOrderDetails(params.id);
+    if (params.id) {
+      this.getJobTypes();
+      this.getOrderDetails(params.id);
+    }
   }
 
   render() {
-    let { order, party, owner, jobDetails, jobs, currentTab } = this.state;
+    let {
+      order,
+      party,
+      owner,
+      jobDetails,
+      jobs,
+      jobTypes,
+      currentTab
+    } = this.state;
 
     return (
       <div className="new-order">
@@ -389,10 +409,16 @@ class EditJobOrder extends React.Component {
                                   onChange={this.captureJobDetails}
                                   required
                                 >
-                                  <option value="frontlit">Front-lit</option>
-                                  <option value="backlit">Back-lit</option>
-                                  <option value="vinyl">Vinyl</option>
-                                  <option value="indoor">Indoor</option>
+                                  {jobTypes && jobTypes.length
+                                    ? jobTypes.map((type, index) => (
+                                        <option
+                                          value={type.id}
+                                          key={`job_type_${index}`}
+                                        >
+                                          {type.type}
+                                        </option>
+                                      ))
+                                    : null}
                                 </select>
                               </div>
                             </div>
@@ -412,8 +438,21 @@ class EditJobOrder extends React.Component {
                             </div>
 
                             <div className="uk-width-1-2@s uk-flex uk-flex-middle">
+                              {/* Quality: Backlit */}
+                              {jobDetails.type === "1" ? (
+                                <div className="uk-width-1-1 uk-margin">
+                                  <label>
+                                    <input
+                                      type="checkbox"
+                                      className="uk-checkbox"
+                                      value="scanning"
+                                    />{" "}
+                                    Star Backlit
+                                  </label>
+                                </div>
+                              ) : null}
                               {/* Quality: Frontlit */}
-                              {jobDetails.type === "frontlit" ? (
+                              {jobDetails.type === "2" ? (
                                 <div className="uk-width-1-1">
                                   <label className="uk-form-label">
                                     Quality
@@ -433,34 +472,8 @@ class EditJobOrder extends React.Component {
                                   </div>
                                 </div>
                               ) : null}
-                              {/* Quality: Backlit */}
-                              {jobDetails.type === "backlit" ? (
-                                <div className="uk-width-1-1 uk-margin">
-                                  <label>
-                                    <input
-                                      type="checkbox"
-                                      className="uk-checkbox"
-                                      value="scanning"
-                                    />{" "}
-                                    Star Backlit
-                                  </label>
-                                </div>
-                              ) : null}
-                              {/* Quality: Vinyl */}
-                              {jobDetails.type === "vinyl" ? (
-                                <div className="uk-width-1-1 uk-margin">
-                                  <label>
-                                    <input
-                                      type="checkbox"
-                                      className="uk-checkbox"
-                                      value="scanning"
-                                    />{" "}
-                                    Transparent
-                                  </label>
-                                </div>
-                              ) : null}
                               {/* Quality: Indoor */}
-                              {jobDetails.type === "indoor" ? (
+                              {jobDetails.type === "3" ? (
                                 <div className="uk-width-1-1 uk-margin">
                                   <label>
                                     <input
@@ -469,6 +482,19 @@ class EditJobOrder extends React.Component {
                                       value="scanning"
                                     />{" "}
                                     Eco
+                                  </label>
+                                </div>
+                              ) : null}
+                              {/* Quality: Vinyl */}
+                              {jobDetails.type === "4" ? (
+                                <div className="uk-width-1-1 uk-margin">
+                                  <label>
+                                    <input
+                                      type="checkbox"
+                                      className="uk-checkbox"
+                                      value="scanning"
+                                    />{" "}
+                                    Transparent
                                   </label>
                                 </div>
                               ) : null}
@@ -515,8 +541,39 @@ class EditJobOrder extends React.Component {
                             {/* Options */}
                             <div className="uk-margin">
                               <div className="uk-form-label">Options</div>
+                              {jobDetails.type === "1" ? (
+                                <div className="uk-form-controls">
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="backlitOptions"
+                                      value="framing"
+                                    />{" "}
+                                    Framing
+                                  </label>
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="backlitOptions"
+                                      value="lolypop"
+                                    />{" "}
+                                    Lolypop
+                                  </label>
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="backlitOptions"
+                                      value="onlyprint"
+                                    />{" "}
+                                    Only Print
+                                  </label>
+                                </div>
+                              ) : null}
                               {/* Frontlit */}
-                              {jobDetails.type === "frontlit" ? (
+                              {jobDetails.type === "2" ? (
                                 <div className="uk-form-controls">
                                   <label className="uk-margin-right">
                                     <input
@@ -556,50 +613,7 @@ class EditJobOrder extends React.Component {
                                   </label>
                                 </div>
                               ) : null}
-                              {jobDetails.type === "backlit" ? (
-                                <div className="uk-form-controls">
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      name="backlitOptions"
-                                      value="framing"
-                                    />{" "}
-                                    Framing
-                                  </label>
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      name="backlitOptions"
-                                      value="lolypop"
-                                    />{" "}
-                                    Lolypop
-                                  </label>
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      name="backlitOptions"
-                                      value="onlyprint"
-                                    />{" "}
-                                    Only Print
-                                  </label>
-                                </div>
-                              ) : null}
-                              {jobDetails.type === "vinyl" ? (
-                                <div className="uk-form-controls">
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      name="foamsheetpasting"
-                                    />{" "}
-                                    Foamsheet Pasting
-                                  </label>
-                                </div>
-                              ) : null}
-                              {jobDetails.type === "indoor" ? (
+                              {jobDetails.type === "3" ? (
                                 <div className="uk-form-controls">
                                   <label className="uk-margin-right">
                                     <input
@@ -608,6 +622,18 @@ class EditJobOrder extends React.Component {
                                       name="mattelamination"
                                     />{" "}
                                     Matte Lamination
+                                  </label>
+                                </div>
+                              ) : null}
+                              {jobDetails.type === "4" ? (
+                                <div className="uk-form-controls">
+                                  <label className="uk-margin-right">
+                                    <input
+                                      className="uk-radio"
+                                      type="radio"
+                                      name="foamsheetpasting"
+                                    />{" "}
+                                    Foamsheet Pasting
                                   </label>
                                 </div>
                               ) : null}
