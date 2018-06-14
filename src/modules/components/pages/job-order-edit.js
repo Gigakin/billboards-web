@@ -7,7 +7,7 @@ import JobList from "../common/job-list";
 
 // Services
 import OrderService from "../../services/order-service";
-import JobTypesService from "../../services/job-types-service";
+import JobService from "../../services/job-service";
 
 // Classes
 class EditJobOrder extends React.Component {
@@ -37,10 +37,10 @@ class EditJobOrder extends React.Component {
       jobs: [],
       jobDetails: {
         type: "1",
-        quality: "banner",
         sizeUnits: "feets"
       },
       jobTypes: [],
+      jobQualities: [],
       currentTab: "order"
     };
   }
@@ -58,8 +58,15 @@ class EditJobOrder extends React.Component {
 
   // Get Job Types
   getJobTypes = () => {
-    JobTypesService.getJobTypes().then(jobtypes => {
+    JobService.getJobTypes().then(jobtypes => {
       return this.setState({ jobTypes: jobtypes });
+    });
+  };
+
+  // Get Job Qualities
+  getJobQualities = () => {
+    JobService.getJobQualities().then(jobqualities => {
+      return this.setState({ jobQualities: jobqualities });
     });
   };
 
@@ -108,6 +115,7 @@ class EditJobOrder extends React.Component {
     let { params } = this.props.match;
     if (params.id) {
       this.getJobTypes();
+      this.getJobQualities();
       this.getOrderDetails(params.id);
     }
   }
@@ -120,6 +128,7 @@ class EditJobOrder extends React.Component {
       jobDetails,
       jobs,
       jobTypes,
+      jobQualities,
       currentTab
     } = this.state;
 
