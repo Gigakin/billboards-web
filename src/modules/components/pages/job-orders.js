@@ -34,7 +34,9 @@ class JobOrders extends React.Component {
 
   // Edit Order
   editOrder = order => {
-    return console.log(order);
+    if (order) {
+      return this.props.history.push(`/orders/${order.id}/edit`);
+    }
   };
 
   // Delete Order

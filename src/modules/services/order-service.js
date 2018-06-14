@@ -50,11 +50,23 @@ let deleteOrder = orderid => {
   );
 };
 
+// Add Jobs
+let addJobs = (orderid, jobs) => {
+  return Axios.post(
+    `${Constants.URLS.PATHS.ORDERS}/${orderid}/jobs`,
+    jobs
+  ).then(response => {
+    if (response.data) return response.data;
+    return response;
+  });
+};
+
 // Exports
 export default {
   getOrders,
   getOrderById,
   createOrder,
   editOrder,
-  deleteOrder
+  deleteOrder,
+  addJobs
 };

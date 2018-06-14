@@ -20,6 +20,7 @@ import JobOrderDetails from "./pages/job-order-details";
 import Handovers from "./pages/handovers";
 import Invoices from "./pages/invoices";
 import ViewInvoice from "./pages/invoices-view";
+import EditJobOrder from "./pages/job-order-edit";
 
 // Root Component
 const Root = () => <Redirect to="/dashboard" />;
@@ -48,6 +49,7 @@ class ProtectedContent extends React.Component {
                     <ProtectedRoute exact path="/orders" component={JobOrders} />
                     <ProtectedRoute exact path="/orders/new" component={NewJobOrder} />
                     <ProtectedRoute exact path="/orders/:id" component={JobOrderDetails} />
+                    <ProtectedRoute exact path="/orders/:id/edit" component={EditJobOrder} />
                     <ProtectedRoute exact path="/handovers" component={Handovers} />
                     <ProtectedRoute exact path="/invoices" component={Invoices} />
                     <ProtectedRoute exact path="/invoices/:orderid" component={ViewInvoice} />
