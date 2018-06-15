@@ -6,8 +6,11 @@ import Methods from "../../methods";
 
 // Classes
 class JobList extends React.Component {
+
+  
+
   render() {
-    let { list, methods } = this.props;
+    let { list, types, methods } = this.props;
     return (
       <div className="jobs-list">
         <table className="uk-table uk-table-middle uk-table-small uk-table-divider">
@@ -70,6 +73,7 @@ class JobList extends React.Component {
 // Default Props
 JobList.defaultProps = {
   list: [],
+  types: [],
   methods: null
 };
 

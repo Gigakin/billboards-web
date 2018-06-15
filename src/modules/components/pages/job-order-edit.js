@@ -110,6 +110,17 @@ class EditJobOrder extends React.Component {
     });
   };
 
+  // Capture Job Priority
+  captureJobPriority = event => {
+    let { jobDetails } = this.state;
+    return this.setState({
+      jobDetails: {
+        ...this.state.jobDetails,
+        isHighPriority: !jobDetails.isHighPriority
+      }
+    });
+  };
+
   // Add Job
   addJob = event => {
     event.preventDefault();
@@ -697,6 +708,20 @@ class EditJobOrder extends React.Component {
                               </div>
                             </div>
 
+                            {/* Notes */}
+                            <div className="uk-width-1-1 uk-margin-small">
+                              <label className="uk-form-label">
+                                <input
+                                  type="checkbox"
+                                  className="uk-checkbox"
+                                  defaultChecked={jobDetails.isHighPriority}
+                                  onChange={this.captureJobPriority}
+                                  value="isHighPriority"
+                                />{" "}
+                                Is High Priority?
+                              </label>
+                            </div>
+
                             {/* Submit */}
                             <div className="uk-width-1-1@s uk-flex uk-flex-between">
                               <button
@@ -728,6 +753,7 @@ class EditJobOrder extends React.Component {
                       <div className="uk-width-1-2 new-order__content__two-columns__right">
                         <JobList
                           list={jobs}
+                          types={jobTypes}
                           methods={{
                             deleteItem: this.removeJob
                           }}
