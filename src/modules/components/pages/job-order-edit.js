@@ -144,6 +144,7 @@ class EditJobOrder extends React.Component {
     if (params.id) {
       this.getJobTypes();
       this.getJobQualities();
+      this.getJobUoms();
       this.getOrderDetails(params.id);
     }
   }
@@ -217,6 +218,7 @@ class EditJobOrder extends React.Component {
                               className="uk-input"
                               autoFocus
                               required
+                              disabled
                             />
                           </div>
                         </div>
@@ -230,6 +232,7 @@ class EditJobOrder extends React.Component {
                             value={order.description}
                             className="uk-input"
                             required
+                            disabled
                           />
                         </div>
                         <div className="uk-width-1-3">
@@ -249,6 +252,7 @@ class EditJobOrder extends React.Component {
                               type="checkbox"
                               className="uk-checkbox"
                               value="designing"
+                              disabled
                             />{" "}
                             Designing
                           </label>
@@ -257,6 +261,7 @@ class EditJobOrder extends React.Component {
                               type="checkbox"
                               className="uk-checkbox"
                               value="scanning"
+                              disabled
                             />{" "}
                             Scanning
                           </label>
@@ -267,7 +272,7 @@ class EditJobOrder extends React.Component {
                             className="uk-button uk-button-primary"
                             onClick={() => this.switchTab("party")}
                           >
-                            Save and Continue
+                            View Party Details
                           </button>
                         </div>
                       </div>
@@ -307,6 +312,7 @@ class EditJobOrder extends React.Component {
                             value={party.name}
                             className="uk-input"
                             required
+                            disabled
                           />
                         </div>
                       </div>
@@ -319,6 +325,7 @@ class EditJobOrder extends React.Component {
                             onChange={this.capturePartyDetails}
                             value={party.contact_person}
                             className="uk-input"
+                            disabled
                           />
                         </div>
                       </div>
@@ -332,6 +339,7 @@ class EditJobOrder extends React.Component {
                             value={party.email}
                             className="uk-input"
                             required
+                            disabled
                           />
                         </div>
                       </div>
@@ -344,6 +352,7 @@ class EditJobOrder extends React.Component {
                             onChange={this.capturePartyDetails}
                             value={party.gstin}
                             className="uk-input"
+                            disabled
                           />
                         </div>
                       </div>
@@ -357,6 +366,7 @@ class EditJobOrder extends React.Component {
                             value={party.address_line_1}
                             className="uk-input"
                             required
+                            disabled
                           />
                         </div>
                       </div>
@@ -370,6 +380,7 @@ class EditJobOrder extends React.Component {
                             value={party.city}
                             className="uk-input"
                             required
+                            disabled
                           />
                         </div>
                       </div>
@@ -382,6 +393,7 @@ class EditJobOrder extends React.Component {
                             value={party.state}
                             className="uk-select"
                             required
+                            disabled
                           >
                             <option value="" defaultChecked />
                             <option value="Maharashtra">Maharashtra</option>
@@ -400,6 +412,7 @@ class EditJobOrder extends React.Component {
                             minLength="6"
                             maxLength="6"
                             required
+                            disabled
                           />
                         </div>
                       </div>
@@ -412,7 +425,7 @@ class EditJobOrder extends React.Component {
                       className="uk-button uk-button-primary uk-margin-small-right"
                       onClick={() => this.switchTab("order")}
                     >
-                      Previous
+                      View Order Details
                     </button>
                     <button
                       type="button"
