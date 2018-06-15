@@ -37,7 +37,9 @@ class EditJobOrder extends React.Component {
       jobs: [],
       jobDetails: {
         type: "1",
-        sizeUnits: "feets"
+        sizeUnits: "feets",
+        isHighPriority: false,
+        deliveryExpectedBy: ""
       },
       jobTypes: [],
       jobQualities: [],
@@ -112,6 +114,7 @@ class EditJobOrder extends React.Component {
   addJob = event => {
     event.preventDefault();
     let { jobDetails, jobs } = this.state;
+    this.jobsForm.reset();
     return this.setState({
       jobs: jobs.concat(jobDetails)
     });
@@ -444,6 +447,7 @@ class EditJobOrder extends React.Component {
                   <div className="new-order__content__two-columns">
                     <form
                       onSubmit={this.addJob}
+                      ref={element => (this.jobsForm = element)}
                       className="uk-grid uk-form-stacked"
                     >
                       {/* Left */}
