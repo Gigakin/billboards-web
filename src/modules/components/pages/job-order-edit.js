@@ -72,7 +72,7 @@ class EditJobOrder extends React.Component {
   };
 
   // Get Job Uoms
-  getJobQualities = () => {
+  getJobUoms = () => {
     JobService.getJobUoms().then(uoms => {
       return this.setState({ jobMeasurements: uoms });
     });
@@ -84,6 +84,26 @@ class EditJobOrder extends React.Component {
       jobDetails: {
         ...this.state.jobDetails,
         [event.target.id]: event.target.value
+      }
+    });
+  };
+
+  // Capture Feature One
+  captureFeatureOne = event => {
+    return this.setState({
+      jobDetails: {
+        ...this.state.jobDetails,
+        feature1: event.target.value
+      }
+    });
+  };
+
+  // Capture Feature Two
+  captureFeatureTwo = event => {
+    return this.setState({
+      jobDetails: {
+        ...this.state.jobDetails,
+        feature1: event.target.value
       }
     });
   };
@@ -455,67 +475,35 @@ class EditJobOrder extends React.Component {
                               </div>
                             </div>
 
+                            {/* Quality */}
                             <div className="uk-width-1-2@s uk-flex uk-flex-middle">
-                              {/* Quality: Backlit */}
-                              {jobDetails.type === "1" ? (
-                                <div className="uk-width-1-1 uk-margin">
-                                  <label>
-                                    <input
-                                      type="checkbox"
-                                      className="uk-checkbox"
-                                      value="scanning"
-                                    />{" "}
-                                    Star Backlit
-                                  </label>
+                              <div className="uk-width-1-1">
+                                <label className="uk-form-label">Quality</label>
+                                <div className="uk-form-controls">
+                                  <select
+                                    id="quality"
+                                    className="uk-select"
+                                    onChange={this.captureFeatureOne}
+                                    required
+                                  >
+                                    <option defaultChecked />
+                                    {jobQualities && jobQualities.length
+                                      ? jobQualities.map(
+                                          (quality, index) =>
+                                            quality.job_type ==
+                                            jobDetails.type ? (
+                                              <option
+                                                value={quality.id}
+                                                key={`job_quality_${index}`}
+                                              >
+                                                {quality.quality}
+                                              </option>
+                                            ) : null
+                                        )
+                                      : null}
+                                  </select>
                                 </div>
-                              ) : null}
-                              {/* Quality: Frontlit */}
-                              {jobDetails.type === "2" ? (
-                                <div className="uk-width-1-1">
-                                  <label className="uk-form-label">
-                                    Quality
-                                  </label>
-                                  <div className="uk-form-controls">
-                                    <select
-                                      id="quality"
-                                      className="uk-select"
-                                      onChange={this.captureJobDetails}
-                                      required
-                                    >
-                                      <option value="banner">Banner</option>
-                                      <option value="board">Board</option>
-                                      <option value="star">Star</option>
-                                      <option value="hoarding">Hoarding</option>
-                                    </select>
-                                  </div>
-                                </div>
-                              ) : null}
-                              {/* Quality: Indoor */}
-                              {jobDetails.type === "3" ? (
-                                <div className="uk-width-1-1 uk-margin">
-                                  <label>
-                                    <input
-                                      type="checkbox"
-                                      className="uk-checkbox"
-                                      value="scanning"
-                                    />{" "}
-                                    Eco
-                                  </label>
-                                </div>
-                              ) : null}
-                              {/* Quality: Vinyl */}
-                              {jobDetails.type === "4" ? (
-                                <div className="uk-width-1-1 uk-margin">
-                                  <label>
-                                    <input
-                                      type="checkbox"
-                                      className="uk-checkbox"
-                                      value="scanning"
-                                    />{" "}
-                                    Transparent
-                                  </label>
-                                </div>
-                              ) : null}
+                              </div>
                             </div>
 
                             {/* Dimensions */}
