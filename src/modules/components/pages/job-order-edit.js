@@ -8,6 +8,7 @@ import JobList from "../common/job-list";
 // Services
 import OrderService from "../../services/order-service";
 import JobService from "../../services/job-service";
+import PermissionService from "../../services/permission-service";
 
 // Classes
 class EditJobOrder extends React.Component {
@@ -44,7 +45,8 @@ class EditJobOrder extends React.Component {
       jobTypes: [],
       jobQualities: [],
       jobMeasurements: [],
-      currentTab: "order"
+      currentTab: "order",
+      permissions: {}
     };
   }
 
@@ -153,7 +155,15 @@ class EditJobOrder extends React.Component {
     return false;
   };
 
+  componentWillMount() {
+    // Get Permisissions
+    let role = PermissionService.getRole();
+    let permissions = PermissionService.getPermissions(role);
+    if (permissions) return this.setState({ permissions: permissions });
+  }
+
   componentDidMount() {
+    // Get Required Data
     let { params } = this.props.match;
     if (params.id) {
       this.getJobTypes();
@@ -173,7 +183,8 @@ class EditJobOrder extends React.Component {
       jobTypes,
       jobQualities,
       jobMeasurements,
-      currentTab
+      currentTab,
+      permissions
     } = this.state;
 
     return (
@@ -473,6 +484,7 @@ class EditJobOrder extends React.Component {
                                   id="type"
                                   className="uk-select"
                                   onChange={this.captureJobDetails}
+                                  disabled={!permissions.canAddJobs}
                                   required
                                 >
                                   {jobTypes && jobTypes.length
@@ -497,6 +509,7 @@ class EditJobOrder extends React.Component {
                                   type="number"
                                   id="quantity"
                                   onChange={this.captureJobDetails}
+                                  disabled={!permissions.canAddJobs}
                                   className="uk-input"
                                   required
                                 />
@@ -512,6 +525,7 @@ class EditJobOrder extends React.Component {
                                     id="quality"
                                     className="uk-select"
                                     onChange={this.captureJobDetails}
+                                    disabled={!permissions.canAddJobs}
                                     required
                                   >
                                     <option defaultChecked />
@@ -545,6 +559,7 @@ class EditJobOrder extends React.Component {
                                   type="text"
                                   id="sizeWidth"
                                   onChange={this.captureJobDetails}
+                                  disabled={!permissions.canAddJobs}
                                   className="uk-input uk-width-1-3@s"
                                   placeholder="Width"
                                   required
@@ -553,6 +568,7 @@ class EditJobOrder extends React.Component {
                                   type="text"
                                   id="sizeHeight"
                                   onChange={this.captureJobDetails}
+                                  disabled={!permissions.canAddJobs}
                                   className="uk-input uk-width-1-3@s"
                                   placeholder="Height"
                                   required
@@ -560,6 +576,7 @@ class EditJobOrder extends React.Component {
                                 <select
                                   id="sizeUnits"
                                   onChange={this.captureJobDetails}
+                                  disabled={!permissions.canAddJobs}
                                   className="uk-select uk-width-1-3@s"
                                   required
                                 >
@@ -588,6 +605,7 @@ class EditJobOrder extends React.Component {
                                     <input
                                       className="uk-radio"
                                       type="radio"
+                                      disabled={!permissions.canAddJobs}
                                       name="backlitOptions"
                                       value="framing"
                                     />{" "}
@@ -597,6 +615,7 @@ class EditJobOrder extends React.Component {
                                     <input
                                       className="uk-radio"
                                       type="radio"
+                                      disabled={!permissions.canAddJobs}
                                       name="backlitOptions"
                                       value="lolypop"
                                     />{" "}
@@ -606,6 +625,7 @@ class EditJobOrder extends React.Component {
                                     <input
                                       className="uk-radio"
                                       type="radio"
+                                      disabled={!permissions.canAddJobs}
                                       name="backlitOptions"
                                       value="onlyprint"
                                     />{" "}
@@ -621,6 +641,7 @@ class EditJobOrder extends React.Component {
                                       className="uk-radio"
                                       type="radio"
                                       name="frontlitOptions"
+                                      disabled={!permissions.canAddJobs}
                                       value="1lit"
                                     />{" "}
                                     1-Lit
@@ -630,6 +651,7 @@ class EditJobOrder extends React.Component {
                                       className="uk-radio"
                                       type="radio"
                                       name="frontlitOptions"
+                                      disabled={!permissions.canAddJobs}
                                       value="framing"
                                     />{" "}
                                     Framing
@@ -639,6 +661,7 @@ class EditJobOrder extends React.Component {
                                       className="uk-radio"
                                       type="radio"
                                       name="frontlitOptions"
+                                      disabled={!permissions.canAddJobs}
                                       value="pasting"
                                     />{" "}
                                     Pasting
@@ -648,6 +671,7 @@ class EditJobOrder extends React.Component {
                                       className="uk-radio"
                                       type="radio"
                                       name="frontlitOptions"
+                                      disabled={!permissions.canAddJobs}
                                       value="piping"
                                     />{" "}
                                     Piping
@@ -661,6 +685,7 @@ class EditJobOrder extends React.Component {
                                       className="uk-radio"
                                       type="radio"
                                       name="mattelamination"
+                                      disabled={!permissions.canAddJobs}
                                     />{" "}
                                     Matte Lamination
                                   </label>
@@ -673,6 +698,7 @@ class EditJobOrder extends React.Component {
                                       className="uk-radio"
                                       type="radio"
                                       name="foamsheetpasting"
+                                      disabled={!permissions.canAddJobs}
                                     />{" "}
                                     Foamsheet Pasting
                                   </label>
@@ -690,6 +716,7 @@ class EditJobOrder extends React.Component {
                                 <button
                                   type="button"
                                   className="uk-button uk-button-default"
+                                  disabled={!permissions.canAddJobs}
                                   tabIndex="-1"
                                 >
                                   Select File
@@ -705,6 +732,7 @@ class EditJobOrder extends React.Component {
                                   id="notes"
                                   className="uk-textarea"
                                   onChange={this.captureJobDetails}
+                                  disabled={!permissions.canAddJobs}
                                 />
                               </div>
                             </div>
@@ -717,6 +745,7 @@ class EditJobOrder extends React.Component {
                                   className="uk-checkbox"
                                   defaultChecked={jobDetails.isHighPriority}
                                   onChange={this.captureJobPriority}
+                                  disabled={!permissions.canAddJobs}
                                   value="isHighPriority"
                                 />{" "}
                                 Is High Priority?
@@ -728,6 +757,7 @@ class EditJobOrder extends React.Component {
                               <button
                                 type="button"
                                 className="uk-button uk-button-primary"
+                                onClick={() => this.switchTab("party")}
                               >
                                 Previous
                               </button>
@@ -735,17 +765,29 @@ class EditJobOrder extends React.Component {
                                 <button
                                   type="submit"
                                   className="uk-button uk-button-primary uk-margin-small-right"
+                                  disabled={!permissions.canAddJobs}
                                 >
                                   Add to Jobs
                                 </button>
-                                <button
-                                  type="button"
-                                  className="uk-button uk-button-primary"
-                                  disabled={!jobs || jobs.length === 0}
-                                  onClick={this.saveJobs}
-                                >
-                                  Finish
-                                </button>
+
+                                {permissions.canAddJobs ? (
+                                  <button
+                                    type="button"
+                                    className="uk-button uk-button-primary"
+                                    disabled={!jobs || jobs.length === 0}
+                                    onClick={this.saveJobs}
+                                  >
+                                    Finish
+                                  </button>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    className="uk-button uk-button-primary"
+                                    onClick={() => this.switchTab("review")}
+                                  >
+                                    Review Order
+                                  </button>
+                                )}
                               </div>
                             </div>
                           </div>
