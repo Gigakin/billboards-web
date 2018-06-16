@@ -39,7 +39,7 @@ const designer = {
   canSeeOrderManagement: true,
   canSeeOrderManagementList: true,
   canViewOrderDetails: true,
-  canEditOrderDetails: false,
+  canEditOrderDetails: true,
   canStartDesign: true,
   canStartPrinting: false,
   canCreateNewOrder: false,

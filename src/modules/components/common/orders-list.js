@@ -267,25 +267,12 @@ class OrdersList extends React.Component {
                                 </button>
                               ) : null}
 
-                              {/* Delete Order */}
-                              {/* Allow delete only if order is draft */}
-                              {permissions.canDeleteOrder ? (
-                                <button
-                                  type="button"
-                                  onClick={() => this.deleteOrder(item)}
-                                  className="uk-button uk-button-danger uk-button-small uk-margin-small-right"
-                                  disabled={item.status.id !== 1}
-                                >
-                                  Delete
-                                </button>
-                              ) : null}
-
                               {/* Start Design */}
                               {permissions.canStartDesign ? (
                                 <button
                                   type="button"
                                   onClick={() => this.startDesigning(item.id)}
-                                  className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
+                                  className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
                                 >
                                   Start Designing
                                 </button>
@@ -296,9 +283,22 @@ class OrdersList extends React.Component {
                                 <button
                                   type="button"
                                   onClick={() => this.startPrinting(item.id)}
-                                  className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
+                                  className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
                                 >
                                   Start Printing
+                                </button>
+                              ) : null}
+
+                              {/* Delete Order */}
+                              {/* Allow delete only if order is draft */}
+                              {permissions.canDeleteOrder ? (
+                                <button
+                                  type="button"
+                                  onClick={() => this.deleteOrder(item)}
+                                  className="uk-button uk-button-danger uk-button-small uk-margin-small-right"
+                                  disabled={item.status.id !== 1}
+                                >
+                                  Delete
                                 </button>
                               ) : null}
                             </span>
