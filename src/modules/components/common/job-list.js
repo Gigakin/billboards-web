@@ -10,7 +10,7 @@ class JobList extends React.Component {
   
 
   render() {
-    let { list, types, methods } = this.props;
+    let { list, methods } = this.props;
     return (
       <div className="jobs-list">
         <table className="uk-table uk-table-middle uk-table-small uk-table-divider">

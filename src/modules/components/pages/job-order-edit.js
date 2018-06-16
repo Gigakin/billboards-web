@@ -37,7 +37,7 @@ class EditJobOrder extends React.Component {
       jobs: [],
       jobDetails: {
         type: "1",
-        sizeUnits: "feets",
+        sizeUnits: "1",
         isHighPriority: false,
         deliveryExpectedBy: ""
       },
@@ -105,7 +105,7 @@ class EditJobOrder extends React.Component {
     return this.setState({
       jobDetails: {
         ...this.state.jobDetails,
-        feature1: event.target.value
+        feature2: event.target.value
       }
     });
   };
@@ -511,13 +511,14 @@ class EditJobOrder extends React.Component {
                                   <select
                                     id="quality"
                                     className="uk-select"
-                                    onChange={this.captureFeatureOne}
+                                    onChange={this.captureJobDetails}
                                     required
                                   >
                                     <option defaultChecked />
                                     {jobQualities && jobQualities.length
                                       ? jobQualities.map(
                                           (quality, index) =>
+                                            // eslint-disable-next-line
                                             quality.job_type ==
                                             jobDetails.type ? (
                                               <option
