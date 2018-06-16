@@ -754,7 +754,8 @@ class EditJobOrder extends React.Component {
                       <div className="uk-width-1-2 new-order__content__two-columns__right">
                         <JobList
                           list={jobs}
-                          types={jobTypes}
+                          jobTypes={jobTypes}
+                          sizeUnits={jobMeasurements}
                           methods={{
                             deleteItem: this.removeJob
                           }}

@@ -1,16 +1,10 @@
 // Modules
 import React from "react";
 
-// Assets
-import Methods from "../../methods";
-
 // Classes
 class JobList extends React.Component {
-
-  
-
   render() {
-    let { list, methods } = this.props;
+    let { list, jobTypes, sizeUnits, methods } = this.props;
     return (
       <div className="jobs-list">
         <table className="uk-table uk-table-middle uk-table-small uk-table-divider">
@@ -25,12 +19,18 @@ class JobList extends React.Component {
             {list && list.length ? (
               list.map((item, index) => (
                 <tr key={`job_item_${index}`}>
-                  <td>{item.type ? Methods.capitalize(item.type) : "-"}</td>
+                  <td>
+                    {jobTypes.map(
+                      // eslint-disable-next-line
+                      job => (job.id == item.type ? job.type : null)
+                    )}
+                  </td>
                   <td>
                     {item.sizeWidth && item.sizeHeight && item.sizeUnits
-                      ? `${item.sizeWidth} x ${item.sizeHeight} ${
-                          item.sizeUnits
-                        }`
+                      ? `${item.sizeWidth} x ${item.sizeHeight} ${sizeUnits.map(
+                          // eslint-disable-next-line
+                          size => (size.id == item.sizeUnits ? size.unit : null)
+                        )}`
                       : "-"}
                   </td>
                   <td>
@@ -73,7 +73,8 @@ class JobList extends React.Component {
 // Default Props
 JobList.defaultProps = {
   list: [],
-  types: [],
+  jobTypes: [],
+  sizeUnits: [],
   methods: null
 };
 
