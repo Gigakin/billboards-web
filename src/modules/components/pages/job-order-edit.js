@@ -808,6 +808,120 @@ class EditJobOrder extends React.Component {
                   </div>
                 </div>
               ) : null}
+
+              {/* Review */}
+              {currentTab === "review" ? (
+                <div>
+                  <div className="order-details">
+                    {/* Order Details */}
+                    <div className="order-details__header">
+                      <div className="uk-text-lead">{order.name}</div>
+                      <div className="uk-text-subtitle">
+                        {party.contact_person}
+                      </div>
+                    </div>
+                    <div className="order-details__jobs-list">
+                      {jobs && jobs.length
+                        ? jobs.map((job, index) => {
+                            return (
+                              <div>
+                                <div className="order-details__jobs-list__item">
+                                  <div className="uk-text-lead order-details__jobs-list__item__title">
+                                    {jobTypes.map(
+                                      // eslint-disable-next-line
+                                      item => {
+                                        return item.id == job.type
+                                          ? item.type
+                                          : null;
+                                      }
+                                    )}
+                                  </div>
+                                  <div className="uk-width-1-1">
+                                    <span className="uk-text-small">with</span>
+                                    <span className="uk-text-small uk-text-primary">
+                                      Foamsheet Pasting
+                                    </span>
+                                  </div>
+                                  <div className="uk-grid uk-grid-small uk-margin-small">
+                                    <div className="uk-width-1-2">
+                                      <span className="uk-text-small">
+                                        Type :{" "}
+                                      </span>
+                                      <span className="uk-text-small uk-text-primary">
+                                        {jobTypes.map(
+                                          // eslint-disable-next-line
+                                          item => {
+                                            return item.id == job.type
+                                              ? item.type
+                                              : null;
+                                          }
+                                        )}
+                                      </span>
+                                    </div>
+                                    <div className="uk-width-1-2">
+                                      <span className="uk-text-small">
+                                        Quality :{" "}
+                                      </span>
+                                      <span className="uk-text-small uk-text-primary">
+                                        {jobQualities.map(
+                                          // eslint-disable-next-line
+                                          item => {
+                                            return item.id == job.quality
+                                              ? item.quality
+                                              : null;
+                                          }
+                                        )}
+                                      </span>
+                                    </div>
+                                    <div className="uk-width-1-2">
+                                      <span className="uk-text-small">
+                                        Quantity :{" "}
+                                      </span>
+                                      <span className="uk-text-small uk-text-primary">
+                                        2
+                                      </span>
+                                    </div>
+                                    <div className="uk-width-1-2">
+                                      <span className="uk-text-small">
+                                        Dimensions :{" "}
+                                      </span>
+                                      <span className="uk-text-small uk-text-primary">
+                                        120 x 165 sq. ft.
+                                      </span>
+                                    </div>
+                                  </div>
+                                  {/* Add Textboxes here */}
+                                </div>
+                              </div>
+                            );
+                          })
+                        : null}
+                    </div>
+                  </div>
+                  <div className="order-details__footer">
+                    <div className="uk-flex uk-flex-between">
+                      <button
+                        type="button"
+                        className="uk-button uk-button-default"
+                        onClick={() => {
+                          this.switchTab("jobs");
+                        }}
+                      >
+                        Review Jobs
+                      </button>
+                      {permissions.canCompleteOrder ? (
+                        <button
+                          type="button"
+                          className="uk-button uk-button-primary"
+                          onClick={this.completeOrder}
+                        >
+                          Complete Order
+                        </button>
+                      ) : null}
+                    </div>
+                  </div>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>
