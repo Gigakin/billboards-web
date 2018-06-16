@@ -56,7 +56,8 @@ class EditJobOrder extends React.Component {
       return this.setState({
         order: details,
         party: details.party,
-        owner: details.owner
+        owner: details.owner,
+        jobs: details.jobs
       });
     });
   };
