@@ -2,8 +2,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// Assets
+import Strings from "../../strings";
+
 // Components
 import Typeahead from "../common/typeahead";
+import Notification from "../common/notification";
 
 // Services
 import OrderService from "../../services/order-service";
@@ -45,19 +49,33 @@ class NewJobOrder extends React.Component {
 
   // Get Account Owners
   getAccountOwners = () => {
-    AccountOwnerService.getAccountOwners().then(owners => {
-      return this.setState({ accountOwners: owners });
-    });
+    AccountOwnerService.getAccountOwners().then(
+      owners => this.setState({ accountOwners: owners }),
+      error => {
+        return Notification.Notify({
+          text: `Failed to get list of account owners. (${error})`,
+          type: "error"
+        });
+      }
+    );
   };
 
   // Get Parties
   getParties = () => {
-    PartyService.getParties().then(parties => {
-      parties.forEach(party => {
-        this.parties.push(party.mobile);
-        this.setState({ parties: parties });
-      });
-    });
+    PartyService.getParties().then(
+      parties => {
+        return parties.forEach(party => {
+          this.parties.push(party.mobile);
+          this.setState({ parties: parties });
+        });
+      },
+      error => {
+        return Notification.Notify({
+          text: `Failed to get list of parties. (${error})`,
+          type: "error"
+        });
+      }
+    );
   };
 
   // Get Party Information
@@ -124,14 +142,28 @@ class NewJobOrder extends React.Component {
     order.party = party.id;
 
     // Call service
-    OrderService.createOrder(order).then(order => {
-      alert("Draft Order created!");
-      return this.setState({
-        order: { owner: 1 },
-        party: {},
-        currentTab: "order"
-      });
-    });
+    OrderService.createOrder(order).then(
+      response => {
+        Notification.Notify({
+          text: response ? response : "Order created"
+        });
+        // Reset details
+        return this.setState({
+          party: {},
+          order: { owner: 1 },
+          currentTab: "order"
+        });
+        // TODO: Maybe take the user to the
+        // TODO: newly created order details page??
+      },
+      error => {
+        let { message } = error.response.data;
+        return Notification.Notify({
+          text: message ? message : Strings.COMMON.UNKNOWN_ERROR,
+          type: "error"
+        });
+      }
+    );
   };
 
   // Switch Tab

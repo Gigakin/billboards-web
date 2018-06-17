@@ -2,8 +2,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// Assets
+import Strings from "../../strings";
+
 // Components
 import OrdersList from "../common/orders-list";
+import Notification from "../common/notification";
 
 // Services
 import OrderService from "../../services/order-service";
@@ -27,9 +31,17 @@ class JobOrders extends React.Component {
 
   // Get Orders
   getOrders = () => {
-    OrderService.getOrders().then(orders => {
-      return this.setState({ orders: orders });
-    });
+    OrderService.getOrders().then(
+      orders => {
+        return this.setState({ orders: orders });
+      },
+      error => {
+        return Notification.Notify({
+          text: "Failed to get the list of orders",
+          type: "error"
+        });
+      }
+    );
   };
 
   // Edit Order
@@ -41,9 +53,16 @@ class JobOrders extends React.Component {
 
   // Delete Order
   deleteOrder = order => {
-    OrderService.deleteOrder(order.id).then(response => {
-      return this.getOrders();
-    });
+    OrderService.deleteOrder(order.id).then(
+      response => this.getOrders(),
+      error => {
+        let { message } = error.response.data;
+        return Notification.Notify({
+          text: message ? message : Strings.COMMON.UNKNOWN_ERROR,
+          type: "error"
+        });
+      }
+    );
   };
 
   componentDidMount() {

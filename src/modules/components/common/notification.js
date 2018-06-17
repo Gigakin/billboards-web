@@ -8,6 +8,7 @@ const Notify = options => {
   let { type, text } = options;
   if (!text) text = "Forgot to add text?";
   if (!type) type = "success";
+  type = type.toLowerCase();
   return toast[type](text);
 };
 

@@ -2,8 +2,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// Assets
+import Strings from "../../strings";
+
 // Components
 import JobList from "../common/job-list";
+import Notification from "../common/notification";
 
 // Services
 import OrderService from "../../services/order-service";
@@ -47,42 +51,74 @@ class EditJobOrder extends React.Component {
       jobTypes: [],
       jobQualities: [],
       jobMeasurements: [],
-      currentTab: "review",
+      currentTab: "order",
       permissions: {}
     };
   }
 
   // Get Order Details
   getOrderDetails = orderid => {
-    OrderService.getOrderById(orderid).then(details => {
-      return this.setState({
-        order: details,
-        party: details.party,
-        owner: details.owner,
-        jobs: details.jobs
-      });
-    });
+    OrderService.getOrderById(orderid).then(
+      details => {
+        return this.setState({
+          order: details,
+          party: details.party,
+          owner: details.owner,
+          jobs: details.jobs
+        });
+      },
+      error => {
+        return Notification.Notify({
+          text: "Failed to get order details",
+          type: "error"
+        });
+      }
+    );
   };
 
   // Get Job Types
   getJobTypes = () => {
-    JobService.getJobTypes().then(jobtypes => {
-      return this.setState({ jobTypes: jobtypes });
-    });
+    JobService.getJobTypes().then(
+      jobtypes => {
+        return this.setState({ jobTypes: jobtypes });
+      },
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of job types",
+          type: "error"
+        });
+      }
+    );
   };
 
   // Get Job Qualities
   getJobQualities = () => {
-    JobService.getJobQualities().then(jobqualities => {
-      return this.setState({ jobQualities: jobqualities });
-    });
+    JobService.getJobQualities().then(
+      jobqualities => {
+        return this.setState({ jobQualities: jobqualities });
+      },
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of job qualities",
+          type: "error"
+        });
+      }
+    );
   };
 
   // Get Job Uoms
   getJobUoms = () => {
-    JobService.getJobUoms().then(uoms => {
-      return this.setState({ jobMeasurements: uoms });
-    });
+    JobService.getJobUoms().then(
+      uoms => {
+        return this.setState({ jobMeasurements: uoms });
+      },
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of measurement units",
+          type: "error"
+        });
+      }
+    );
   };
 
   // Capture Job Details
@@ -139,27 +175,54 @@ class EditJobOrder extends React.Component {
   // Remove Job
   removeJob = jobid => {
     let { order, jobs } = this.state;
-    OrderService.removeJob(order.id, jobid).then(response => {
-      // Prevent deletion if there
-      // is only one order in jobs
-      if (jobs.length > 1) {
-        // Even index and job id
-        jobid--;
-        return this.setState({
-          jobs: jobs.filter((_, index) => {
-            return index !== jobid;
-          })
+    OrderService.removeJob(order.id, jobid).then(
+      response => {
+        Notification.Notify({
+          text: response.message ? response.message : "Removed job from order",
+          type: "success"
+        });
+        // Prevent deletion if there
+        // is only one order in jobs
+        if (jobs.length > 1) {
+          // Even index and job id
+          jobid--;
+          return this.setState({
+            jobs: jobs.filter((_, index) => {
+              return index !== jobid;
+            })
+          });
+        }
+      },
+      error => {
+        let { message } = error.response.data;
+        return Notification.Notify({
+          text: message ? message : Strings.COMMON.UNKNOWN_ERROR,
+          type: "error"
         });
       }
-    });
+    );
   };
 
   // Save Jobs
   saveJobs = event => {
     let { order, jobs } = this.state;
-    OrderService.addJobs(order.id, jobs).then(response => {
-      console.log(response);
-    });
+    OrderService.addJobs(order.id, jobs).then(
+      response => {
+        return Notification.Notify({
+          text: response.message
+            ? response.message
+            : "Added jobs to the order!",
+          type: "success"
+        });
+      },
+      error => {
+        let { message } = error.response.data;
+        return Notification.Notify({
+          text: message ? message : Strings.COMMON.UNKNOWN_ERROR,
+          type: "error"
+        });
+      }
+    );
   };
 
   // Switch Tab
