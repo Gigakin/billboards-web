@@ -46,7 +46,7 @@ class EditJobOrder extends React.Component {
         type: "1",
         sizeUnits: "1",
         isHighPriority: false,
-        deliveryExpectedBy: ""
+        deliveryExpectedBy: null
       },
       jobTypes: [],
       jobQualities: [],
@@ -194,9 +194,9 @@ class EditJobOrder extends React.Component {
         }
       },
       error => {
-        let { message } = error.response.data;
+        let { data } = error.response;
         return Notification.Notify({
-          text: message ? message : Strings.COMMON.UNKNOWN_ERROR,
+          text: data ? data : Strings.COMMON.UNKNOWN_ERROR,
           type: "error"
         });
       }
@@ -216,9 +216,9 @@ class EditJobOrder extends React.Component {
         });
       },
       error => {
-        let { message } = error.response.data;
+        let { data } = error.response;
         return Notification.Notify({
-          text: message ? message : Strings.COMMON.UNKNOWN_ERROR,
+          text: data ? data : Strings.COMMON.UNKNOWN_ERROR,
           type: "error"
         });
       }
@@ -827,6 +827,7 @@ class EditJobOrder extends React.Component {
                                   className="uk-input"
                                   onChange={this.captureJobDetails}
                                   disabled={!permissions.canAddJobs}
+                                  required
                                 />
                               </div>
                             </div>

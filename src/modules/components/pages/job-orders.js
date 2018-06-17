@@ -54,11 +54,16 @@ class JobOrders extends React.Component {
   // Delete Order
   deleteOrder = order => {
     OrderService.deleteOrder(order.id).then(
-      response => this.getOrders(),
+      response => {
+        this.getOrders();
+        Notification.Notify({
+          text: response.message ? response.message : "Order deleted"
+        });
+      },
       error => {
-        let { message } = error.response.data;
+        let { data } = error.response;
         return Notification.Notify({
-          text: message ? message : Strings.COMMON.UNKNOWN_ERROR,
+          text: data ? data : Strings.COMMON.UNKNOWN_ERROR,
           type: "error"
         });
       }

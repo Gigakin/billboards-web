@@ -157,9 +157,9 @@ class NewJobOrder extends React.Component {
         // TODO: newly created order details page??
       },
       error => {
-        let { message } = error.response.data;
+        let { data } = error.response;
         return Notification.Notify({
-          text: message ? message : Strings.COMMON.UNKNOWN_ERROR,
+          text: data ? data : Strings.COMMON.UNKNOWN_ERROR,
           type: "error"
         });
       }
