@@ -18,6 +18,8 @@ class EditJobOrder extends React.Component {
       order: {
         name: "",
         description: "",
+        isDesigning: false,
+        isScanning: false,
         owner: 1
       },
       party: {
@@ -277,7 +279,8 @@ class EditJobOrder extends React.Component {
                             <input
                               type="checkbox"
                               className="uk-checkbox"
-                              value="designing"
+                              value={order.isDesigning}
+                              defaultChecked={order.isDesigning}
                               disabled
                             />{" "}
                             Designing
@@ -286,7 +289,8 @@ class EditJobOrder extends React.Component {
                             <input
                               type="checkbox"
                               className="uk-checkbox"
-                              value="scanning"
+                              value={order.isScanning}
+                              defaultChecked={order.isScanning}
                               disabled
                             />{" "}
                             Scanning
@@ -888,7 +892,6 @@ class EditJobOrder extends React.Component {
                                 {/* Add Textboxes here */}
                                 <div className="uk-width-1-1">
                                   <div className="uk-text-subtitle">Costs</div>
-                                  
                                 </div>
                               </div>
                             );

@@ -18,6 +18,8 @@ class NewJobOrder extends React.Component {
       order: {
         name: "",
         description: "",
+        isDesigning: false,
+        isScanning: false,
         owner: 1
       },
       party: {
@@ -74,11 +76,6 @@ class NewJobOrder extends React.Component {
     }
   };
 
-  // Find Party By Number
-  findPartyByNumber = selectedoption => {
-    return;
-  };
-
   // Capture Order Details
   captureOrderDetails = event => {
     let value = event.target.value;
@@ -103,6 +100,17 @@ class NewJobOrder extends React.Component {
       party: {
         ...this.state.party,
         [event.target.id]: value
+      }
+    });
+  };
+
+  // Capture Additional Features
+  captureAdditionalOrderFeatures = event => {
+    let id = event.target.id;
+    return this.setState({
+      order: {
+        ...this.state.order,
+        [id]: !this.state.order[id]
       }
     });
   };
@@ -232,16 +240,18 @@ class NewJobOrder extends React.Component {
                           <label className="uk-margin-right">
                             <input
                               type="checkbox"
+                              id="isDesigning"
                               className="uk-checkbox"
-                              value="designing"
+                              onClick={this.captureAdditionalOrderFeatures}
                             />{" "}
                             Designing
                           </label>
                           <label className="uk-margin-right">
                             <input
                               type="checkbox"
+                              id="isScanning"
                               className="uk-checkbox"
-                              value="scanning"
+                              onClick={this.captureAdditionalOrderFeatures}
                             />{" "}
                             Scanning
                           </label>
