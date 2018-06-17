@@ -742,7 +742,23 @@ class EditJobOrder extends React.Component {
                               </div>
                             </div>
 
-                            {/* Notes */}
+                            {/* Delivery Expected By */}
+                            <div className="uk-width-1-1 uk-margin-small">
+                              <label className="uk-form-label">
+                                Delivery Expected By
+                              </label>
+                              <div className="uk-form-controls">
+                                <input
+                                  type="date"
+                                  id="delivery_expected_by"
+                                  className="uk-input"
+                                  onChange={this.captureJobDetails}
+                                  disabled={!permissions.canAddJobs}
+                                />
+                              </div>
+                            </div>
+
+                            {/* Is High Priority */}
                             <div className="uk-width-1-1 uk-margin-small">
                               <label className="uk-form-label">
                                 <input
@@ -825,78 +841,81 @@ class EditJobOrder extends React.Component {
                       </div>
                     </div>
                     <div className="order-details__jobs-list">
-                      {jobs && jobs.length
-                        ? jobs.map((job, index) => {
-                            return (
-                              <div
-                                key={`order_item_${index}`}
-                                className="order-details__jobs-list__item"
-                              >
-                                <div className="uk-text-lead order-details__jobs-list__item__title">
-                                  {jobTypes.map(item => {
-                                    // eslint-disable-next-line
-                                    return item.id == job.type
-                                      ? item.type
-                                      : null;
-                                  })}
-                                </div>
-                                <div className="uk-width-1-1">
+                      {jobs && jobs.length ? (
+                        jobs.map((job, index) => {
+                          return (
+                            <div
+                              key={`order_item_${index}`}
+                              className="order-details__jobs-list__item"
+                            >
+                              <div className="uk-text-lead order-details__jobs-list__item__title">
+                                {jobTypes.map(item => {
+                                  // eslint-disable-next-line
+                                  return item.id == job.type ? item.type : null;
+                                })}
+                              </div>
+                              <div className="uk-width-1-1">
+                                <span className="uk-text-small uk-text-primary">
+                                  {`with Foamsheet Pasting`}
+                                </span>
+                              </div>
+                              <div className="uk-grid uk-grid-small uk-margin-small">
+                                <div className="uk-width-1-2">
+                                  <span className="uk-text-small">Type : </span>
                                   <span className="uk-text-small uk-text-primary">
-                                    {`with Foamsheet Pasting`}
+                                    {jobTypes.map(item => {
+                                      // eslint-disable-next-line
+                                      return item.id == job.type
+                                        ? item.type
+                                        : null;
+                                    })}
                                   </span>
                                 </div>
-                                <div className="uk-grid uk-grid-small uk-margin-small">
-                                  <div className="uk-width-1-2">
-                                    <span className="uk-text-small">
-                                      Type :{" "}
-                                    </span>
-                                    <span className="uk-text-small uk-text-primary">
-                                      {jobTypes.map(item => {
-                                        // eslint-disable-next-line
-                                        return item.id == job.type
-                                          ? item.type
-                                          : null;
-                                      })}
-                                    </span>
-                                  </div>
-                                  <div className="uk-width-1-2">
-                                    <span className="uk-text-small">
-                                      Quality :{" "}
-                                    </span>
-                                    <span className="uk-text-small uk-text-primary">
-                                      {jobQualities.map(item => {
-                                        // eslint-disable-next-line
-                                        return item.id == job.quality
-                                          ? item.quality
-                                          : null;
-                                      })}
-                                    </span>
-                                  </div>
-                                  <div className="uk-width-1-2">
-                                    <span className="uk-text-small">
-                                      Quantity :{" "}
-                                    </span>
-                                    <span className="uk-text-small uk-text-primary">
-                                      2
-                                    </span>
-                                  </div>
-                                  <div className="uk-width-1-2">
-                                    <span className="uk-text-small">
-                                      Dimensions :{" "}
-                                    </span>
-                                    <span className="uk-text-small uk-text-primary">
-                                      120 x 165 sq. ft.
-                                    </span>
-                                  </div>
+                                <div className="uk-width-1-2">
+                                  <span className="uk-text-small">
+                                    Quality :{" "}
+                                  </span>
+                                  <span className="uk-text-small uk-text-primary">
+                                    {jobQualities.map(item => {
+                                      // eslint-disable-next-line
+                                      return item.id == job.quality
+                                        ? item.quality
+                                        : null;
+                                    })}
+                                  </span>
                                 </div>
-                                {/* Add Textboxes here */}
-                                <div className="uk-width-1-1">
-                                  <div className="uk-text-subtitle">Costs</div>
+                                <div className="uk-width-1-2">
+                                  <span className="uk-text-small">
+                                    Quantity :{" "}
+                                  </span>
+                                  <span className="uk-text-small uk-text-primary">
+                                    2
+                                  </span>
+                                </div>
+                                <div className="uk-width-1-2">
+                                  <span className="uk-text-small">
+                                    Dimensions :{" "}
+                                  </span>
+                                  <span className="uk-text-small uk-text-primary">
+                                    120 x 165 sq. ft.
+                                  </span>
                                 </div>
                               </div>
-                            );
-                          })
-                        : null}
+                              {/* Add Textboxes here */}
+                              <div className="uk-width-1-1">
+                                <div className="uk-text-subtitle">Costs</div>
+                              </div>
+                            </div>
+                          );
+                        })
+                      ) : (
+                        // Placeholder
+                        <div className="uk-width-1-1 uk-padding">
+                          <div className="uk-placeholder">
+                            There are no jobs in this order.
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="order-details__footer">
