@@ -18,8 +18,8 @@ class NewJobOrder extends React.Component {
       order: {
         name: "",
         description: "",
-        isDesigning: false,
-        isScanning: false,
+        is_designing: false,
+        is_scanning: false,
         owner: 1
       },
       party: {
@@ -240,7 +240,7 @@ class NewJobOrder extends React.Component {
                           <label className="uk-margin-right">
                             <input
                               type="checkbox"
-                              id="isDesigning"
+                              id="is_designing"
                               className="uk-checkbox"
                               onClick={this.captureAdditionalOrderFeatures}
                             />{" "}
@@ -249,7 +249,7 @@ class NewJobOrder extends React.Component {
                           <label className="uk-margin-right">
                             <input
                               type="checkbox"
-                              id="isScanning"
+                              id="is_scanning"
                               className="uk-checkbox"
                               onClick={this.captureAdditionalOrderFeatures}
                             />{" "}
