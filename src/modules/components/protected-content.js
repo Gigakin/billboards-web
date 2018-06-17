@@ -7,6 +7,7 @@ import { ProtectedRoute } from "./routes";
 
 // Components
 import Navigation from "./common/navigation";
+import Notification from "./common/notification";
 import Sidebar from "./common/sidebar";
 
 // Services
@@ -54,6 +55,8 @@ class ProtectedContent extends React.Component {
                     <ProtectedRoute exact path="/invoices" component={Invoices} />
                     <ProtectedRoute exact path="/invoices/:orderid" component={ViewInvoice} />
                   </Switch>
+                  {/* Notifications */}
+                  <Notification.Container />
                 </div>
               </div>
             </div>
