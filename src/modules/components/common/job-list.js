@@ -34,17 +34,10 @@ class JobList extends React.Component {
                       : "-"}
                   </td>
                   <td>
-                    {/* <button
-                      type="button"
-                      title="Edit Item"
-                      onClick={() => methods.deleteItem(index)}
-                      className="uk-icon-button uk-text-primary uk-margin-small-right"
-                      uk-icon="pencil"
-                    /> */}
                     <button
                       type="button"
                       title="Delete"
-                      onClick={() => methods.deleteItem(index)}
+                      onClick={() => methods.deleteItem(item.id)}
                       className="uk-icon-button uk-text-danger uk-margin-small-right"
                       uk-icon="trash"
                     />
@@ -75,7 +68,7 @@ JobList.defaultProps = {
   list: [],
   jobTypes: [],
   sizeUnits: [],
-  methods: null
+  methods: {}
 };
 
 // Exports

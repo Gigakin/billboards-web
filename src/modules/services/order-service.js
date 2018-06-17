@@ -61,6 +61,16 @@ let addJobs = (orderid, jobs) => {
   });
 };
 
+// Remove Jobs
+let removeJob = (orderid, jobid) => {
+  return Axios.delete(
+    `${Constants.URLS.PATHS.ORDERS}/${orderid}/jobs/${jobid}`
+  ).then(response => {
+    if (response.data) return response.data;
+    return response;
+  });
+};
+
 // Exports
 export default {
   getOrders,
@@ -68,5 +78,6 @@ export default {
   createOrder,
   editOrder,
   deleteOrder,
-  addJobs
+  addJobs,
+  removeJob
 };

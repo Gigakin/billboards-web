@@ -138,9 +138,19 @@ class EditJobOrder extends React.Component {
 
   // Remove Job
   removeJob = jobid => {
-    let { jobs } = this.state;
-    return this.setState({
-      jobs: jobs.filter((_, index) => index !== jobid)
+    let { order, jobs } = this.state;
+    OrderService.removeJob(order.id, jobid).then(response => {
+      // Prevent deletion if there
+      // is only one order in jobs
+      if (jobs.length > 1) {
+        // Even index and job id
+        jobid--;
+        return this.setState({
+          jobs: jobs.filter((_, index) => {
+            return index !== jobid;
+          })
+        });
+      }
     });
   };
 
@@ -820,7 +830,7 @@ class EditJobOrder extends React.Component {
                           jobTypes={jobTypes}
                           sizeUnits={jobMeasurements}
                           methods={{
-                            deleteItem: this.removeJob
+                            deleteItem: jobid => this.removeJob(jobid)
                           }}
                         />
                       </div>
