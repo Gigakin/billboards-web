@@ -276,7 +276,9 @@ class NewJobOrder extends React.Component {
                             this.getPartyInformation(option)
                           }
                           inputProps={{
-                            type: "number"
+                            type: "number",
+                            // Need to look into this "new-password"
+                            autoComplete: "new-password"
                           }}
                         />
                       </div>
