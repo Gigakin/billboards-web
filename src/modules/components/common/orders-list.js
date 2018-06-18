@@ -140,9 +140,6 @@ class OrdersList extends React.Component {
         <div className="uk-card uk-card-default uk-margin-bottom uk-padding">
           <div className="sor-table__actions">
             <div className="uk-grid uk-grid-small uk-form-stacked">
-              <div className="uk-width-1-1">
-                <div className="uk-text-lead uk-margin-bottom">Search</div>
-              </div>
               <div className="uk-width-1-6">
                 <label className="uk-form-label uk-text-bold">
                   Order Number
