@@ -6,7 +6,7 @@ const frontdesk = {
   canSeeOrderManagement: true,
   canSeeOrderManagementList: true,
   canViewOrderDetails: true,
-  canEditOrderDetails: true,
+  canEditOrderDetails: false,
   canStartDesign: false,
   canStartPrinting: false,
   canCreateNewOrder: true,
