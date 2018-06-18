@@ -210,6 +210,12 @@ class NewJobOrder extends React.Component {
               <li className={currentTab === "party" ? "uk-active" : null}>
                 <a onClick={() => this.switchTab("party")}>2. Party Details</a>
               </li>
+              <li className="uk-disabled">
+                <a>3. Add Jobs</a>
+              </li>
+              <li className="uk-disabled">
+                <a>4. Review</a>
+              </li>
             </ul>
 
             {/* Switcher */}
