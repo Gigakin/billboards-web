@@ -16,6 +16,17 @@
 
     table {
       margin: 0;
+
+      tr {
+        &.is-link {
+          cursor: pointer;
+
+          &:hover {
+            background: fadeOut(@global-primary-background, 95%);
+          }
+        }
+      }
+
       th,
       td {
         padding: 16px;

@@ -44,6 +44,11 @@ class OrdersList extends React.Component {
     return false;
   };
 
+  // View Order Details
+  viewDetails = itemid => {
+    if (itemid) return this.props.history.push(`/orders/${itemid}`);
+  };
+
   // Edit Order
   editOrder = order => {
     return this.props.methods.editOrder(order);
@@ -246,19 +251,29 @@ class OrdersList extends React.Component {
               {tableData && tableData.length ? (
                 tableData.map((item, index) => {
                   return (
-                    <tr key={`sortable_item_${index}`}>
+                    <tr key={`sortable_item_${index}`} className="is-link">
                       {showPriorityIcon ? (
-                        <td>
+                        <td onClick={() => this.viewDetails(item.id)}>
                           {item.isHighPriority ? (
                             <span className="uk-text-danger" uk-icon="bolt" />
                           ) : null}
                         </td>
                       ) : null}
-                      <td>{item.id ? item.id : "-"}</td>
-                      <td>{item.name ? item.name : "-"}</td>
-                      <td>{item.party ? item.party.name : "-"}</td>
-                      <td>{item.owner ? item.owner.owner : "-"}</td>
-                      <td>{item.status ? item.status.status : "-"}</td>
+                      <td onClick={() => this.viewDetails(item.id)}>
+                        {item.id ? item.id : "-"}
+                      </td>
+                      <td onClick={() => this.viewDetails(item.id)}>
+                        {item.name ? item.name : "-"}
+                      </td>
+                      <td onClick={() => this.viewDetails(item.id)}>
+                        {item.party ? item.party.name : "-"}
+                      </td>
+                      <td onClick={() => this.viewDetails(item.id)}>
+                        {item.owner ? item.owner.owner : "-"}
+                      </td>
+                      <td onClick={() => this.viewDetails(item.id)}>
+                        {item.status ? item.status.status : "-"}
+                      </td>
                       <td>
                         <span>
                           {showActionButtons ? (
@@ -268,7 +283,7 @@ class OrdersList extends React.Component {
                                 <button
                                   type="button"
                                   onClick={() => this.editOrder(item)}
-                                  className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
+                                  className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
                                   disabled={item.status.id !== 1}
                                 >
                                   Edit
@@ -280,7 +295,7 @@ class OrdersList extends React.Component {
                                 <button
                                   type="button"
                                   onClick={() => this.startDesigning(item.id)}
-                                  className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                                  className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
                                 >
                                   Start Designing
                                 </button>
@@ -291,7 +306,7 @@ class OrdersList extends React.Component {
                                 <button
                                   type="button"
                                   onClick={() => this.startPrinting(item.id)}
-                                  className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                                  className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
                                 >
                                   Start Printing
                                 </button>
