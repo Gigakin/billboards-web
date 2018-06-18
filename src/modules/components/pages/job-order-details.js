@@ -207,8 +207,8 @@ class JobOrderDetails extends React.Component {
                               {job.sizeWidth} x {job.sizeHeight}{" "}
                               {job.sizeUnits
                                 ? jobMeasurements.map(
-                                    // eslint-disable-next-line
                                     size =>
+                                      // eslint-disable-next-line
                                       size.id == job.sizeUnits
                                         ? size.unit
                                         : null
