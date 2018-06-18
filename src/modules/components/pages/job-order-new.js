@@ -145,7 +145,7 @@ class NewJobOrder extends React.Component {
     OrderService.createOrder(order).then(
       response => {
         Notification.Notify({
-          text: response ? response : "Order created"
+          text: response.message ? response.message : "Order created"
         });
         // Reset details
         return this.setState({

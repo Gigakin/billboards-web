@@ -46,7 +46,8 @@ class EditJobOrder extends React.Component {
         type: "1",
         sizeUnits: "1",
         isHighPriority: false,
-        deliveryExpectedBy: null
+        deliveryExpectedBy: null,
+        notes: null
       },
       jobTypes: [],
       jobQualities: [],
@@ -910,9 +911,7 @@ class EditJobOrder extends React.Component {
                     {/* Order Details */}
                     <div className="order-details__header">
                       <div className="uk-text-lead">{order.name}</div>
-                      <div className="uk-text-subtitle">
-                        {party.contact_person}
-                      </div>
+                      <div className="uk-text-subtitle">{party.name}</div>
                     </div>
                     <div className="order-details__jobs-list">
                       {jobs && jobs.length ? (
@@ -972,6 +971,11 @@ class EditJobOrder extends React.Component {
                                   </span>
                                   <span className="uk-text-small uk-text-primary">
                                     120 x 165 sq. ft.
+                                  </span>
+                                </div>
+                                <div className="uk-width-1-1">
+                                  <span className="uk-text-small">
+                                    Notes : {job.notes ? job.notes : "No notes"}
                                   </span>
                                 </div>
                               </div>
