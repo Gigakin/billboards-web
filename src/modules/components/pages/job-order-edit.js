@@ -376,7 +376,7 @@ class EditJobOrder extends React.Component {
                             className="uk-button uk-button-primary"
                             onClick={() => this.switchTab("party")}
                           >
-                            View Party Details
+                            Next
                           </button>
                         </div>
                       </div>
@@ -529,7 +529,7 @@ class EditJobOrder extends React.Component {
                       className="uk-button uk-button-primary uk-margin-small-right"
                       onClick={() => this.switchTab("order")}
                     >
-                      View Order Details
+                      Previous
                     </button>
                     <button
                       type="button"
@@ -1005,7 +1005,7 @@ class EditJobOrder extends React.Component {
                           this.switchTab("jobs");
                         }}
                       >
-                        Review Jobs
+                        Previous
                       </button>
                       {permissions.canCompleteOrder ? (
                         <button
