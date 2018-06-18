@@ -26,11 +26,12 @@ class JobList extends React.Component {
                     )}
                   </td>
                   <td>
-                    {item.sizeWidth && item.sizeHeight && item.sizeUnits
-                      ? `${item.sizeWidth} x ${item.sizeHeight} ${sizeUnits.map(
+                    {item.sizeWidth} x {item.sizeHeight}{" "}
+                    {item.sizeUnits
+                      ? sizeUnits.map(
                           // eslint-disable-next-line
                           size => (size.id == item.sizeUnits ? size.unit : null)
-                        )}`
+                        )
                       : "-"}
                   </td>
                   <td>

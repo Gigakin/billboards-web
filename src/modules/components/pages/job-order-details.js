@@ -204,7 +204,16 @@ class JobOrderDetails extends React.Component {
                           <div className="uk-width-1-2">
                             <span className="uk-text-small">Dimensions : </span>
                             <span className="uk-text-small uk-text-primary">
-                              120 x 165 sq. ft.
+                              {job.sizeWidth} x {job.sizeHeight}{" "}
+                              {job.sizeUnits
+                                ? jobMeasurements.map(
+                                    // eslint-disable-next-line
+                                    size =>
+                                      size.id == job.sizeUnits
+                                        ? size.unit
+                                        : null
+                                  )
+                                : "-"}
                             </span>
                           </div>
                           <div className="uk-width-1-1">
