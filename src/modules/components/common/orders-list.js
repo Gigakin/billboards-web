@@ -105,6 +105,7 @@ class OrdersList extends React.Component {
   };
 
   componentDidMount() {
+    // Get permissions
     let role = PermissionService.getRole();
     let permissions = PermissionService.getPermissions(role);
     if (permissions) return this.setState({ permissions: permissions });
@@ -113,6 +114,8 @@ class OrdersList extends React.Component {
 
   componentWillReceiveProps(props) {
     if (props.data) {
+      // Update state data for table
+      this.originalList = Methods.clone(props.data);
       return this.setState({ tableData: props.data });
     }
   }
@@ -145,6 +148,7 @@ class OrdersList extends React.Component {
                     type="text"
                     onChange={this.filterData}
                     className="uk-input"
+                    autoComplete="off"
                   />
                 </div>
               </div>
@@ -156,6 +160,7 @@ class OrdersList extends React.Component {
                     type="text"
                     onChange={this.filterData}
                     className="uk-input"
+                    autoComplete="off"
                   />
                 </div>
               </div>
@@ -168,6 +173,7 @@ class OrdersList extends React.Component {
                     id="status"
                     onChange={this.filterData}
                     className="uk-select"
+                    autoComplete="off"
                   >
                     <option defaultChecked />
                     <option value="1">Draft</option>
@@ -185,6 +191,7 @@ class OrdersList extends React.Component {
                     type="text"
                     onChange={this.filterData}
                     className="uk-input"
+                    autoComplete="off"
                   />
                 </div>
               </div>
@@ -194,14 +201,14 @@ class OrdersList extends React.Component {
                 </label>
                 <div className="uk-form-controls">
                   <select
-                    id="priority"
+                    id="isHighPriority"
                     onChange={this.filterData}
                     className="uk-select"
+                    autoComplete="off"
                   >
-                    <option value="normal" defaultChecked>
-                      Normal
-                    </option>
-                    <option value="high">High</option>
+                    <option defaultChecked />
+                    <option value="1">Normal</option>
+                    <option value="2">High</option>
                   </select>
                 </div>
               </div>
@@ -215,6 +222,7 @@ class OrdersList extends React.Component {
                     type="text"
                     onChange={this.filterData}
                     className="uk-input"
+                    autoComplete="off"
                   />
                 </div>
               </div>
