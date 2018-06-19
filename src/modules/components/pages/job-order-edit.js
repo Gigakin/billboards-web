@@ -254,6 +254,7 @@ class EditJobOrder extends React.Component {
     let { order } = this.state;
     OrderService.markAsInProgress(order.id).then(
       response => {
+        this.props.history.push(`/orders/${order.id}`);
         return Notification.Notify({
           text: "Order marked as In Progress",
           type: "success"
