@@ -26,5 +26,18 @@ let getJobUoms = () => {
   });
 };
 
+// Get Job Uoms
+let getJobCharges = () => {
+  return Axios.get(`${Constants.URLS.PATHS.JOBS}/charges`).then(response => {
+    if (response.data) return response.data;
+    return response;
+  });
+};
+
 // Exports
-export default { getJobTypes, getJobQualities, getJobUoms };
+export default {
+  getJobTypes,
+  getJobQualities,
+  getJobUoms,
+  getJobCharges
+};

@@ -198,7 +198,7 @@ class JobOrderDetails extends React.Component {
                           <div className="uk-width-1-2">
                             <span className="uk-text-small">Quantity : </span>
                             <span className="uk-text-small uk-text-primary">
-                              2
+                              {job.quantity}
                             </span>
                           </div>
                           <div className="uk-width-1-2">

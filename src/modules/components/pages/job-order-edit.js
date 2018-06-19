@@ -52,6 +52,7 @@ class EditJobOrder extends React.Component {
       jobTypes: [],
       jobQualities: [],
       jobMeasurements: [],
+      jobCharges: [],
       currentTab: "order",
       permissions: {}
     };
@@ -116,6 +117,21 @@ class EditJobOrder extends React.Component {
       error => {
         return Notification.Notify({
           text: "Failed to get list of measurement units",
+          type: "error"
+        });
+      }
+    );
+  };
+
+  // Get Charges
+  getJobCharges = () => {
+    JobService.getJobCharges().then(
+      charges => {
+        return this.setState({ jobCharges: charges });
+      },
+      error => {
+        return Notification.Notify({
+          text: "Failed to get charges for jobs",
           type: "error"
         });
       }
@@ -246,6 +262,7 @@ class EditJobOrder extends React.Component {
       this.getJobTypes();
       this.getJobQualities();
       this.getJobUoms();
+      this.getJobCharges();
       this.getOrderDetails(params.id);
     }
   }
@@ -260,6 +277,7 @@ class EditJobOrder extends React.Component {
       jobTypes,
       jobQualities,
       jobMeasurements,
+      jobCharges,
       currentTab,
       permissions
     } = this.state;
@@ -962,7 +980,7 @@ class EditJobOrder extends React.Component {
                                     Quantity :{" "}
                                   </span>
                                   <span className="uk-text-small uk-text-primary">
-                                    2
+                                    {job.quantity}
                                   </span>
                                 </div>
                                 <div className="uk-width-1-2">
@@ -970,7 +988,16 @@ class EditJobOrder extends React.Component {
                                     Dimensions :{" "}
                                   </span>
                                   <span className="uk-text-small uk-text-primary">
-                                    120 x 165 sq. ft.
+                                    {job.sizeWidth} x {job.sizeHeight}{" "}
+                                    {job.sizeUnits
+                                      ? jobMeasurements.map(
+                                          size =>
+                                            // eslint-disable-next-line
+                                            size.id == job.sizeUnits
+                                              ? size.unit
+                                              : null
+                                        )
+                                      : "-"}
                                   </span>
                                 </div>
                                 <div className="uk-width-1-1">
@@ -980,9 +1007,42 @@ class EditJobOrder extends React.Component {
                                 </div>
                               </div>
                               {/* Add Textboxes here */}
-                              <div className="uk-width-1-1">
-                                <div className="uk-text-subtitle">Costs</div>
-                              </div>
+                              {permissions.canSeeCostsInReviewOrder ? (
+                                <div className="uk-width-1-1">
+                                  <div className="uk-margin-small-bottom">
+                                    <div className="uk-text-subtitle">
+                                      Costs
+                                    </div>
+                                  </div>
+                                  <div className="uk-grid uk-width-1-1">
+                                    <div className="uk-width-1-3">
+                                      <label>Rate Per Sq. Ft.</label>
+                                      <input
+                                        type="number"
+                                        className="uk-input"
+                                        onChange={this.calculateTotalCost}
+                                        required
+                                      />
+                                    </div>
+                                    <div className="uk-width-1-3">
+                                      <label>Total Cost</label>
+                                      <input
+                                        type="number"
+                                        className="uk-input"
+                                        disabled
+                                        required
+                                      />
+                                    </div>
+                                    <div className="uk-width-1-3">
+                                      <label>Advance</label>
+                                      <input
+                                        type="number"
+                                        className="uk-input"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : null}
                             </div>
                           );
                         })

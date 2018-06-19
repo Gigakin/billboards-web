@@ -16,6 +16,7 @@ const frontdesk = {
   canSeeDesignerNotes: false,
   canSeePrinterNotes: false,
   canReviewOrder: true,
+  canSeeCostsInReviewOrder: true,
   // Jobs
   canAddJobs: false,
   canDownloadCustomerDesignFile: false,
@@ -49,6 +50,7 @@ const designer = {
   canSeeDesignerNotes: false,
   canSeePrinterNotes: false,
   canReviewOrder: false,
+  canSeeCostsInReviewOrder: false,
   // Jobs
   canAddJobs: true,
   canDownloadCustomerDesignFile: true,
@@ -82,6 +84,7 @@ const printer = {
   canSeeDesignerNotes: true,
   canSeePrinterNotes: false,
   canReviewOrder: false,
+  canSeeCostsInReviewOrder: false,
   // Jobs
   canAddJobs: false,
   canDownloadCustomerDesignFile: false,
