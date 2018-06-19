@@ -1105,6 +1105,7 @@ class EditJobOrder extends React.Component {
                           type="button"
                           className="uk-button uk-button-primary"
                           onClick={this.sendToInProgress}
+                          disabled={order.jobs && order.jobs.length < 1}
                         >
                           Complete Order
                         </button>
