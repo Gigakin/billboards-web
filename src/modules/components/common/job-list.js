@@ -1,9 +1,27 @@
 // Modules
 import React from "react";
 
+// Services
+import PermissionService from "../../services/permission-service";
+
 // Classes
 class JobList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      permissions: {}
+    };
+  }
+
+  componentWillMount() {
+    // Get Permisissions
+    let role = PermissionService.getRole();
+    let permissions = PermissionService.getPermissions(role);
+    if (permissions) return this.setState({ permissions: permissions });
+  }
+
   render() {
+    let { permissions } = this.state;
     let { list, jobTypes, sizeUnits, methods } = this.props;
     return (
       <div className="jobs-list">
@@ -12,7 +30,9 @@ class JobList extends React.Component {
             <tr>
               <th className="uk-table-expand">Job Type</th>
               <th className="uk-table-small">Job Size</th>
-              <th className="uk-width-small">Actions</th>
+              {permissions.canDeleteJobFromJobsList ? (
+                <th className="uk-width-small">Actions</th>
+              ) : null}
             </tr>
           </thead>
           <tbody>
@@ -34,15 +54,17 @@ class JobList extends React.Component {
                         )
                       : "-"}
                   </td>
-                  <td>
-                    <button
-                      type="button"
-                      title="Delete"
-                      onClick={() => methods.deleteItem(item.id)}
-                      className="uk-icon-button uk-text-danger uk-margin-small-right"
-                      uk-icon="trash"
-                    />
-                  </td>
+                  {permissions.canDeleteJobFromJobsList ? (
+                    <td>
+                      <button
+                        type="button"
+                        title="Delete"
+                        onClick={() => methods.deleteItem(item.id)}
+                        className="uk-icon-button uk-text-danger uk-margin-small-right"
+                        uk-icon="trash"
+                      />
+                    </td>
+                  ) : null}
                 </tr>
               ))
             ) : (

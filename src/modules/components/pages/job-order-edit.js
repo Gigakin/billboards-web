@@ -225,6 +225,13 @@ class EditJobOrder extends React.Component {
     let { order, jobs } = this.state;
     OrderService.addJobs(order.id, jobs).then(
       response => {
+        // Empty Jobs Array
+        this.setState({ jobs: [] });
+        // Refresh jobs
+        this.getOrderDetails(order.id);
+        // Switch to Review Tab
+        this.switchTab("review");
+        // Create Notification
         return Notification.Notify({
           text: response.message
             ? response.message
@@ -236,6 +243,25 @@ class EditJobOrder extends React.Component {
         let { data } = error.response;
         return Notification.Notify({
           text: data ? data : Strings.COMMON.UNKNOWN_ERROR,
+          type: "error"
+        });
+      }
+    );
+  };
+
+  // Send to In Progress
+  sendToInProgress = () => {
+    let { order } = this.state;
+    OrderService.markAsInProgress(order.id).then(
+      response => {
+        return Notification.Notify({
+          text: "Order marked as In Progress",
+          type: "success"
+        });
+      },
+      error => {
+        return Notification.Notify({
+          text: "Failed to mark order as in progress. Please try again.",
           type: "error"
         });
       }
@@ -1016,7 +1042,9 @@ class EditJobOrder extends React.Component {
                                   </div>
                                   <div className="uk-grid uk-width-1-1">
                                     <div className="uk-width-1-3">
-                                      <label>Rate Per Sq. Ft.</label>
+                                      <label className="uk-form-label">
+                                        Rate Per Sq. Ft.
+                                      </label>
                                       <input
                                         type="number"
                                         className="uk-input"
@@ -1025,7 +1053,9 @@ class EditJobOrder extends React.Component {
                                       />
                                     </div>
                                     <div className="uk-width-1-3">
-                                      <label>Total Cost</label>
+                                      <label className="uk-form-label">
+                                        Total Cost
+                                      </label>
                                       <input
                                         type="number"
                                         className="uk-input"
@@ -1034,7 +1064,9 @@ class EditJobOrder extends React.Component {
                                       />
                                     </div>
                                     <div className="uk-width-1-3">
-                                      <label>Advance</label>
+                                      <label className="uk-form-label">
+                                        Advance
+                                      </label>
                                       <input
                                         type="number"
                                         className="uk-input"
@@ -1071,7 +1103,7 @@ class EditJobOrder extends React.Component {
                         <button
                           type="button"
                           className="uk-button uk-button-primary"
-                          onClick={this.completeOrder}
+                          onClick={this.sendToInProgress}
                         >
                           Complete Order
                         </button>

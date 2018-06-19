@@ -50,6 +50,16 @@ let deleteOrder = orderid => {
   );
 };
 
+// Mark as In Progress
+let markAsInProgress = orderid => {
+  return Axios.post(`${Constants.URLS.PATHS.ORDERS}/${orderid}/status`, {
+    status: 2
+  }).then(response => {
+    if (response.data) return response.data;
+    return response.data;
+  });
+};
+
 // Add Jobs
 let addJobs = (orderid, jobs) => {
   return Axios.post(
@@ -78,6 +88,7 @@ export default {
   createOrder,
   editOrder,
   deleteOrder,
+  markAsInProgress,
   addJobs,
   removeJob
 };
