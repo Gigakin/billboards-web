@@ -275,17 +275,17 @@ class OrdersList extends React.Component {
                         <span>
                           {showActionButtons ? (
                             <span>
-                              {/* Edit Order Details */}
-                              {permissions.canEditOrderDetails ? (
-                                <button
-                                  type="button"
-                                  onClick={() => this.editOrder(item)}
-                                  className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
-                                  disabled={item.status.id !== 1}
-                                >
-                                  Edit
-                                </button>
-                              ) : null}
+                              {/* Edit/Review Order Details */}
+                              <button
+                                type="button"
+                                onClick={() => this.editOrder(item)}
+                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                                disabled={item.status.id !== 1}
+                              >
+                                {permissions.canEditOrderDetails
+                                  ? "Edit"
+                                  : "Review"}
+                              </button>
 
                               {/* Start Design */}
                               {permissions.canStartDesign ? (
