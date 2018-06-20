@@ -304,7 +304,6 @@ class EditJobOrder extends React.Component {
       jobTypes,
       jobQualities,
       jobMeasurements,
-      jobCharges,
       currentTab,
       permissions
     } = this.state;
@@ -1100,14 +1099,14 @@ class EditJobOrder extends React.Component {
                       >
                         Previous
                       </button>
-                      {permissions.canCompleteOrder ? (
+                      {permissions.canSendForDesigning ? (
                         <button
                           type="button"
                           className="uk-button uk-button-primary"
                           onClick={this.sendToInProgress}
                           disabled={order.jobs && order.jobs.length < 1}
                         >
-                          Complete Order
+                          Send for Designing
                         </button>
                       ) : null}
                     </div>

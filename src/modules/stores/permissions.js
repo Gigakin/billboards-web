@@ -4,8 +4,6 @@ const frontdesk = {
   canSeeDashboard: true,
   // Order Management
   canSeeOrderManagement: true,
-  canSeeOrderManagementList: true,
-  canViewOrderDetails: true,
   canEditOrderDetails: false,
   canStartDesign: false,
   canStartPrinting: false,
@@ -15,8 +13,8 @@ const frontdesk = {
   canSeeFrontdeskNotes: false,
   canSeeDesignerNotes: false,
   canSeePrinterNotes: false,
-  canReviewOrder: true,
   canSeeCostsInReviewOrder: true,
+  canSendForDesigning: true,
   // Jobs
   canAddJobs: false,
   canDownloadCustomerDesignFile: false,
@@ -38,8 +36,6 @@ const designer = {
   canSeeDashboard: true,
   // Order Management
   canSeeOrderManagement: true,
-  canSeeOrderManagementList: true,
-  canViewOrderDetails: true,
   canEditOrderDetails: true,
   canStartDesign: true,
   canStartPrinting: false,
@@ -49,9 +45,8 @@ const designer = {
   canSeeFrontdeskNotes: true,
   canSeeDesignerNotes: false,
   canSeePrinterNotes: false,
-  canReviewOrder: false,
   canSeeCostsInReviewOrder: false,
-  // Jobs
+  canSendForDesigning: true,
   canAddJobs: true,
   canDownloadCustomerDesignFile: true,
   canDownloadDesignerDesignFile: false,
@@ -72,8 +67,6 @@ const printer = {
   canSeeDashboard: true,
   // Order Management
   canSeeOrderManagement: true,
-  canSeeOrderManagementList: true,
-  canViewOrderDetails: true,
   canEditOrderDetails: false,
   canStartDesign: false,
   canStartPrinting: true,
@@ -83,9 +76,8 @@ const printer = {
   canSeeFrontdeskNotes: true,
   canSeeDesignerNotes: true,
   canSeePrinterNotes: false,
-  canReviewOrder: false,
   canSeeCostsInReviewOrder: false,
-  // Jobs
+  canSendForDesigning: true,
   canAddJobs: false,
   canDownloadCustomerDesignFile: false,
   canDownloadDesignerDesignFile: true,
