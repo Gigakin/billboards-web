@@ -77,7 +77,7 @@ class JobList extends React.Component {
               ))
             ) : (
               <tr>
-                <td colSpan={3}>
+                <td colSpan={5}>
                   <span className="uk-padding">
                     <div className="uk-text-center">
                       There are no jobs in this order right now.<br />

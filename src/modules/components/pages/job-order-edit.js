@@ -46,6 +46,7 @@ class EditJobOrder extends React.Component {
         type: "1",
         sizeUnits: "1",
         isHighPriority: false,
+        feature: null,
         deliveryExpectedBy: null,
         notes: null
       },
@@ -150,6 +151,18 @@ class EditJobOrder extends React.Component {
 
   // Capture Job Details
   captureJobDetails = event => {
+    let id = event.target.id;
+
+    if (id === "type") {
+      return this.setState({
+        jobDetails: {
+          ...this.state.jobDetails,
+          [event.target.id]: event.target.value,
+          feature: null
+        }
+      });
+    }
+
     return this.setState({
       jobDetails: {
         ...this.state.jobDetails,
@@ -159,21 +172,11 @@ class EditJobOrder extends React.Component {
   };
 
   // Capture Feature One
-  captureFeatureOne = event => {
+  captureFeature = featureid => {
     return this.setState({
       jobDetails: {
         ...this.state.jobDetails,
-        feature1: event.target.value
-      }
-    });
-  };
-
-  // Capture Feature Two
-  captureFeatureTwo = event => {
-    return this.setState({
-      jobDetails: {
-        ...this.state.jobDetails,
-        feature2: event.target.value
+        feature: featureid
       }
     });
   };
@@ -314,6 +317,7 @@ class EditJobOrder extends React.Component {
       jobs,
       jobTypes,
       jobQualities,
+      jobFeatures,
       jobMeasurements,
       currentTab,
       permissions
@@ -738,111 +742,33 @@ class EditJobOrder extends React.Component {
                             {/* Options */}
                             <div className="uk-margin">
                               <div className="uk-form-label">Options</div>
-                              {jobDetails.type === "1" ? (
-                                <div className="uk-form-controls">
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      disabled={!permissions.canAddJobs}
-                                      name="backlitOptions"
-                                      value="framing"
-                                    />{" "}
-                                    Framing
-                                  </label>
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      disabled={!permissions.canAddJobs}
-                                      name="backlitOptions"
-                                      value="lolypop"
-                                    />{" "}
-                                    Lolypop
-                                  </label>
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      disabled={!permissions.canAddJobs}
-                                      name="backlitOptions"
-                                      value="onlyprint"
-                                    />{" "}
-                                    Only Print
-                                  </label>
-                                </div>
-                              ) : null}
-                              {/* Frontlit */}
-                              {jobDetails.type === "2" ? (
-                                <div className="uk-form-controls">
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      name="frontlitOptions"
-                                      disabled={!permissions.canAddJobs}
-                                      value="1lit"
-                                    />{" "}
-                                    1-Lit
-                                  </label>
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      name="frontlitOptions"
-                                      disabled={!permissions.canAddJobs}
-                                      value="framing"
-                                    />{" "}
-                                    Framing
-                                  </label>
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      name="frontlitOptions"
-                                      disabled={!permissions.canAddJobs}
-                                      value="pasting"
-                                    />{" "}
-                                    Pasting
-                                  </label>
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      name="frontlitOptions"
-                                      disabled={!permissions.canAddJobs}
-                                      value="piping"
-                                    />{" "}
-                                    Piping
-                                  </label>
-                                </div>
-                              ) : null}
-                              {jobDetails.type === "3" ? (
-                                <div className="uk-form-controls">
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      name="mattelamination"
-                                      disabled={!permissions.canAddJobs}
-                                    />{" "}
-                                    Matte Lamination
-                                  </label>
-                                </div>
-                              ) : null}
-                              {jobDetails.type === "4" ? (
-                                <div className="uk-form-controls">
-                                  <label className="uk-margin-right">
-                                    <input
-                                      className="uk-radio"
-                                      type="radio"
-                                      name="foamsheetpasting"
-                                      disabled={!permissions.canAddJobs}
-                                    />{" "}
-                                    Foamsheet Pasting
-                                  </label>
-                                </div>
-                              ) : null}
+                              <div className="uk-form-controls">
+                                {jobFeatures && jobFeatures.length
+                                  ? jobFeatures.map((feature, index) => {
+                                      console.log(feature);
+                                      console.log(jobDetails.type);
+                                      return jobDetails.type ==
+                                        feature.job_type ? (
+                                        <label
+                                          key={`job_feature_${index}`}
+                                          className="uk-margin-right"
+                                        >
+                                          <input
+                                            type="radio"
+                                            name={feature.job_type}
+                                            className="uk-radio"
+                                            onChange={() =>
+                                              this.captureFeature(feature.id)
+                                            }
+                                            disabled={!permissions.canAddJobs}
+                                            value={feature.feature}
+                                          />{" "}
+                                          {feature.feature}
+                                        </label>
+                                      ) : null;
+                                    })
+                                  : null}
+                              </div>
                             </div>
 
                             {/* Uploads */}
