@@ -293,6 +293,7 @@ class OrdersList extends React.Component {
                                   type="button"
                                   onClick={() => this.startDesigning(item.id)}
                                   className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
+                                  disabled={item.status.id === 1}
                                 >
                                   Start Designing
                                 </button>
@@ -304,6 +305,7 @@ class OrdersList extends React.Component {
                                   type="button"
                                   onClick={() => this.startPrinting(item.id)}
                                   className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
+                                  disabled={item.status.id === 1}
                                 >
                                   Start Printing
                                 </button>

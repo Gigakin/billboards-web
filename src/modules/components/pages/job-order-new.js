@@ -326,7 +326,9 @@ class NewJobOrder extends React.Component {
                           inputProps={{
                             type: "number",
                             // Need to look into this "new-password"
-                            autoComplete: "new-password"
+                            autoComplete: "new-password",
+                            maxLength: "10",
+                            minLength: "10"
                           }}
                         />
                       </div>
