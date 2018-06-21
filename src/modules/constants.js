@@ -7,7 +7,8 @@ export default {
       ORDERS: "api/orders",
       ACCOUNT_OWNERS: "/api/account-owners",
       JOBS: "/api/jobs",
-      PARTIES: "/api/parties"
+      PARTIES: "/api/parties",
+      USERS: "/api/users"
     }
   }
 };

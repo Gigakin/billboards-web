@@ -233,7 +233,7 @@ class OrdersList extends React.Component {
         </div>
         {/* Table */}
         <div className="sor-table__table">
-          <table className="uk-table uk-table-middle uk-table-divider">
+          <table className="uk-table uk-table-middle uk-table-striped uk-table-divider">
             <thead>
               <tr>
                 {showPriorityIcon ? <th /> : null}

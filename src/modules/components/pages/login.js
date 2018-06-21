@@ -43,6 +43,7 @@ class Login extends React.Component {
         let { user, access_token } = response;
         PermissionService.setRole(user.role);
         StorageService.setLocalData("access_token", access_token);
+        StorageService.setLocalDataAsJson("user", user);
         return this.props.history.push("/dashboard");
       },
       error => {
