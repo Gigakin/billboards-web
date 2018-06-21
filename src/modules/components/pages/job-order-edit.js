@@ -51,6 +51,7 @@ class EditJobOrder extends React.Component {
       },
       jobTypes: [],
       jobQualities: [],
+      jobFeatures: [],
       jobMeasurements: [],
       jobCharges: [],
       currentTab: "order",
@@ -100,6 +101,19 @@ class EditJobOrder extends React.Component {
       error => {
         return Notification.Notify({
           text: "Failed to get list of job qualities",
+          type: "error"
+        });
+      }
+    );
+  };
+
+  // Get Job Features
+  getJobFeatures = () => {
+    JobService.getJobFeatures().then(
+      features => this.setState({ jobFeatures: features }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of job features",
           type: "error"
         });
       }
@@ -284,6 +298,7 @@ class EditJobOrder extends React.Component {
     if (params.id) {
       this.getJobTypes();
       this.getJobQualities();
+      this.getJobFeatures();
       this.getJobUoms();
       this.getJobCharges();
       this.getOrderDetails(params.id);
