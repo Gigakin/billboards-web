@@ -745,9 +745,7 @@ class EditJobOrder extends React.Component {
                               <div className="uk-form-controls">
                                 {jobFeatures && jobFeatures.length
                                   ? jobFeatures.map((feature, index) => {
-                                      console.log(feature);
-                                      console.log(jobDetails.type);
-                                      return jobDetails.type ==
+                                      return jobDetails.type ===
                                         feature.job_type ? (
                                         <label
                                           key={`job_feature_${index}`}
@@ -913,11 +911,20 @@ class EditJobOrder extends React.Component {
                                   return item.id == job.type ? item.type : null;
                                 })}
                               </div>
-                              <div className="uk-width-1-1">
-                                <span className="uk-text-small uk-text-primary">
-                                  {`with Foamsheet Pasting`}
-                                </span>
-                              </div>
+                              {job.feature ? (
+                                <div className="uk-width-1-1">
+                                  <span className="uk-text-small uk-text-primary">
+                                    {jobFeatures && jobFeatures.length
+                                      ? jobFeatures.map(item => {
+                                          // eslint-disable-next-line
+                                          return item.id == job.feature
+                                            ? `with ${item.feature}`
+                                            : null;
+                                        })
+                                      : null}
+                                  </span>
+                                </div>
+                              ) : null}
                               <div className="uk-grid uk-grid-small uk-margin-small">
                                 <div className="uk-width-1-2">
                                   <span className="uk-text-small">Type : </span>

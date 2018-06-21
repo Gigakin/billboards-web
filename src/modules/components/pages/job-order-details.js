@@ -20,6 +20,7 @@ class JobOrderDetails extends React.Component {
       jobs: [],
       jobTypes: [],
       jobQualities: [],
+      jobFeatures: [],
       jobMeasurements: [],
       permissions: {}
     };
@@ -70,6 +71,19 @@ class JobOrderDetails extends React.Component {
     );
   };
 
+  // Get Job Features
+  getJobFeatures = () => {
+    JobService.getJobFeatures().then(
+      jobfeatures => this.setState({ jobFeatures: jobfeatures }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of job features",
+          type: "error"
+        });
+      }
+    );
+  };
+
   // Get Job Uoms
   getJobUoms = () => {
     JobService.getJobUoms().then(
@@ -109,6 +123,7 @@ class JobOrderDetails extends React.Component {
     if (params.id) {
       this.getJobTypes();
       this.getJobQualities();
+      this.getJobFeatures();
       this.getJobUoms();
       this.getOrderDetails(params.id);
     }
@@ -122,6 +137,7 @@ class JobOrderDetails extends React.Component {
       jobTypes,
       jobMeasurements,
       jobQualities,
+      jobFeatures,
       permissions
     } = this.state;
 
@@ -169,11 +185,20 @@ class JobOrderDetails extends React.Component {
                             return item.id == job.type ? item.type : null;
                           })}
                         </div>
-                        <div className="uk-width-1-1">
-                          <span className="uk-text-small uk-text-primary">
-                            {`with Foamsheet Pasting`}
-                          </span>
-                        </div>
+                        {job.feature ? (
+                          <div className="uk-width-1-1">
+                            <span className="uk-text-small uk-text-primary">
+                              {jobFeatures && jobFeatures.length
+                                ? jobFeatures.map(item => {
+                                    // eslint-disable-next-line
+                                    return item.id == job.feature
+                                      ? `with ${item.feature}`
+                                      : null;
+                                  })
+                                : null}
+                            </span>
+                          </div>
+                        ) : null}
                         <div className="uk-grid uk-grid-small uk-margin-small">
                           <div className="uk-width-1-2">
                             <span className="uk-text-small">Type : </span>
