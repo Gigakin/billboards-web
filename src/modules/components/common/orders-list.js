@@ -275,7 +275,7 @@ class OrdersList extends React.Component {
                         <span>
                           {showActionButtons ? (
                             <span>
-                              {/* Edit/Review Order Details */}
+                              {/* Add Jobs/Review Order Details */}
                               <button
                                 type="button"
                                 onClick={() => this.editOrder(item)}
@@ -283,7 +283,7 @@ class OrdersList extends React.Component {
                                 disabled={item.status.id !== 1}
                               >
                                 {permissions.canEditOrderDetails
-                                  ? "Edit"
+                                  ? "Add Jobs"
                                   : "Review"}
                               </button>
 

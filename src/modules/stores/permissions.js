@@ -23,6 +23,7 @@ const frontdesk = {
   canAttachPrintFile: false,
   canSendForPrinting: false,
   canMarkAsPrintingDone: false,
+  canDeleteJobFromJobsList: false,
   // Invoice Management
   canSeeInvoiceManagement: true,
   canHandoverJob: true,
@@ -46,7 +47,7 @@ const designer = {
   canSeeDesignerNotes: false,
   canSeePrinterNotes: false,
   canSeeCostsInReviewOrder: false,
-  canSendForDesigning: true,
+  canSendForDesigning: false,
   canAddJobs: true,
   canDownloadCustomerDesignFile: true,
   canDownloadDesignerDesignFile: false,
@@ -54,6 +55,7 @@ const designer = {
   canAttachPrintFile: false,
   canSendForPrinting: true,
   canMarkAsPrintingDone: false,
+  canDeleteJobFromJobsList: true,
   // Invoice Management
   canSeeInvoiceManagement: false,
   canHandoverJob: false,
@@ -77,7 +79,7 @@ const printer = {
   canSeeDesignerNotes: true,
   canSeePrinterNotes: false,
   canSeeCostsInReviewOrder: false,
-  canSendForDesigning: true,
+  canSendForDesigning: false,
   canAddJobs: false,
   canDownloadCustomerDesignFile: false,
   canDownloadDesignerDesignFile: true,
@@ -85,6 +87,7 @@ const printer = {
   canAttachPrintFile: true,
   canSendForPrinting: false,
   canMarkAsPrintingDone: true,
+  canDeleteJobFromJobsList: false,
   // Invoice Management
   canSeeInvoiceManagement: false,
   canHandoverJob: false,

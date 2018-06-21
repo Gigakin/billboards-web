@@ -96,9 +96,7 @@ class EditJobOrder extends React.Component {
   // Get Job Qualities
   getJobQualities = () => {
     JobService.getJobQualities().then(
-      jobqualities => {
-        return this.setState({ jobQualities: jobqualities });
-      },
+      jobqualities => this.setState({ jobQualities: jobqualities }),
       error => {
         return Notification.Notify({
           text: "Failed to get list of job qualities",
@@ -126,9 +124,7 @@ class EditJobOrder extends React.Component {
   // Get Charges
   getJobCharges = () => {
     JobService.getJobCharges().then(
-      charges => {
-        return this.setState({ jobCharges: charges });
-      },
+      charges => this.setState({ jobCharges: charges }),
       error => {
         return Notification.Notify({
           text: "Failed to get charges for jobs",
@@ -634,6 +630,7 @@ class EditJobOrder extends React.Component {
                                   onChange={this.captureJobDetails}
                                   disabled={!permissions.canAddJobs}
                                   className="uk-input"
+                                  min={1}
                                   required
                                 />
                               </div>
@@ -679,21 +676,25 @@ class EditJobOrder extends React.Component {
                               </label>
                               <div className="uk-form-controls">
                                 <input
-                                  type="text"
+                                  type="number"
                                   id="sizeWidth"
                                   onChange={this.captureJobDetails}
                                   disabled={!permissions.canAddJobs}
                                   className="uk-input uk-width-1-3@s"
                                   placeholder="Width"
+                                  autoComplete="off"
+                                  min={1}
                                   required
                                 />
                                 <input
-                                  type="text"
+                                  type="number"
                                   id="sizeHeight"
                                   onChange={this.captureJobDetails}
                                   disabled={!permissions.canAddJobs}
                                   className="uk-input uk-width-1-3@s"
                                   placeholder="Height"
+                                  autoComplete="off"
+                                  min={1}
                                   required
                                 />
                                 <select
