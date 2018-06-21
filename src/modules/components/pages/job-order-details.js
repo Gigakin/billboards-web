@@ -183,7 +183,10 @@ class JobOrderDetails extends React.Component {
                           {jobTypes.map(item => {
                             // eslint-disable-next-line
                             return item.id == job.type ? item.type : null;
-                          })}
+                          })}{" "}
+                          {job.is_high_priority ? (
+                            <span className="uk-text-danger" uk-icon="bolt" />
+                          ) : null}
                         </div>
                         {job.feature ? (
                           <div className="uk-width-1-1">
