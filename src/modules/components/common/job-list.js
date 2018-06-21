@@ -28,8 +28,10 @@ class JobList extends React.Component {
         <table className="uk-table uk-table-middle uk-table-small uk-table-divider">
           <thead>
             <tr>
+              <th className="uk-table-small" />
               <th className="uk-table-expand">Job Type</th>
-              <th className="uk-table-small">Job Size</th>
+              <th className="uk-table-small">Size</th>
+              <th className="uk-table-small">Quantity</th>
               {permissions.canDeleteJobFromJobsList ? (
                 <th className="uk-width-small">Actions</th>
               ) : null}
@@ -39,6 +41,11 @@ class JobList extends React.Component {
             {list && list.length ? (
               list.map((item, index) => (
                 <tr key={`job_item_${index}`}>
+                  <td>
+                    {item.is_high_priority ? (
+                      <span className="uk-text-danger" uk-icon="bolt" />
+                    ) : null}
+                  </td>
                   <td>
                     {jobTypes.map(
                       // eslint-disable-next-line
@@ -54,6 +61,7 @@ class JobList extends React.Component {
                         )
                       : "-"}
                   </td>
+                  <td>{item.quantity}</td>
                   {permissions.canDeleteJobFromJobsList ? (
                     <td>
                       <button
