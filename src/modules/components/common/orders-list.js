@@ -153,6 +153,66 @@ class OrdersList extends React.Component {
     return this.setState({ tableData: this.filteredList });
   };
 
+  // Filter data by Party Name
+  filterDataByPartyName = event => {
+    let query = event.target.value;
+    // Empty query
+    // assing original list to state
+    if (!query) {
+      return this.setState({
+        tableData: this.originalList
+      });
+    }
+    // Find Entries and assign
+    // them to filtered list
+    this.filteredList = [];
+    this.originalList.filter(item => {
+      if (item.party) {
+        query = query.toString().toLowerCase();
+        if (
+          item.party.name
+            .toString()
+            .toLowerCase()
+            .includes(query)
+        )
+          return this.filteredList.push(item);
+      }
+      return false;
+    });
+    // Update results
+    return this.setState({ tableData: this.filteredList });
+  };
+
+  // Filter data by Account Owner
+  filterDataByAccountOwner = event => {
+    let query = event.target.value;
+    // Empty query
+    // assing original list to state
+    if (!query) {
+      return this.setState({
+        tableData: this.originalList
+      });
+    }
+    // Find Entries and assign
+    // them to filtered list
+    this.filteredList = [];
+    this.originalList.filter(item => {
+      if (item.party) {
+        query = query.toString().toLowerCase();
+        if (
+          item.owner.owner
+            .toString()
+            .toLowerCase()
+            .includes(query)
+        )
+          return this.filteredList.push(item);
+      }
+      return false;
+    });
+    // Update results
+    return this.setState({ tableData: this.filteredList });
+  };
+
   // Filter data by priority
   filterDataByPriority = event => {
     let query = event.target.value;
@@ -240,7 +300,7 @@ class OrdersList extends React.Component {
                   <input
                     id="name"
                     type="text"
-                    onChange={this.filterData}
+                    onChange={this.filterDataByPartyName}
                     className="uk-input"
                     autoComplete="off"
                   />
@@ -273,7 +333,7 @@ class OrdersList extends React.Component {
                   <input
                     id="owner"
                     type="text"
-                    onChange={this.filterData}
+                    onChange={this.filterDataByAccountOwner}
                     className="uk-input"
                     autoComplete="off"
                   />
