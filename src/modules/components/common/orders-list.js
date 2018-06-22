@@ -19,15 +19,34 @@ import PermissionService from "../../services/permission-service";
 class OrdersList extends React.Component {
   constructor(props) {
     super(props);
+
+    // Rearrange orders
+    let rearrangedOrders = [];
+    if (props.data) rearrangedOrders = this.rearrangeOrders(props.data);
+
     this.state = {
       permissions: {},
-      tableData: props.data,
+      tableData: rearrangedOrders,
       currentPage: 0
     };
     this.pageSize = 10;
-    this.originalList = Methods.clone(props.data);
+    this.originalList = Methods.clone(rearrangedOrders);
     this.filteredList = [];
   }
+
+  // Rearrange Orders
+  rearrangeOrders = orders => {
+    if (orders && orders.length) {
+      let rearrangedOrders = [];
+      orders.forEach(order => {
+        if (order.isHighPriority) return rearrangedOrders.push(order);
+      });
+      orders.forEach(order => {
+        if (!order.isHighPriority) return rearrangedOrders.push(order);
+      });
+      return rearrangedOrders;
+    }
+  };
 
   // Start Designing
   startDesigning = itemid => {
@@ -122,10 +141,10 @@ class OrdersList extends React.Component {
     this.originalList.filter(item => {
       if (item.status) {
         if (query === "draft") {
-          if (item.status.id == 1) return this.filteredList.push(item);
+          if (item.status.id === 1) return this.filteredList.push(item);
         }
         if (query === "inprogress") {
-          if (item.status.id == 2) return this.filteredList.push(item);
+          if (item.status.id === 2) return this.filteredList.push(item);
         }
       }
       return false;
@@ -178,9 +197,11 @@ class OrdersList extends React.Component {
 
   componentWillReceiveProps(props) {
     if (props.data) {
+      // Rearrange Data
+      let rearrangedOrders = this.rearrangeOrders(props.data);
       // Update state data for table
-      this.originalList = Methods.clone(props.data);
-      return this.setState({ tableData: props.data });
+      this.originalList = Methods.clone(rearrangedOrders);
+      return this.setState({ tableData: rearrangedOrders });
     }
   }
 
