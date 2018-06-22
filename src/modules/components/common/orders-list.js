@@ -89,8 +89,13 @@ class OrdersList extends React.Component {
     this.filteredList = [];
     this.originalList.filter(item => {
       if (item[filterBy]) {
-        query = query.toLowerCase();
-        if (item[filterBy].toLowerCase().includes(query)) {
+        query = query.toString().toLowerCase();
+        if (
+          item[filterBy]
+            .toString()
+            .toLowerCase()
+            .includes(query)
+        ) {
           return this.filteredList.push(item);
         }
       }
@@ -344,7 +349,7 @@ class OrdersList extends React.Component {
                 })
               ) : (
                 <tr>
-                  <td colSpan={columns.length}>
+                  <td colSpan={columns.length + 1}>
                     <span className="uk-padding">
                       <div className="uk-text-center">
                         Nothing here!<br />
