@@ -106,6 +106,32 @@ class OrdersList extends React.Component {
     return this.setState({ tableData: this.filteredList });
   };
 
+  // Filter data by priority
+  filterDataByPriority = event => {
+    let query = event.target.value;
+    // Empty query
+    // assing original list to state
+    if (!query) {
+      return this.setState({
+        tableData: this.originalList
+      });
+    }
+    // Find Entries and assign
+    // them to filtered list
+    this.filteredList = [];
+    this.originalList.filter(item => {
+      if (query === "high") {
+        if (item.isHighPriority) return this.filteredList.push(item);
+      }
+      if (query === "normal") {
+        if (!item.isHighPriority) return this.filteredList.push(item);
+      }
+      return false;
+    });
+    // Update results
+    return this.setState({ tableData: this.filteredList });
+  };
+
   // Handover
   handover = item => {
     let { methods } = this.props;
@@ -209,13 +235,13 @@ class OrdersList extends React.Component {
                 <div className="uk-form-controls">
                   <select
                     id="isHighPriority"
-                    onChange={this.filterData}
+                    onChange={this.filterDataByPriority}
                     className="uk-select"
                     autoComplete="off"
                   >
-                    <option defaultChecked />
-                    <option value="1">Normal</option>
-                    <option value="2">High</option>
+                    <option defaultChecked>All</option>
+                    <option value="normal">Normal</option>
+                    <option value="high">High</option>
                   </select>
                 </div>
               </div>
