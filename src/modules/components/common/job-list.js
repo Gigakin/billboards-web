@@ -75,8 +75,8 @@ class JobList extends React.Component {
                   <td>
                     {item.quality
                       ? jobQualities.map(
-                          // eslint-disable-next-line
                           quality =>
+                            // eslint-disable-next-line
                             quality.id == item.quality ? quality.quality : null
                         )
                       : "-"}
@@ -84,8 +84,8 @@ class JobList extends React.Component {
                   <td>
                     {item.quality
                       ? jobFeatures.map(
-                          // eslint-disable-next-line
                           feature =>
+                            // eslint-disable-next-line
                             feature.id == item.feature ? feature.feature : null
                         )
                       : "-"}
