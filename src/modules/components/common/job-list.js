@@ -22,7 +22,15 @@ class JobList extends React.Component {
 
   render() {
     let { permissions } = this.state;
-    let { list, jobTypes, sizeUnits, methods } = this.props;
+    let {
+      list,
+      jobTypes,
+      jobQualities,
+      jobFeatures,
+      sizeUnits,
+      methods
+    } = this.props;
+
     return (
       <div className="jobs-list">
         <table className="uk-table uk-table-middle uk-table-small uk-table-divider">
@@ -32,6 +40,8 @@ class JobList extends React.Component {
               <th className="uk-table-expand">Job Type</th>
               <th className="uk-table-small">Size</th>
               <th className="uk-table-small">Quantity</th>
+              <th className="uk-table-small">Quality</th>
+              <th className="uk-table-small">Feature</th>
               {permissions.canDeleteJobFromJobsList ? (
                 <th className="uk-width-small">Actions</th>
               ) : null}
@@ -62,6 +72,24 @@ class JobList extends React.Component {
                       : "-"}
                   </td>
                   <td>{item.quantity}</td>
+                  <td>
+                    {item.quality
+                      ? jobQualities.map(
+                          // eslint-disable-next-line
+                          quality =>
+                            quality.id == item.quality ? quality.quality : null
+                        )
+                      : "-"}
+                  </td>
+                  <td>
+                    {item.quality
+                      ? jobFeatures.map(
+                          // eslint-disable-next-line
+                          feature =>
+                            feature.id == item.feature ? feature.feature : null
+                        )
+                      : "-"}
+                  </td>
                   {permissions.canDeleteJobFromJobsList ? (
                     <td>
                       <button
@@ -98,6 +126,8 @@ class JobList extends React.Component {
 JobList.defaultProps = {
   list: [],
   jobTypes: [],
+  jobQualities: [],
+  jobFeatures: [],
   sizeUnits: [],
   methods: {}
 };
