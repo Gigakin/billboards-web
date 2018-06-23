@@ -280,96 +280,102 @@ class OrdersList extends React.Component {
         <div className="uk-card uk-card-default uk-margin-bottom uk-padding">
           <div className="sor-table__actions">
             <div className="uk-grid uk-grid-small uk-form-stacked">
-              <div className="uk-width-1-6">
-                <label className="uk-form-label uk-text-bold">
-                  Order Number
-                </label>
-                <div className="uk-form-controls">
-                  <input
-                    id="id"
-                    type="text"
-                    onChange={this.filterData}
-                    className="uk-input"
-                    autoComplete="off"
-                  />
+              <div className="uk-flex uk-width-1-1">
+                <div className="uk-width-1-3">
+                  <label className="uk-form-label uk-text-bold">
+                    Order Number
+                  </label>
+                  <div className="uk-form-controls">
+                    <input
+                      id="id"
+                      type="text"
+                      onChange={this.filterData}
+                      className="uk-input"
+                      autoComplete="off"
+                    />
+                  </div>
+                </div>
+                <div className="uk-width-1-3 uk-margin-left uk-margin-right">
+                  <label className="uk-form-label uk-text-bold">
+                    Party Name
+                  </label>
+                  <div className="uk-form-controls">
+                    <input
+                      id="name"
+                      type="text"
+                      onChange={this.filterDataByPartyName}
+                      className="uk-input"
+                      autoComplete="off"
+                    />
+                  </div>
+                </div>
+                <div className="uk-width-1-3">
+                  <label className="uk-form-label uk-text-bold">
+                    Order Status
+                  </label>
+                  <div className="uk-form-controls">
+                    <select
+                      id="status"
+                      onChange={this.filterDataByStatus}
+                      className="uk-select"
+                      autoComplete="off"
+                    >
+                      <option value="" defaultChecked>
+                        All
+                      </option>
+                      <option value="draft">Draft</option>
+                      <option value="inprogress">In Progress</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-              <div className="uk-width-1-6">
-                <label className="uk-form-label uk-text-bold">Party Name</label>
-                <div className="uk-form-controls">
-                  <input
-                    id="name"
-                    type="text"
-                    onChange={this.filterDataByPartyName}
-                    className="uk-input"
-                    autoComplete="off"
-                  />
+              <div className="uk-width-1-1 uk-flex uk-margin-top">
+                <div className="uk-width-1-3">
+                  <label className="uk-form-label uk-text-bold">
+                    Account Owner
+                  </label>
+                  <div className="uk-form-controls">
+                    <input
+                      id="owner"
+                      type="text"
+                      onChange={this.filterDataByAccountOwner}
+                      className="uk-input"
+                      autoComplete="off"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div className="uk-width-1-6">
-                <label className="uk-form-label uk-text-bold">
-                  Order Status
-                </label>
-                <div className="uk-form-controls">
-                  <select
-                    id="status"
-                    onChange={this.filterDataByStatus}
-                    className="uk-select"
-                    autoComplete="off"
-                  >
-                    <option value="" defaultChecked>
-                      All
-                    </option>
-                    <option value="draft">Draft</option>
-                    <option value="inprogress">In Progress</option>
-                  </select>
+                <div className="uk-width-1-3 uk-margin-left uk-margin-right">
+                  <label className="uk-form-label uk-text-bold">
+                    Priority Status
+                  </label>
+                  <div className="uk-form-controls">
+                    <select
+                      id="isHighPriority"
+                      onChange={this.filterDataByPriority}
+                      className="uk-select"
+                      autoComplete="off"
+                    >
+                      <option value="" defaultChecked>
+                        All
+                      </option>
+                      <option value="normal">Normal</option>
+                      <option value="high">High</option>
+                    </select>
+                  </div>
                 </div>
-              </div>
-              <div className="uk-width-1-6">
-                <label className="uk-form-label uk-text-bold">
-                  Account Owner
-                </label>
-                <div className="uk-form-controls">
-                  <input
-                    id="owner"
-                    type="text"
-                    onChange={this.filterDataByAccountOwner}
-                    className="uk-input"
-                    autoComplete="off"
-                  />
-                </div>
-              </div>
-              <div className="uk-width-1-6">
-                <label className="uk-form-label uk-text-bold">
-                  Priority Status
-                </label>
-                <div className="uk-form-controls">
-                  <select
-                    id="isHighPriority"
-                    onChange={this.filterDataByPriority}
-                    className="uk-select"
-                    autoComplete="off"
-                  >
-                    <option value="" defaultChecked>
-                      All
-                    </option>
-                    <option value="normal">Normal</option>
-                    <option value="high">High</option>
-                  </select>
-                </div>
-              </div>
-              <div className="uk-width-1-6">
-                <label className="uk-form-label uk-text-bold">
-                  Time Period
-                </label>
-                <div className="uk-form-controls">
-                  <input
-                    id="timePeriod"
-                    type="text"
-                    onChange={this.filterData}
-                    className="uk-input"
-                    autoComplete="off"
-                  />
+                <div className="uk-width-1-3">
+                  <label className="uk-form-label uk-text-bold">
+                    Time Period
+                  </label>
+                  <div className="uk-form-controls">
+                    <input
+                      id="timePeriod"
+                      type="text"
+                      onChange={this.filterData}
+                      className="uk-input"
+                      autoComplete="off"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
