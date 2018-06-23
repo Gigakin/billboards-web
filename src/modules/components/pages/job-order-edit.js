@@ -745,7 +745,8 @@ class EditJobOrder extends React.Component {
                               <div className="uk-form-controls">
                                 {jobFeatures && jobFeatures.length
                                   ? jobFeatures.map((feature, index) => {
-                                      return jobDetails.type ===
+                                      // eslint-disable-next-line
+                                      return jobDetails.type ==
                                         feature.job_type ? (
                                         <label
                                           key={`job_feature_${index}`}
