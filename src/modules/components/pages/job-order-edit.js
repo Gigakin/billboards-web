@@ -262,6 +262,46 @@ class EditJobOrder extends React.Component {
     );
   };
 
+  // Populate Job Rates
+  populateJobRates = () => {};
+
+  // Calculate Total Cost
+  calculateTotalCost = jobid => {
+    if (jobid) {
+      let { jobs, jobCharges } = this.state;
+
+      // Find this job from jobs array
+      let extractedJobArray = jobs.map(job => {
+        // eslint-disable-next-line
+        if (job.id == jobid) return job;
+        return {};
+      });
+
+      // extractedJobArray is an array
+      if (extractedJobArray && extractedJobArray.length) {
+        let totalCost = 0;
+        let ratePerSquareFeet = 0;
+
+        // Find the appropriate rates
+        let thisJob = extractedJobArray[0];
+        jobCharges.forEach(charge => {
+          if (
+            charge.job_feature == thisJob.feature &&
+            charge.job_quality == thisJob.quality &&
+            charge.job_type == thisJob.type
+          ) {
+            ratePerSquareFeet = charge.charge;
+            return;
+          }
+        });
+        // Populate fields
+        console.log(ratePerSquareFeet);
+        this.refs[`job_rate_${jobid}`].value = ratePerSquareFeet;
+        this.refs[`job_total_${jobid}`].value = totalCost;
+      }
+    }
+  };
+
   // Send to In Progress
   sendToInProgress = () => {
     let { order } = this.state;
@@ -1004,7 +1044,11 @@ class EditJobOrder extends React.Component {
                                       <input
                                         type="number"
                                         className="uk-input"
-                                        onChange={this.calculateTotalCost}
+                                        onChange={() =>
+                                          this.calculateTotalCost(job.id)
+                                        }
+                                        ref={`job_rate_${job.id}`}
+                                        min={1}
                                         required
                                       />
                                     </div>
@@ -1015,6 +1059,7 @@ class EditJobOrder extends React.Component {
                                       <input
                                         type="number"
                                         className="uk-input"
+                                        ref={`job_total_${job.id}`}
                                         disabled
                                         required
                                       />
@@ -1026,6 +1071,7 @@ class EditJobOrder extends React.Component {
                                       <input
                                         type="number"
                                         className="uk-input"
+                                        min={0}
                                       />
                                     </div>
                                   </div>
