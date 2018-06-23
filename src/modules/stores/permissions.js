@@ -5,6 +5,7 @@ const frontdesk = {
   // Order Management
   canSeeOrderManagement: true,
   canEditOrderDetails: false,
+  canReviewOrderDetails: true,
   canStartDesign: false,
   canStartPrinting: false,
   canCreateNewOrder: true,
@@ -38,6 +39,7 @@ const designer = {
   // Order Management
   canSeeOrderManagement: true,
   canEditOrderDetails: true,
+  canReviewOrderDetails: false,
   canStartDesign: true,
   canStartPrinting: false,
   canCreateNewOrder: false,
@@ -70,6 +72,7 @@ const printer = {
   // Order Management
   canSeeOrderManagement: true,
   canEditOrderDetails: false,
+  canReviewOrderDetails: false,
   canStartDesign: false,
   canStartPrinting: true,
   canCreateNewOrder: false,

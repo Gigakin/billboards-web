@@ -426,16 +426,32 @@ class OrdersList extends React.Component {
                           {showActionButtons ? (
                             <span>
                               {/* Add Jobs/Review Order Details */}
-                              <button
-                                type="button"
-                                onClick={() => this.editOrder(item)}
-                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
-                                disabled={item.status.id !== 1}
-                              >
-                                {permissions.canEditOrderDetails
-                                  ? "Add Jobs"
-                                  : "Review"}
-                              </button>
+                              {permissions.canEditOrderDetails ? (
+                                <button
+                                  type="button"
+                                  onClick={() => this.editOrder(item)}
+                                  className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                                  disabled={item.status.id !== 1}
+                                >
+                                  Add Jobs
+                                </button>
+                              ) : null}
+
+                              {/* Review Order Details */}
+                              {permissions.canReviewOrderDetails ? (
+                                <button
+                                  type="button"
+                                  onClick={() => this.editOrder(item)}
+                                  className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                                  disabled={
+                                    item.status.id !== 1 ||
+                                    !item.jobs ||
+                                    !item.jobs.length
+                                  }
+                                >
+                                  Review
+                                </button>
+                              ) : null}
 
                               {/* Start Design */}
                               {permissions.canStartDesign ? (
