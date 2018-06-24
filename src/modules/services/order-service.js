@@ -81,6 +81,17 @@ let removeJob = (orderid, jobid) => {
   });
 };
 
+// Set Advance Amounts
+let setAdvanceAmounts = (orderid, amounts) => {
+  return Axios.post(
+    `${Constants.URLS.PATHS.ORDERS}/${orderid}/jobs/advance`,
+    amounts
+  ).then(response => {
+    if (response.data) return response.data;
+    return response;
+  });
+};
+
 // Exports
 export default {
   getOrders,
@@ -90,5 +101,6 @@ export default {
   deleteOrder,
   markAsInProgress,
   addJobs,
-  removeJob
+  removeJob,
+  setAdvanceAmounts
 };

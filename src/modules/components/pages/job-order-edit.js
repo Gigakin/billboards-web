@@ -55,9 +55,11 @@ class EditJobOrder extends React.Component {
       jobFeatures: [],
       jobMeasurements: [],
       jobCharges: [],
-      currentTab: "order",
+      advanceAmounts: {},
+      currentTab: "review",
       permissions: {}
     };
+    this.ratesAndCosts = [];
   }
 
   // Get Order Details
@@ -83,9 +85,7 @@ class EditJobOrder extends React.Component {
   // Get Job Types
   getJobTypes = () => {
     JobService.getJobTypes().then(
-      jobtypes => {
-        return this.setState({ jobTypes: jobtypes });
-      },
+      jobtypes => this.setState({ jobTypes: jobtypes }),
       error => {
         return Notification.Notify({
           text: "Failed to get list of job types",
@@ -262,64 +262,48 @@ class EditJobOrder extends React.Component {
     );
   };
 
-  // Populate Job Rates
-  populateJobRates = () => {};
-
-  // Calculate Total Cost
-  calculateTotalCost = jobid => {
-    if (jobid) {
-      let { jobs, jobCharges } = this.state;
-
-      // Find this job from jobs array
-      let extractedJobArray = jobs.map(job => {
-        // eslint-disable-next-line
-        if (job.id == jobid) return job;
-        return {};
-      });
-
-      // extractedJobArray is an array
-      if (extractedJobArray && extractedJobArray.length) {
-        let totalCost = 0;
-        let ratePerSquareFeet = 0;
-
-        // Find the appropriate rates
-        let thisJob = extractedJobArray[0];
-        jobCharges.forEach(charge => {
-          if (
-            charge.job_feature == thisJob.feature &&
-            charge.job_quality == thisJob.quality &&
-            charge.job_type == thisJob.type
-          ) {
-            ratePerSquareFeet = charge.charge;
-            return;
-          }
-        });
-        // Populate fields
-        console.log(ratePerSquareFeet);
-        this.refs[`job_rate_${jobid}`].value = ratePerSquareFeet;
-        this.refs[`job_total_${jobid}`].value = totalCost;
-      }
-    }
-  };
-
   // Send to In Progress
   sendToInProgress = () => {
-    let { order } = this.state;
-    OrderService.markAsInProgress(order.id).then(
+    let { order, advanceAmounts } = this.state;
+    OrderService.setAdvanceAmounts(order.id, advanceAmounts).then(
       response => {
-        this.props.history.push(`/orders/${order.id}`);
-        return Notification.Notify({
-          text: "Order marked as In Progress",
-          type: "success"
-        });
+        OrderService.markAsInProgress(order.id).then(
+          response => {
+            this.props.history.push(`/orders/${order.id}`);
+            return Notification.Notify({
+              text: "Order marked as In Progress",
+              type: "success"
+            });
+          },
+          error => {
+            return Notification.Notify({
+              text: "Failed to mark order as in progress. Please try again.",
+              type: "error"
+            });
+          }
+        );
       },
       error => {
         return Notification.Notify({
-          text: "Failed to mark order as in progress. Please try again.",
+          text: "Failed to set advnace amounts for jobs",
           type: "error"
         });
       }
     );
+  };
+
+  // Calculate Total Amount
+  captureAdvanceAmount = (event, job) => {
+    if (event && job) {
+      let amount = event.target.value;
+      if (amount) amount = parseFloat(amount);
+      return this.setState({
+        advanceAmounts: {
+          ...this.state.advanceAmounts,
+          [job.id]: amount
+        }
+      });
+    }
   };
 
   // Switch Tab
@@ -919,6 +903,8 @@ class EditJobOrder extends React.Component {
                           list={jobs}
                           jobTypes={jobTypes}
                           sizeUnits={jobMeasurements}
+                          jobQualities={jobQualities}
+                          jobFeatures={jobFeatures}
                           methods={{
                             deleteItem: jobid => this.removeJob(jobid)
                           }}
@@ -1044,11 +1030,9 @@ class EditJobOrder extends React.Component {
                                       <input
                                         type="number"
                                         className="uk-input"
-                                        onChange={() =>
-                                          this.calculateTotalCost(job.id)
-                                        }
-                                        ref={`job_rate_${job.id}`}
+                                        value={job.rate ? job.rate.charge : ""}
                                         min={1}
+                                        disabled
                                         required
                                       />
                                     </div>
@@ -1059,7 +1043,7 @@ class EditJobOrder extends React.Component {
                                       <input
                                         type="number"
                                         className="uk-input"
-                                        ref={`job_total_${job.id}`}
+                                        value={job.rate ? job.rate.cost : ""}
                                         disabled
                                         required
                                       />
@@ -1071,6 +1055,10 @@ class EditJobOrder extends React.Component {
                                       <input
                                         type="number"
                                         className="uk-input"
+                                        onChange={event =>
+                                          this.captureAdvanceAmount(event, job)
+                                        }
+                                        max={job.rate ? job.rate.cost : ""}
                                         min={0}
                                       />
                                     </div>
