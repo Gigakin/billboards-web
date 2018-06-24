@@ -57,6 +57,7 @@ class EditJobOrder extends React.Component {
       jobCharges: [],
       advanceAmounts: {},
       currentTab: "review",
+      canSubmitAdvances: false,
       permissions: {}
     };
     this.ratesAndCosts = [];
@@ -296,6 +297,22 @@ class EditJobOrder extends React.Component {
   captureAdvanceAmount = (event, job) => {
     if (event && job) {
       let amount = event.target.value;
+
+      // Reset States
+      this.setState({ canSubmitAdvances: true });
+      this.refs[`job_advance_error_${job.id}`].innerHTML = "";
+
+      // Compare amounts
+      if (job.rate) {
+        if (amount > job.rate.cost) {
+          this.setState({ canSubmitAdvances: false });
+          this.refs[
+            `job_advance_error_${job.id}`
+          ].innerHTML = `Advance cannot be more than ${job.rate.cost}`;
+          return;
+        }
+      }
+
       if (amount) amount = parseFloat(amount);
       return this.setState({
         advanceAmounts: {
@@ -344,7 +361,8 @@ class EditJobOrder extends React.Component {
       jobFeatures,
       jobMeasurements,
       currentTab,
-      permissions
+      permissions,
+      canSubmitAdvances
     } = this.state;
 
     return (
@@ -1050,7 +1068,11 @@ class EditJobOrder extends React.Component {
                                     </div>
                                     <div className="uk-width-1-3">
                                       <label className="uk-form-label">
-                                        Advance
+                                        Advance{" "}
+                                        <span
+                                          className="uk-text-danger"
+                                          ref={`job_advance_error_${job.id}`}
+                                        />
                                       </label>
                                       <input
                                         type="number"
@@ -1094,7 +1116,10 @@ class EditJobOrder extends React.Component {
                           type="button"
                           className="uk-button uk-button-primary"
                           onClick={this.sendToInProgress}
-                          disabled={order.jobs && order.jobs.length < 1}
+                          disabled={
+                            (order.jobs && order.jobs.length < 1) ||
+                            !canSubmitAdvances
+                          }
                         >
                           Send for Designing
                         </button>
