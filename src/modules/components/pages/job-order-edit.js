@@ -56,7 +56,7 @@ class EditJobOrder extends React.Component {
       jobMeasurements: [],
       jobCharges: [],
       advanceAmounts: {},
-      currentTab: "review",
+      currentTab: "order",
       canSubmitAdvances: false,
       permissions: {}
     };
@@ -1082,6 +1082,9 @@ class EditJobOrder extends React.Component {
                                         }
                                         max={job.rate ? job.rate.cost : ""}
                                         min={0}
+                                        disabled={
+                                          order.status && order.status.id !== 1
+                                        }
                                       />
                                     </div>
                                   </div>
@@ -1121,7 +1124,9 @@ class EditJobOrder extends React.Component {
                             !canSubmitAdvances
                           }
                         >
-                          Send for Designing
+                          {order.status && order.status.id !== 1
+                            ? "Status: Order Sent for Designing"
+                            : "Send for Designing"}
                         </button>
                       ) : null}
                     </div>
