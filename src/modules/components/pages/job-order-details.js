@@ -250,6 +250,52 @@ class JobOrderDetails extends React.Component {
                             </span>
                           </div>
                         </div>
+
+                        <div className="uk-width-1-1 uk-margin-top">
+                          <div className="uk-flex uk-flex-between">
+                            {/* Downloads */}
+                            <div className="uk-flex">
+                              {permissions.canDownloadCustomerDesignFile ? (
+                                <button className="uk-button uk-button-small uk-button-default uk-margin-small-right">
+                                  <span uk-icon="cloud-download" /> Download
+                                  Customer Design File
+                                </button>
+                              ) : null}
+                              {permissions.canDownloadDesignerDesignFile ? (
+                                <button className="uk-button uk-button-small uk-button-default uk-margin-small-right">
+                                  <span uk-icon="cloud-download" /> Download
+                                  Design File
+                                </button>
+                              ) : null}
+                              {permissions.canAttachDesignFile ? (
+                                <button className="uk-button uk-button-small uk-button-default uk-margin-small-right">
+                                  <span uk-icon="cloud-upload" /> Attach Design
+                                  File
+                                </button>
+                              ) : null}
+                              {permissions.canAttachPrintFile ? (
+                                <button className="uk-button uk-button-small uk-button-default uk-margin-small-right">
+                                  <span uk-icon="cloud-upload" /> Attach REAP
+                                  File
+                                </button>
+                              ) : null}
+                            </div>
+
+                            {/* Complete Job */}
+                            <div className="uk-flex">
+                              {permissions.canSendForPrinting ? (
+                                <button className="uk-button uk-button-small uk-button-secondary">
+                                  <span uk-icon="check" /> Designing Complete
+                                </button>
+                              ) : null}
+                              {permissions.canMarkAsPrintingDone ? (
+                                <button className="uk-button uk-button-small uk-button-secondary">
+                                  <span uk-icon="check" /> Printing Complete
+                                </button>
+                              ) : null}
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     );
                   })
