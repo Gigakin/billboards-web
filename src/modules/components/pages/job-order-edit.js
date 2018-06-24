@@ -47,6 +47,7 @@ class EditJobOrder extends React.Component {
         sizeUnits: "1",
         isHighPriority: false,
         feature: null,
+        file: null,
         deliveryExpectedBy: null,
         notes: null
       },
@@ -60,7 +61,7 @@ class EditJobOrder extends React.Component {
       canSubmitAdvances: false,
       permissions: {}
     };
-    this.ratesAndCosts = [];
+    this.filesToBeUploaded = [];
   }
 
   // Get Order Details
@@ -189,6 +190,18 @@ class EditJobOrder extends React.Component {
       jobDetails: {
         ...this.state.jobDetails,
         isHighPriority: !jobDetails.isHighPriority
+      }
+    });
+  };
+
+  // Capture File to be Uploaded
+  captureFileToBeUploaded = event => {
+    event.preventDefault();
+    let file = event.target.files[0];
+    return this.setState({
+      jobDetails: {
+        ...this.state.jobDetails,
+        file: file
       }
     });
   };
@@ -818,7 +831,10 @@ class EditJobOrder extends React.Component {
                                 Customer's Design File
                               </label>
                               <div className="js-upload" uk-form-custom="">
-                                <input type="file" />
+                                <input
+                                  type="file"
+                                  onChange={this.captureFileToBeUploaded}
+                                />
                                 <button
                                   type="button"
                                   className="uk-button uk-button-default"
