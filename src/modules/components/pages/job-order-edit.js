@@ -798,7 +798,7 @@ class EditJobOrder extends React.Component {
                             </div>
 
                             {/* Dimensions */}
-                            <div className="uk-margin">
+                            <div className="uk-width-1-1 uk-margin">
                               <label className="uk-form-label">
                                 Dimensions
                               </label>
