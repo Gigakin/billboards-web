@@ -48,6 +48,7 @@ class EditJobOrder extends React.Component {
         isHighPriority: false,
         feature: null,
         file: null,
+        hasFileAttachment: false,
         deliveryExpectedBy: null,
         notes: null
       },
@@ -201,9 +202,32 @@ class EditJobOrder extends React.Component {
     return this.setState({
       jobDetails: {
         ...this.state.jobDetails,
+        hasFileAttachment: true,
         file: file
       }
     });
+  };
+
+  // Upload Customer Desing File
+  uploadCustomerDesignFile = (jobid, file) => {
+    if (jobid && file) {
+      let formData = new FormData();
+      formData.append("file", file);
+      OrderService.addCustomerFile(jobid, formData).then(
+        response => {
+          Notification.Notify({
+            text: `File uploaded for Job ID: ${jobid}`,
+            type: "success"
+          });
+        },
+        error => {
+          return Notification.Notify({
+            text: `Failed to upload file for Job ID: ${jobid}`,
+            type: "error"
+          });
+        }
+      );
+    }
   };
 
   // Add Job
@@ -219,32 +243,36 @@ class EditJobOrder extends React.Component {
   // Remove Job
   removeJob = jobid => {
     let { order, jobs } = this.state;
-    OrderService.removeJob(order.id, jobid).then(
-      response => {
-        Notification.Notify({
-          text: response.message ? response.message : "Removed job from order",
-          type: "success"
-        });
-        // Prevent deletion if there
-        // is only one order in jobs
-        if (jobs.length > 1) {
-          // Even index and job id
-          jobid--;
-          return this.setState({
-            jobs: jobs.filter((_, index) => {
-              return index !== jobid;
-            })
+
+    // Prevent deletion if there
+    // is only one order in jobs
+    if (jobs.length > 1) {
+      // Even index and job id
+      jobid--;
+      return this.setState({
+        jobs: jobs.filter((_, index) => {
+          return index !== jobid;
+        })
+      });
+    } else {
+      OrderService.removeJob(order.id, jobid).then(
+        response => {
+          return Notification.Notify({
+            text: response.message
+              ? response.message
+              : "Removed job from order",
+            type: "success"
+          });
+        },
+        error => {
+          let { data } = error.response;
+          return Notification.Notify({
+            text: data ? data : Strings.COMMON.UNKNOWN_ERROR,
+            type: "error"
           });
         }
-      },
-      error => {
-        let { data } = error.response;
-        return Notification.Notify({
-          text: data ? data : Strings.COMMON.UNKNOWN_ERROR,
-          type: "error"
-        });
-      }
-    );
+      );
+    }
   };
 
   // Save Jobs
@@ -252,8 +280,20 @@ class EditJobOrder extends React.Component {
     let { order, jobs } = this.state;
     OrderService.addJobs(order.id, jobs).then(
       response => {
-        // Empty Jobs Array
-        this.setState({ jobs: [] });
+        // Upload files
+        if (response.jobsWithFiles && response.jobsWithFiles.length) {
+          // Get all file with attachments
+          let jobsWithAttachments = jobs.map(item => {
+            if (item.hasFileAttachment) return item;
+          });
+          // Map with jobid and upload files
+          response.jobsWithFiles.forEach((jobid, index) => {
+            this.uploadCustomerDesignFile(
+              jobid,
+              jobsWithAttachments[index].file
+            );
+          });
+        }
         // Refresh jobs
         this.getOrderDetails(order.id);
         // Switch to Review Tab

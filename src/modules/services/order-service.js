@@ -92,6 +92,39 @@ let setAdvanceAmounts = (orderid, amounts) => {
   });
 };
 
+// Add customer design file
+let addCustomerFile = (jobid, formdata) => {
+  return Axios.post(
+    `${Constants.URLS.PATHS.JOBS}/${jobid}/files/customer`,
+    formdata
+  ).then(response => {
+    if (response.data) return response.data;
+    return response;
+  });
+};
+
+// Add designer design file
+let addDesignerFile = (jobid, formdata) => {
+  return Axios.post(
+    `${Constants.URLS.PATHS.JOBS}/${jobid}/files/design`,
+    formdata
+  ).then(response => {
+    if (response.data) return response.data;
+    return response;
+  });
+};
+
+// Add printer design file
+let addPrinterFile = (jobid, formdata) => {
+  return Axios.post(
+    `${Constants.URLS.PATHS.JOBS}/${jobid}/files/printer`,
+    formdata
+  ).then(response => {
+    if (response.data) return response.data;
+    return response;
+  });
+};
+
 // Exports
 export default {
   getOrders,
@@ -102,5 +135,8 @@ export default {
   markAsInProgress,
   addJobs,
   removeJob,
-  setAdvanceAmounts
+  setAdvanceAmounts,
+  addCustomerFile,
+  addDesignerFile,
+  addPrinterFile
 };
