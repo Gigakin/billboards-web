@@ -95,7 +95,7 @@ class JobList extends React.Component {
                       <button
                         type="button"
                         title="Delete"
-                        onClick={() => methods.deleteItem(item.id)}
+                        onClick={() => methods.deleteItem(index)}
                         className="uk-icon-button uk-text-danger uk-margin-small-right"
                         uk-icon="trash"
                       />

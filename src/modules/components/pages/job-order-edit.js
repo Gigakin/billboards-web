@@ -48,6 +48,7 @@ class EditJobOrder extends React.Component {
         isHighPriority: false,
         feature: null,
         file: null,
+        isUploaded: false,
         hasFileAttachment: false,
         deliveryExpectedBy: null,
         notes: null
@@ -241,37 +242,49 @@ class EditJobOrder extends React.Component {
   };
 
   // Remove Job
-  removeJob = jobid => {
-    let { order, jobs } = this.state;
+  removeJob = jobindex => {
+    if (jobindex || jobindex === 0) {
+      let { jobs } = this.state;
 
-    // Prevent deletion if there
-    // is only one order in jobs
-    if (jobs.length > 1) {
-      // Even index and job id
-      jobid--;
-      return this.setState({
-        jobs: jobs.filter((_, index) => {
-          return index !== jobid;
-        })
-      });
-    } else {
-      OrderService.removeJob(order.id, jobid).then(
-        response => {
-          return Notification.Notify({
-            text: response.message
-              ? response.message
-              : "Removed job from order",
-            type: "success"
-          });
-        },
-        error => {
-          let { data } = error.response;
-          return Notification.Notify({
-            text: data ? data : Strings.COMMON.UNKNOWN_ERROR,
-            type: "error"
+      // Find job by ID
+      let splicedJobs = jobs.splice(jobindex, 1);
+
+      if (splicedJobs && splicedJobs.length) {
+        let job = splicedJobs[0];
+        if (job.id) {
+          // If "jobid" is provided then the
+          // job exists in databases. Call API.
+          let { order } = this.state;
+          OrderService.removeJob(order.id, job.id).then(
+            response => {
+              // Get order details
+              let { params } = this.props.match;
+              this.getOrderDetails(params.id);
+              // Notify
+              return Notification.Notify({
+                text: response.message
+                  ? response.message
+                  : "Removed job from order",
+                type: "success"
+              });
+            },
+            error => {
+              let { data } = error.response;
+              return Notification.Notify({
+                text: data ? data : Strings.COMMON.UNKNOWN_ERROR,
+                type: "error"
+              });
+            }
+          );
+        } else {
+          // Otherwise remove the job from
+          // array and update the view only
+          return this.setState({
+            ...this.state.jobDetails,
+            jobs: jobs.filter((_, index) => index !== jobindex)
           });
         }
-      );
+      }
     }
   };
 
