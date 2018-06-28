@@ -285,6 +285,7 @@ class EditJobOrder extends React.Component {
           // Get all file with attachments
           let jobsWithAttachments = jobs.map(item => {
             if (item.hasFileAttachment) return item;
+            return null;
           });
           // Map with jobid and upload files
           response.jobsWithFiles.forEach((jobid, index) => {
