@@ -298,7 +298,7 @@ class JobOrderDetails extends React.Component {
                               <div className="uk-flex">
                                 {permissions.canSendForPrinting ? (
                                   <button className="uk-button uk-button-small uk-button-secondary">
-                                    <span uk-icon="check" /> Designing Complete
+                                    <span uk-icon="check" /> Send for Printing
                                   </button>
                                 ) : null}
                                 {permissions.canMarkAsPrintingDone ? (
