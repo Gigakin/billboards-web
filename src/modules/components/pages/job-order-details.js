@@ -2,6 +2,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+// Assets
+import Methods from "../../methods";
+
 // Components
 import Notification from "../common/notification";
 
@@ -232,13 +235,21 @@ class JobOrderDetails extends React.Component {
                           <div className="uk-width-1-2">
                             <span className="uk-text-small">Dimensions : </span>
                             <span className="uk-text-small uk-text-primary">
-                              {job.sizeWidth} x {job.sizeHeight}{" "}
                               {job.sizeUnits
                                 ? jobMeasurements.map(
                                     size =>
                                       // eslint-disable-next-line
                                       size.id == job.sizeUnits
-                                        ? size.unit
+                                        ? (
+                                            Methods.calculateSqFt(
+                                              job.sizeWidth,
+                                              size.unit
+                                            ) *
+                                            Methods.calculateSqFt(
+                                              job.sizeHeight,
+                                              size.unit
+                                            )
+                                          ).toFixed(2) + " sq.ft"
                                         : null
                                   )
                                 : "-"}
