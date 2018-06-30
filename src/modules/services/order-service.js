@@ -93,9 +93,9 @@ let setAdvanceAmounts = (orderid, amounts) => {
 };
 
 // Add customer design file
-let addCustomerFile = (jobid, formdata) => {
+let addCustomerFile = (orderid, jobid, formdata) => {
   return Axios.post(
-    `${Constants.URLS.PATHS.JOBS}/${jobid}/files/customer`,
+    `${Constants.URLS.PATHS.ORDERS}/${orderid}/jobs/${jobid}/files/customer`,
     formdata
   ).then(response => {
     if (response.data) return response.data;
@@ -104,9 +104,9 @@ let addCustomerFile = (jobid, formdata) => {
 };
 
 // Add designer design file
-let addDesignerFile = (jobid, formdata) => {
+let addDesignerFile = (orderid, jobid, formdata) => {
   return Axios.post(
-    `${Constants.URLS.PATHS.JOBS}/${jobid}/files/design`,
+    `${Constants.URLS.PATHS.ORDERS}/${orderid}/jobs/${jobid}/files/design`,
     formdata
   ).then(response => {
     if (response.data) return response.data;
@@ -115,9 +115,9 @@ let addDesignerFile = (jobid, formdata) => {
 };
 
 // Add printer design file
-let addPrinterFile = (jobid, formdata) => {
+let addPrinterFile = (orderid, jobid, formdata) => {
   return Axios.post(
-    `${Constants.URLS.PATHS.JOBS}/${jobid}/files/printer`,
+    `${Constants.URLS.PATHS.ORDERS}/${orderid}/jobs/${jobid}/files/printer`,
     formdata
   ).then(response => {
     if (response.data) return response.data;

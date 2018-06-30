@@ -60,7 +60,7 @@ class EditJobOrder extends React.Component {
       jobMeasurements: [],
       jobCharges: [],
       advanceAmounts: {},
-      currentTab: "review",
+      currentTab: "order",
       canSubmitAdvances: false,
       permissions: {}
     };
@@ -211,11 +211,11 @@ class EditJobOrder extends React.Component {
   };
 
   // Upload Customer Desing File
-  uploadCustomerDesignFile = (jobid, file) => {
-    if (jobid && file) {
+  uploadCustomerDesignFile = (orderid, jobid, file) => {
+    if (orderid && jobid && file) {
       let formData = new FormData();
       formData.append("file", file);
-      OrderService.addCustomerFile(jobid, formData).then(
+      OrderService.addCustomerFile(orderid, jobid, formData).then(
         response => {
           Notification.Notify({
             text: `File uploaded for Job ID: ${jobid}`,
@@ -304,6 +304,7 @@ class EditJobOrder extends React.Component {
           // Map with jobid and upload files
           response.jobsWithFiles.forEach((jobid, index) => {
             this.uploadCustomerDesignFile(
+              order.id,
               jobid,
               jobsWithAttachments[index].file
             );
