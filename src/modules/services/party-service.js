@@ -20,5 +20,19 @@ let getPartyByPhone = phonenumber => {
   });
 };
 
+// Add Party
+let addParty = details => {
+  return Axios.post(`${Constants.URLS.PATHS.PARTIES}`, details).then(
+    response => {
+      if (response.data) return response.data;
+      return response;
+    }
+  );
+};
+
 // Exports
-export default { getParties, getPartyByPhone };
+export default {
+  getParties,
+  getPartyByPhone,
+  addParty
+};

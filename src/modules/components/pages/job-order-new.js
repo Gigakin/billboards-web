@@ -133,37 +133,83 @@ class NewJobOrder extends React.Component {
     });
   };
 
+  // Add Party
+  addParty = party => {
+    return PartyService.addParty(party).then(
+      details => details,
+      error => {
+        let { data } = error.response;
+        return Notification.Notify({
+          text: data ? data.message : Strings.COMMON.UNKNOWN_ERROR,
+          type: "error"
+        });
+      }
+    );
+  };
+
   // Create Order
   createOrder = event => {
     event.preventDefault();
     let { order, party } = this.state;
 
-    // Append additional info
-    order.party = party.id;
+    // Check if party exists
+    if (!party.id) {
+      this.addParty(party).then(details => {
+        // Append additional info
+        order.party = details.id;
 
-    // Call service
-    OrderService.createOrder(order).then(
-      response => {
-        Notification.Notify({
-          text: response.message ? response.message : "Order created"
-        });
-        // Reset details
-        return this.setState({
-          party: {},
-          order: { owner: 1 },
-          currentTab: "order"
-        });
-        // TODO: Maybe take the user to the
-        // TODO: newly created order details page??
-      },
-      error => {
-        let { data } = error.response;
-        return Notification.Notify({
-          text: data ? data : Strings.COMMON.UNKNOWN_ERROR,
-          type: "error"
-        });
-      }
-    );
+        // Call service
+        OrderService.createOrder(order).then(
+          response => {
+            Notification.Notify({
+              text: response.message ? response.message : "Order created"
+            });
+            // Reset details
+            return this.setState({
+              party: {},
+              order: { owner: 1 },
+              currentTab: "order"
+            });
+            // TODO: Maybe take the user to the
+            // TODO: newly created order details page??
+          },
+          error => {
+            let { data } = error.response;
+            return Notification.Notify({
+              text: data ? data.message : Strings.COMMON.UNKNOWN_ERROR,
+              type: "error"
+            });
+          }
+        );
+      });
+    } else {
+      // Append additional info
+      order.party = party.id;
+
+      // Call service
+      OrderService.createOrder(order).then(
+        response => {
+          Notification.Notify({
+            text: response.message ? response.message : "Order created"
+          });
+          // Reset details
+          return this.setState({
+            party: {},
+            order: { owner: 1 },
+            currentTab: "order"
+          });
+          // TODO: Maybe take the user to the
+          // TODO: newly created order details page??
+        },
+        error => {
+          let { data } = error.response;
+          return Notification.Notify({
+            text: data ? data.message : Strings.COMMON.UNKNOWN_ERROR,
+            type: "error"
+          });
+        }
+      );
+    }
   };
 
   // Switch Tab
@@ -320,15 +366,17 @@ class NewJobOrder extends React.Component {
                           maxVisible={4}
                           options={this.parties}
                           customClasses={{ input: "uk-input" }}
+                          onChange={this.capturePartyDetails}
                           onOptionSelected={option =>
                             this.getPartyInformation(option)
                           }
                           inputProps={{
                             type: "number",
-                            // Need to look into this "new-password"
+                            id: "mobile",
                             autoComplete: "new-password",
                             maxLength: "10",
-                            minLength: "10"
+                            minLength: "10",
+                            required: true
                           }}
                         />
                       </div>
