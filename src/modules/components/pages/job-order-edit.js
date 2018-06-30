@@ -60,7 +60,7 @@ class EditJobOrder extends React.Component {
       jobMeasurements: [],
       jobCharges: [],
       advanceAmounts: {},
-      currentTab: "order",
+      currentTab: "review",
       canSubmitAdvances: false,
       permissions: {}
     };
@@ -333,8 +333,8 @@ class EditJobOrder extends React.Component {
 
   // Send to In Progress
   sendToInProgress = () => {
-    let { order, advanceAmounts } = this.state;
-    OrderService.setAdvanceAmounts(order.id, advanceAmounts).then(
+    let { order, jobs } = this.state;
+    OrderService.setAdvanceAmounts(order.id, jobs).then(
       response => {
         OrderService.markAsInProgress(order.id).then(
           response => {
@@ -361,34 +361,47 @@ class EditJobOrder extends React.Component {
     );
   };
 
-  // Calculate Total Amount
-  captureAdvanceAmount = (event, job) => {
-    if (event && job) {
-      let amount = event.target.value;
+  // Capture Job Rate
+  captureJobRate = (event, index) => {
+    let value = parseFloat(event.target.value);
+    if (!value) value = 0;
+    const data = [...this.state.jobs];
+    data[index].rate.charge = value;
+    data.splice(index, 1, data[index]);
+    this.setState({ jobs: data });
+  };
 
-      // Reset States
-      this.setState({ canSubmitAdvances: true });
-      this.refs[`job_advance_error_${job.id}`].innerHTML = "";
+  // Capture Advance Amount
+  captureAdvanceAmount = (event, index) => {
+    const data = [...this.state.jobs];
+    let amount = parseFloat(event.target.value);
+    if (!amount) amount = 0;
+    let totalCost = data[index].rate.charge * data[index].totalSizeInSqFt;
 
-      // Compare amounts
-      if (job.rate) {
-        if (amount > job.rate.cost) {
-          this.setState({ canSubmitAdvances: false });
-          this.refs[
-            `job_advance_error_${job.id}`
-          ].innerHTML = `Advance cannot be more than ${job.rate.cost}`;
-          return;
-        }
-      }
+    // Reset amount exceeds error
+    this.setState({ canSubmitAdvances: true });
+    this.refs[`job_advance_error_${index}`].innerHTML = "";
 
-      if (amount) amount = parseFloat(amount);
-      return this.setState({
-        advanceAmounts: {
-          ...this.state.advanceAmounts,
-          [job.id]: amount
-        }
-      });
+    if (amount > totalCost) {
+      this.refs[
+        `job_advance_error_${index}`
+      ].innerHTML = `Advance cannot be more than the total cost: ₹${totalCost}`;
+      this.setState({ canSubmitAdvances: false });
+      return;
     }
+    data[index].advance = amount;
+    data.splice(index, 1, data[index]);
+    this.setState({ jobs: data });
+  };
+
+  // Calculate Balance
+  calculateBalance = index => {
+    let { jobs } = this.state;
+    let balance = 0;
+    balance =
+      jobs[index].rate.charge * jobs[index].totalSizeInSqFt -
+      jobs[index].advance;
+    return balance;
   };
 
   // Switch Tab
@@ -1113,57 +1126,85 @@ class EditJobOrder extends React.Component {
                               </div>
                               {/* Add Textboxes here */}
                               {permissions.canSeeCostsInReviewOrder ? (
-                                <div className="uk-width-1-1">
+                                <div
+                                  className="uk-width-1-1"
+                                  key={`job_costs_${index}`}
+                                >
                                   <div className="uk-margin-small-bottom">
                                     <div className="uk-text-subtitle">
                                       Costs
                                     </div>
                                   </div>
                                   <div className="uk-grid uk-width-1-1">
-                                    <div className="uk-width-1-3">
+                                    <div className="uk-width-1-4">
                                       <label className="uk-form-label">
-                                        Rate Per Sq. Ft.
+                                        Rate Per Sq. Ft. (in ₹)
                                       </label>
                                       <input
                                         type="number"
                                         className="uk-input"
                                         value={job.rate ? job.rate.charge : ""}
+                                        onChange={event =>
+                                          this.captureJobRate(event, index)
+                                        }
                                         min={1}
-                                        disabled
                                         required
                                       />
                                     </div>
-                                    <div className="uk-width-1-3">
+                                    <div className="uk-width-1-4">
                                       <label className="uk-form-label">
-                                        Total Cost
+                                        Total Cost (in ₹)
                                       </label>
                                       <input
                                         type="number"
                                         className="uk-input"
-                                        value={job.rate ? job.rate.cost : ""}
+                                        value={
+                                          job.rate
+                                            ? job.rate.charge *
+                                              job.totalSizeInSqFt
+                                            : ""
+                                        }
                                         disabled
                                         required
                                       />
                                     </div>
-                                    <div className="uk-width-1-3">
+                                    <div className="uk-width-1-4">
                                       <label className="uk-form-label">
-                                        Advance{" "}
-                                        <span
-                                          className="uk-text-danger"
-                                          ref={`job_advance_error_${job.id}`}
-                                        />
+                                        Advance (in ₹)
                                       </label>
                                       <input
                                         type="number"
                                         className="uk-input"
                                         onChange={event =>
-                                          this.captureAdvanceAmount(event, job)
+                                          this.captureAdvanceAmount(
+                                            event,
+                                            index
+                                          )
                                         }
+                                        value={job.advance}
                                         max={job.rate ? job.rate.cost : ""}
                                         min={0}
                                         disabled={
                                           order.status && order.status.id !== 1
                                         }
+                                      />
+
+                                      <span
+                                        className="uk-text-danger uk-text-small"
+                                        ref={`job_advance_error_${index}`}
+                                      />
+                                    </div>
+                                    <div className="uk-width-1-4">
+                                      <label className="uk-form-label">
+                                        Balance (in ₹)
+                                      </label>
+                                      <input
+                                        type="number"
+                                        className="uk-input"
+                                        value={this.calculateBalance(index)}
+                                        max={job.rate ? job.rate.cost : ""}
+                                        min={0}
+                                        disabled
                                       />
                                     </div>
                                   </div>
