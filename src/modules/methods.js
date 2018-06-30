@@ -27,9 +27,20 @@ const clone = object => {
   if (object) return JSON.parse(JSON.stringify(object));
 };
 
+// Download File
+const downloadFile = file => {
+  if (file) {
+    let link = document.createElement("a");
+    link.href = file.location;
+    link.download = file.name;
+    link.click();
+  }
+};
+
 // Methods
 export default {
   clone,
   calculateSqFt,
-  capitalize
+  capitalize,
+  downloadFile
 };

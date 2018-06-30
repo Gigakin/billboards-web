@@ -112,6 +112,11 @@ class JobOrderDetails extends React.Component {
     return this.props.history.push("/orders");
   };
 
+  // Download File
+  downloadFile = file => {
+    if (file) return Methods.downloadFile(file);
+  };
+
   componentWillMount() {
     // Get Permisissions
     let role = PermissionService.getRole();
@@ -268,12 +273,28 @@ class JobOrderDetails extends React.Component {
                             <div className="uk-flex uk-flex-between">
                               {/* Downloads */}
                               <div className="uk-flex">
-                                {permissions.canDownloadCustomerDesignFile ? (
-                                  <button className="uk-button uk-button-small uk-button-default uk-margin-small-right">
-                                    <span uk-icon="cloud-download" /> Download
-                                    Customer Design File
-                                  </button>
-                                ) : null}
+                                {permissions.canDownloadCustomerDesignFile
+                                  ? order.files && order.files.length
+                                    ? order.files.map((j, index) => {
+                                        if ((j.id = job.id)) {
+                                          return (
+                                            <button
+                                              type="button"
+                                              key={`download_customer_file_button_${index}`}
+                                              className="uk-button uk-button-small uk-button-default uk-margin-small-right"
+                                              onClick={() =>
+                                                this.downloadFile(j)
+                                              }
+                                            >
+                                              <span uk-icon="cloud-download" />{" "}
+                                              Download Customer Design File
+                                            </button>
+                                          );
+                                        }
+                                        return null;
+                                      })
+                                    : null
+                                  : null}
                                 {permissions.canDownloadDesignerDesignFile ? (
                                   <button className="uk-button uk-button-small uk-button-default uk-margin-small-right">
                                     <span uk-icon="cloud-download" /> Download
