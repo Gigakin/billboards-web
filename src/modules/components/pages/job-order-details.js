@@ -117,39 +117,23 @@ class JobOrderDetails extends React.Component {
     if (file) return Methods.downloadFile(file);
   };
 
-  // Upload Designer's File
-  uploadDesignersFile = (event, jobid) => {
+  // Upload File
+  uploadFile = (event, jobid, uploadfor) => {
     if (event.target.files && event.target.files.length) {
       let file = event.target.files[0];
-      let formData = new FormData();
-      formData.append("file", file);
       let { params } = this.props.match;
-      OrderService.addDesignerFile(params.id, jobid, formData).then(
-        response => {
-          return Notification.Notify({
-            text: response ? response.message : "File(s) uploaded.",
-            type: "success"
-          });
-        },
-        error => {
-          let { data } = error.response;
-          return Notification.Notify({
-            text: data ? data.message : "Failed to upload file.",
-            type: "error"
-          });
-        }
-      );
-    }
-  };
 
-  // Upload Printer's File
-  uploadPrintersFile = (event, jobid) => {
-    if (event.target.files && event.target.files.length) {
-      let file = event.target.files[0];
+      // Form data
       let formData = new FormData();
       formData.append("file", file);
-      let { params } = this.props.match;
-      OrderService.addPrinterFile(params.id, jobid, formData).then(
+
+      // Determine upload domain
+      let method = OrderService.addDesignerFile;
+      if (uploadfor === "designer") method = OrderService.addDesignerFile;
+      if (uploadfor === "printer") method = OrderService.addPrinterFile;
+
+      // Call service
+      method(params.id, jobid, formData).then(
         response => {
           return Notification.Notify({
             text: response ? response.message : "File(s) uploaded.",
@@ -382,7 +366,11 @@ class JobOrderDetails extends React.Component {
                                     <input
                                       type="file"
                                       onChange={event =>
-                                        this.uploadDesignersFile(event, job.id)
+                                        this.uploadFile(
+                                          event,
+                                          job.id,
+                                          "designer"
+                                        )
                                       }
                                       required
                                     />
@@ -401,7 +389,11 @@ class JobOrderDetails extends React.Component {
                                     <input
                                       type="file"
                                       onChange={event =>
-                                        this.uploadPrintersFile(event, job.id)
+                                        this.uploadFile(
+                                          event,
+                                          job.id,
+                                          "printer"
+                                        )
                                       }
                                       required
                                     />
