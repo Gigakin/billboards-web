@@ -143,7 +143,29 @@ class JobOrderDetails extends React.Component {
   };
 
   // Upload Printer's File
-  uploadPrintersFile = () => {};
+  uploadPrintersFile = (event, jobid) => {
+    if (event.target.files && event.target.files.length) {
+      let file = event.target.files[0];
+      let formData = new FormData();
+      formData.append("file", file);
+      let { params } = this.props.match;
+      OrderService.addPrinterFile(params.id, jobid, formData).then(
+        response => {
+          return Notification.Notify({
+            text: response ? response.message : "File(s) uploaded.",
+            type: "success"
+          });
+        },
+        error => {
+          let { data } = error.response;
+          return Notification.Notify({
+            text: data ? data.message : "Failed to upload file.",
+            type: "error"
+          });
+        }
+      );
+    }
+  };
 
   componentWillMount() {
     // Get Permisissions
@@ -375,10 +397,23 @@ class JobOrderDetails extends React.Component {
                                   </div>
                                 ) : null}
                                 {permissions.canAttachPrintFile ? (
-                                  <button className="uk-button uk-button-small uk-button-default uk-margin-small-right">
-                                    <span uk-icon="cloud-upload" /> Attach REAP
-                                    File
-                                  </button>
+                                  <div uk-form-custom="">
+                                    <input
+                                      type="file"
+                                      onChange={event =>
+                                        this.uploadPrintersFile(event, job.id)
+                                      }
+                                      required
+                                    />
+
+                                    <button
+                                      type="button"
+                                      className="uk-button uk-button-small uk-button-default uk-margin-small-right"
+                                    >
+                                      <span uk-icon="cloud-upload" /> Attach
+                                      REAP File
+                                    </button>
+                                  </div>
                                 ) : null}
                               </div>
 
@@ -394,7 +429,11 @@ class JobOrderDetails extends React.Component {
                                   </button>
                                 ) : null}
                                 {permissions.canMarkAsPrintingDone ? (
-                                  <button className="uk-button uk-button-small uk-button-secondary">
+                                  <button
+                                    type="button"
+                                    className="uk-button uk-button-small uk-button-secondary"
+                                    onClick={() => this.printingDone(job.id)}
+                                  >
                                     <span uk-icon="check" /> Printing Complete
                                   </button>
                                 ) : null}
