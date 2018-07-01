@@ -427,14 +427,14 @@ class JobOrderDetails extends React.Component {
                                           "printer"
                                         )
                                       }
-                                      disabled={job.status !== 2 ? true : false}
+                                      disabled={job.status !== 3 ? true : false}
                                       required
                                     />
 
                                     <button
                                       type="button"
                                       className="uk-button uk-button-small uk-button-default uk-margin-small-right"
-                                      disabled={job.status !== 2 ? true : false}
+                                      disabled={job.status !== 3 ? true : false}
                                     >
                                       <span uk-icon="cloud-upload" /> Attach
                                       REAP File
