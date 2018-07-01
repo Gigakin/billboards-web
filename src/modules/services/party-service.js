@@ -10,6 +10,16 @@ let getParties = () => {
   });
 };
 
+// Get Party By ID
+let getPartyById = partyid => {
+  return Axios.get(`${Constants.URLS.PATHS.PARTIES}/${partyid}`).then(
+    response => {
+      if (response.data) return response.data;
+      return response;
+    }
+  );
+};
+
 // Get Party By Phone
 let getPartyByPhone = phonenumber => {
   return Axios.post(`${Constants.URLS.PATHS.PARTIES}/phone`, {
@@ -33,6 +43,7 @@ let addParty = details => {
 // Exports
 export default {
   getParties,
+  getPartyById,
   getPartyByPhone,
   addParty
 };

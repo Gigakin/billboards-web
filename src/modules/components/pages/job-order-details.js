@@ -517,43 +517,34 @@ class JobOrderDetails extends React.Component {
           <div className="uk-width-1-3">
             <div className="order-details">
               <div className="order-details__header">
-                <div className="uk-text-subtitle uk-margin-bottom">
-                  Order Details
+                <div className="uk-text-lead uk-margin-bottom">
+                  Party Details
                 </div>
-                {/* Size */}
                 <div className="uk-text-small uk-margin-small-bottom">
-                  <strong>Total Size: </strong> 110sq. ft.
+                  <strong>Party: </strong> {party.name}
                 </div>
-                {/* Notes: Frontdesk */}
-                {permissions.canSeeFrontdeskNotes ? (
-                  <div className="uk-text-small uk-margin-small-bottom">
-                    <strong>Notes from Frontdesk: </strong> Lorem ipsum dolor
-                    sit amet consectetur, adipisicing elit. Quia et praesentium
-                    modi dolore pariatur, mollitia doloribus. Repellendus rerum
-                    suscipit, officiis et minus dolor consequatur inventore
-                    pariatur excepturi tempore dolore odit.
-                  </div>
-                ) : null}
-                {/* Notes: Designer */}
-                {permissions.canSeeDesignerNotes ? (
-                  <div className="uk-text-small uk-margin-small-bottom">
-                    <strong>Notes from Designer: </strong> Lorem ipsum dolor sit
-                    amet consectetur, adipisicing elit. Quia et praesentium modi
-                    dolore pariatur, mollitia doloribus. Repellendus rerum
-                    suscipit, officiis et minus dolor consequatur inventore
-                    pariatur excepturi tempore dolore odit.
-                  </div>
-                ) : null}
-                {/* Notes: Printer */}
-                {permissions.canSeePrinterNotes ? (
-                  <div className="uk-text-small uk-margin-small-bottom">
-                    <strong>Notes from Printer: </strong> Lorem ipsum dolor sit
-                    amet consectetur, adipisicing elit. Quia et praesentium modi
-                    dolore pariatur, mollitia doloribus. Repellendus rerum
-                    suscipit, officiis et minus dolor consequatur inventore
-                    pariatur excepturi tempore dolore odit.
-                  </div>
-                ) : null}
+                <div className="uk-text-small uk-margin-small-bottom">
+                  <strong>Contact Person: </strong> {party.contact_person}
+                </div>
+                <div className="uk-text-small uk-margin-small-bottom">
+                  <strong>Mobile: </strong>{" "}
+                  {party.mobile ? party.mobile : "Not available"}
+                </div>
+                <div className="uk-text-small uk-margin-small-bottom">
+                  <strong>Email: </strong>{" "}
+                  {party.email ? party.email : "Not available"}
+                </div>
+                <div className="uk-text-small uk-margin-small-bottom">
+                  <strong>GSTIN: </strong>{" "}
+                  {party.gstin ? party.gstin : "Not available"}
+                </div>
+                <div className="uk-text-small uk-margin-small-bottom">
+                  <strong>Address: </strong>
+                  {party.address_line_1 ? `${party.address_line_1}, ` : null}
+                  {party.city ? `${party.city}, ` : null}
+                  {party.state ? `${party.state} ` : null}
+                  {party.postal_code ? `- ${party.postal_code}` : null}
+                </div>
               </div>
             </div>
           </div>
