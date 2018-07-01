@@ -402,12 +402,14 @@ class JobOrderDetails extends React.Component {
                                           "designer"
                                         )
                                       }
+                                      disabled={job.status !== 1 ? true : false}
                                       required
                                     />
 
                                     <button
                                       type="button"
                                       className="uk-button uk-button-small uk-button-default uk-margin-small-right"
+                                      disabled={job.status !== 1 ? true : false}
                                     >
                                       <span uk-icon="cloud-upload" /> Attach
                                       Design File
@@ -425,12 +427,14 @@ class JobOrderDetails extends React.Component {
                                           "printer"
                                         )
                                       }
+                                      disabled={job.status !== 2 ? true : false}
                                       required
                                     />
 
                                     <button
                                       type="button"
                                       className="uk-button uk-button-small uk-button-default uk-margin-small-right"
+                                      disabled={job.status !== 2 ? true : false}
                                     >
                                       <span uk-icon="cloud-upload" /> Attach
                                       REAP File
@@ -445,18 +449,30 @@ class JobOrderDetails extends React.Component {
                                   <button
                                     type="button"
                                     className="uk-button uk-button-small uk-button-secondary"
-                                    onClick={() => this.changeJobStatus(job.id, 3) }
+                                    disabled={job.status !== 1 ? true : false}
+                                    onClick={() =>
+                                      this.changeJobStatus(job.id, 3)
+                                    }
                                   >
-                                    <span uk-icon="check" /> Send for Printing
+                                    <span uk-icon="check" />{" "}
+                                    {job.status !== 1
+                                      ? "Sent"
+                                      : "Send for Printing"}
                                   </button>
                                 ) : null}
                                 {permissions.canMarkAsPrintingDone ? (
                                   <button
                                     type="button"
                                     className="uk-button uk-button-small uk-button-secondary"
-                                    onClick={() => this.changeJobStatus(job.id, 4) }
+                                    disabled={job.status === 4 ? true : false}
+                                    onClick={() =>
+                                      this.changeJobStatus(job.id, 4)
+                                    }
                                   >
-                                    <span uk-icon="check" /> Printing Complete
+                                    <span uk-icon="check" />{" "}
+                                    {job.status === 4
+                                      ? "Completed"
+                                      : "Mark as Printing Complete"}
                                   </button>
                                 ) : null}
                               </div>
