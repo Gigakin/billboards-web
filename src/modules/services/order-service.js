@@ -125,6 +125,16 @@ let addPrinterFile = (orderid, jobid, formdata) => {
   });
 };
 
+// Change Job Status
+let changeJobStatus = (jobid, status) => {
+  return Axios.post(`${Constants.URLS.PATHS.JOBS}/${jobid}/status`, {
+    status: status
+  }).then(response => {
+    if (response.data) return response.data;
+    return response;
+  });
+};
+
 // Exports
 export default {
   getOrders,
@@ -138,5 +148,6 @@ export default {
   setAdvanceAmounts,
   addCustomerFile,
   addDesignerFile,
-  addPrinterFile
+  addPrinterFile,
+  changeJobStatus
 };

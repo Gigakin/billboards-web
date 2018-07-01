@@ -25,6 +25,8 @@ class JobOrderDetails extends React.Component {
       jobQualities: [],
       jobFeatures: [],
       jobMeasurements: [],
+      isDesignFileUploaded: false,
+      isPrintFileUploaded: false,
       permissions: {}
     };
   }
@@ -135,15 +137,43 @@ class JobOrderDetails extends React.Component {
       // Call service
       method(params.id, jobid, formData).then(
         response => {
+          // Update order details
+          this.getOrderDetails(params.id);
+          // Notify
           return Notification.Notify({
-            text: response ? response.message : "File(s) uploaded.",
+            text: response.message ? response.message : "File(s) uploaded.",
             type: "success"
           });
         },
         error => {
           let { data } = error.response;
           return Notification.Notify({
-            text: data ? data.message : "Failed to upload file.",
+            text: data.message ? data.message : "Failed to upload file.",
+            type: "error"
+          });
+        }
+      );
+    }
+  };
+
+  // changeJobStatus
+  changeJobStatus = (jobid, status) => {
+    if (jobid && status) {
+      OrderService.changeJobStatus(jobid, status).then(
+        response => {
+          // Refresh order details
+          this.getOrderDetails(this.props.match.params.id);
+          // Notify
+          return Notification.Notify({
+            text: response.message ? response.message : "Updated job status",
+            type: "success"
+          });
+        },
+        error => {
+          // Notify
+          let { data } = error.response;
+          return Notification.Notify({
+            text: data.message ? data.message : "Failed to update job status",
             type: "error"
           });
         }
@@ -415,7 +445,7 @@ class JobOrderDetails extends React.Component {
                                   <button
                                     type="button"
                                     className="uk-button uk-button-small uk-button-secondary"
-                                    onClick={() => this.sendForPrinting(job.id)}
+                                    onClick={() => this.changeJobStatus(job.id, 3) }
                                   >
                                     <span uk-icon="check" /> Send for Printing
                                   </button>
@@ -424,7 +454,7 @@ class JobOrderDetails extends React.Component {
                                   <button
                                     type="button"
                                     className="uk-button uk-button-small uk-button-secondary"
-                                    onClick={() => this.printingDone(job.id)}
+                                    onClick={() => this.changeJobStatus(job.id, 4) }
                                   >
                                     <span uk-icon="check" /> Printing Complete
                                   </button>
