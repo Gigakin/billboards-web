@@ -33,6 +33,7 @@ const downloadFile = file => {
     let link = document.createElement("a");
     link.href = file.location;
     link.download = file.name;
+    link.setAttribute("target", "_blank");
     link.click();
   }
 };

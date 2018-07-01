@@ -117,6 +117,34 @@ class JobOrderDetails extends React.Component {
     if (file) return Methods.downloadFile(file);
   };
 
+  // Upload Designer's File
+  uploadDesignersFile = (event, jobid) => {
+    if (event.target.files && event.target.files.length) {
+      let file = event.target.files[0];
+      let formData = new FormData();
+      formData.append("file", file);
+      let { params } = this.props.match;
+      OrderService.addDesignerFile(params.id, jobid, formData).then(
+        response => {
+          return Notification.Notify({
+            text: response ? response.message : "File(s) uploaded.",
+            type: "success"
+          });
+        },
+        error => {
+          let { data } = error.response;
+          return Notification.Notify({
+            text: data ? data.message : "Failed to upload file.",
+            type: "error"
+          });
+        }
+      );
+    }
+  };
+
+  // Upload Printer's File
+  uploadPrintersFile = () => {};
+
   componentWillMount() {
     // Get Permisissions
     let role = PermissionService.getRole();
@@ -275,15 +303,20 @@ class JobOrderDetails extends React.Component {
                               <div className="uk-flex">
                                 {permissions.canDownloadCustomerDesignFile
                                   ? order.files && order.files.length
-                                    ? order.files.map((j, index) => {
-                                        if ((j.id = job.id)) {
+                                    ? order.files.map((file, index) => {
+                                        if (
+                                          // eslint-disable-next-line
+                                          file.job == job.id &&
+                                          // eslint-disable-next-line
+                                          file.type == 1
+                                        ) {
                                           return (
                                             <button
                                               type="button"
                                               key={`download_customer_file_button_${index}`}
                                               className="uk-button uk-button-small uk-button-default uk-margin-small-right"
                                               onClick={() =>
-                                                this.downloadFile(j)
+                                                this.downloadFile(file)
                                               }
                                             >
                                               <span uk-icon="cloud-download" />{" "}
@@ -295,17 +328,51 @@ class JobOrderDetails extends React.Component {
                                       })
                                     : null
                                   : null}
-                                {permissions.canDownloadDesignerDesignFile ? (
-                                  <button className="uk-button uk-button-small uk-button-default uk-margin-small-right">
-                                    <span uk-icon="cloud-download" /> Download
-                                    Design File
-                                  </button>
-                                ) : null}
+                                {permissions.canDownloadDesignerDesignFile
+                                  ? order.files && order.files.length
+                                    ? order.files.map((file, index) => {
+                                        if (
+                                          // eslint-disable-next-line
+                                          file.job == job.id &&
+                                          // eslint-disable-next-line
+                                          file.type == 2
+                                        ) {
+                                          return (
+                                            <button
+                                              type="button"
+                                              key={`download_designer_file_button_${index}`}
+                                              className="uk-button uk-button-small uk-button-default uk-margin-small-right"
+                                              onClick={() =>
+                                                this.downloadFile(file)
+                                              }
+                                            >
+                                              <span uk-icon="cloud-download" />{" "}
+                                              Download Design File
+                                            </button>
+                                          );
+                                        }
+                                        return null;
+                                      })
+                                    : null
+                                  : null}
                                 {permissions.canAttachDesignFile ? (
-                                  <button className="uk-button uk-button-small uk-button-default uk-margin-small-right">
-                                    <span uk-icon="cloud-upload" /> Attach
-                                    Design File
-                                  </button>
+                                  <div uk-form-custom="">
+                                    <input
+                                      type="file"
+                                      onChange={event =>
+                                        this.uploadDesignersFile(event, job.id)
+                                      }
+                                      required
+                                    />
+
+                                    <button
+                                      type="button"
+                                      className="uk-button uk-button-small uk-button-default uk-margin-small-right"
+                                    >
+                                      <span uk-icon="cloud-upload" /> Attach
+                                      Design File
+                                    </button>
+                                  </div>
                                 ) : null}
                                 {permissions.canAttachPrintFile ? (
                                   <button className="uk-button uk-button-small uk-button-default uk-margin-small-right">
@@ -318,7 +385,11 @@ class JobOrderDetails extends React.Component {
                               {/* Complete Job */}
                               <div className="uk-flex">
                                 {permissions.canSendForPrinting ? (
-                                  <button className="uk-button uk-button-small uk-button-secondary">
+                                  <button
+                                    type="button"
+                                    className="uk-button uk-button-small uk-button-secondary"
+                                    onClick={() => this.sendForPrinting(job.id)}
+                                  >
                                     <span uk-icon="check" /> Send for Printing
                                   </button>
                                 ) : null}

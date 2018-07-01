@@ -106,7 +106,7 @@ let addCustomerFile = (orderid, jobid, formdata) => {
 // Add designer design file
 let addDesignerFile = (orderid, jobid, formdata) => {
   return Axios.post(
-    `${Constants.URLS.PATHS.ORDERS}/${orderid}/jobs/${jobid}/files/design`,
+    `${Constants.URLS.PATHS.ORDERS}/${orderid}/jobs/${jobid}/files/designer`,
     formdata
   ).then(response => {
     if (response.data) return response.data;
