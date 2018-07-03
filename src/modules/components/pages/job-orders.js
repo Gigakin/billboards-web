@@ -61,9 +61,8 @@ class JobOrders extends React.Component {
         });
       },
       error => {
-        let { data } = error.response;
         return Notification.Notify({
-          text: data ? data : Strings.COMMON.UNKNOWN_ERROR,
+          text: Strings.COMMON.UNKNOWN_ERROR,
           type: "error"
         });
       }

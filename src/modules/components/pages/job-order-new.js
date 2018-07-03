@@ -138,9 +138,8 @@ class NewJobOrder extends React.Component {
     return PartyService.addParty(party).then(
       details => details,
       error => {
-        let { data } = error.response;
         return Notification.Notify({
-          text: data ? data.message : Strings.COMMON.UNKNOWN_ERROR,
+          text: Strings.COMMON.UNKNOWN_ERROR,
           type: "error"
         });
       }
@@ -174,9 +173,8 @@ class NewJobOrder extends React.Component {
             // TODO: newly created order details page??
           },
           error => {
-            let { data } = error.response;
             return Notification.Notify({
-              text: data ? data.message : Strings.COMMON.UNKNOWN_ERROR,
+              text: Strings.COMMON.UNKNOWN_ERROR,
               type: "error"
             });
           }
@@ -202,9 +200,8 @@ class NewJobOrder extends React.Component {
           // TODO: newly created order details page??
         },
         error => {
-          let { data } = error.response;
           return Notification.Notify({
-            text: data ? data.message : Strings.COMMON.UNKNOWN_ERROR,
+            text: Strings.COMMON.UNKNOWN_ERROR,
             type: "error"
           });
         }

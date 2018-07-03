@@ -146,9 +146,8 @@ class JobOrderDetails extends React.Component {
           });
         },
         error => {
-          let { data } = error.response;
           return Notification.Notify({
-            text: data.message ? data.message : "Failed to upload file.",
+            text: "Failed to upload file.",
             type: "error"
           });
         }
@@ -171,9 +170,8 @@ class JobOrderDetails extends React.Component {
         },
         error => {
           // Notify
-          let { data } = error.response;
           return Notification.Notify({
-            text: data.message ? data.message : "Failed to update job status",
+            text: "Failed to update job status",
             type: "error"
           });
         }

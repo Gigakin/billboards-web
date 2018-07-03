@@ -41,9 +41,8 @@ class Handovers extends React.Component {
     OrderService.getOrders().then(
       orders => this.setState({ ordersList: orders }),
       error => {
-        let { data } = error.response;
         return Notification.Notify({
-          text: data.message ? data.message : "Failed to get orders",
+          text: "Failed to get orders",
           type: "error"
         });
       }
@@ -55,9 +54,8 @@ class Handovers extends React.Component {
     OrderService.getOrderById(orderid).then(
       details => this.setState({ order: details }),
       error => {
-        let { data } = error.response;
         Notification.Notify({
-          text: data.message ? data.message : "Failed to get order details",
+          text: "Failed to get order details",
           type: "error"
         });
       }
@@ -285,7 +283,9 @@ class Handovers extends React.Component {
                             <tr
                               key={`modal_item_${index}`}
                               className={
-                                job.is_handed_over ? "table-row-faded-out" : null
+                                job.is_handed_over
+                                  ? "table-row-faded-out"
+                                  : null
                               }
                             >
                               <td>
