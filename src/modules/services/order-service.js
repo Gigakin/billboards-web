@@ -135,6 +135,17 @@ let changeJobStatus = (jobid, status) => {
   });
 };
 
+// Handover Jobs
+let handoverJobs = (orderid, jobslist) => {
+  return Axios.post(
+    `${Constants.URLS.PATHS.ORDERS}/${orderid}/jobs/handovers`,
+    jobslist
+  ).then(response => {
+    if (response.data) return response.data;
+    return response;
+  });
+};
+
 // Exports
 export default {
   getOrders,
@@ -149,5 +160,6 @@ export default {
   addCustomerFile,
   addDesignerFile,
   addPrinterFile,
-  changeJobStatus
+  changeJobStatus,
+  handoverJobs
 };
