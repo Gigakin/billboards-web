@@ -247,6 +247,23 @@ class OrdersList extends React.Component {
     return false;
   };
 
+  // Accept Payment
+  acceptPayment = item => {
+    let { methods } = this.props;
+    if (methods.setModalData) methods.setModalData(item);
+    if (methods.triggerModal) return methods.triggerModal();
+    return false;
+  };
+
+  // View Invoice
+  viewInvoice = itemid => {
+    if (itemid) {
+      let { history } = this.props;
+      return history.push(`/invoices/${itemid}`);
+    }
+    return false;
+  };
+
   componentDidMount() {
     // Get permissions
     let role = PermissionService.getRole();
@@ -268,8 +285,8 @@ class OrdersList extends React.Component {
   render() {
     let { tableData, permissions } = this.state;
     let {
-      columns,
       showActionButtons,
+      showInvoiceButtons,
       showHandoverButton,
       showPriorityIcon
     } = this.props;
@@ -387,11 +404,12 @@ class OrdersList extends React.Component {
             <thead>
               <tr>
                 {showPriorityIcon ? <th /> : null}
-                {columns && columns.length
-                  ? columns.map((item, index) => (
-                      <th key={`tableheading_${index}`}>{item}</th>
-                    ))
-                  : null}
+                <th>Order #</th>
+                <th>Order Name</th>
+                <th>Party Name</th>
+                <th>Account Owner</th>
+                <th>Order Status</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -503,6 +521,25 @@ class OrdersList extends React.Component {
                               </button>
                             ) : null
                           ) : null}
+                          {/* Invoicing */}
+                          {showInvoiceButtons ? (
+                            <span>
+                              <button
+                                type="button"
+                                onClick={() => this.acceptPayment(item)}
+                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                              >
+                                Accept Payment
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => this.viewInvoice(item)}
+                                className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
+                              >
+                                View Invoice
+                              </button>
+                            </span>
+                          ) : null}
                         </span>
                       </td>
                     </tr>
@@ -510,7 +547,7 @@ class OrdersList extends React.Component {
                 })
               ) : (
                 <tr>
-                  <td colSpan={columns.length + 1}>
+                  <td colSpan={7}>
                     <span className="uk-padding">
                       <div className="uk-text-center">
                         Nothing here!<br />
@@ -554,9 +591,9 @@ class OrdersList extends React.Component {
 // Default Props
 OrdersList.defaultProps = {
   data: [],
-  columns: {},
   showHandoverButton: false,
   showActionButtons: true,
+  showInvoiceButtons: false,
   showPriorityIcon: true
 };
 

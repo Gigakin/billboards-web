@@ -29,14 +29,6 @@ class Handovers extends React.Component {
       jobMeasurements: [],
       markedJobs: []
     };
-    this.tableColumns = [
-      "Order #",
-      "Order Name",
-      "Party Name",
-      "Account Owner",
-      "Order Status",
-      "Actions"
-    ];
   }
 
   // Get Orders
@@ -234,7 +226,6 @@ class Handovers extends React.Component {
           {/* Order List */}
           <div className="uk-width-1-1">
             <OrdersList
-              columns={this.tableColumns}
               data={ordersList}
               methods={{
                 triggerModal: this.triggerModal,

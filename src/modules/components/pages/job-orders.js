@@ -19,14 +19,6 @@ class JobOrders extends React.Component {
     this.state = {
       orders: []
     };
-    this.tableColumns = [
-      "Order #",
-      "Order Name",
-      "Party Name",
-      "Account Owner",
-      "Order Status",
-      "Actions"
-    ];
   }
 
   // Get Orders
@@ -99,7 +91,6 @@ class JobOrders extends React.Component {
           <div className="uk-width-1-1">
             <OrdersList
               data={orders}
-              columns={this.tableColumns}
               methods={{
                 editOrder: this.editOrder,
                 deleteOrder: this.deleteOrder
