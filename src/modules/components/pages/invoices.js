@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 // Assets
 import Strings from "../../strings";
+import Methods from "../../methods";
 
 // Components
 import Modal from "../common/modal";
@@ -21,6 +22,10 @@ class Bills extends React.Component {
     this.state = {
       order: null,
       orders: [],
+      jobTypes: [],
+      jobQualities: [],
+      jobFeatures: [],
+      jobMeasurements: [],
       showModal: false
     };
   }
@@ -48,6 +53,58 @@ class Bills extends React.Component {
     );
   };
 
+  // Get Job Types
+  getJobTypes = () => {
+    JobService.getJobTypes().then(
+      jobtypes => this.setState({ jobTypes: jobtypes }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of job types",
+          type: "error"
+        });
+      }
+    );
+  };
+
+  // Get Job Qualities
+  getJobQualities = () => {
+    JobService.getJobQualities().then(
+      jobqualities => this.setState({ jobQualities: jobqualities }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of job qualities",
+          type: "error"
+        });
+      }
+    );
+  };
+
+  // Get Job Features
+  getJobFeatures = () => {
+    JobService.getJobFeatures().then(
+      jobfeatures => this.setState({ jobFeatures: jobfeatures }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of job features",
+          type: "error"
+        });
+      }
+    );
+  };
+
+  // Get Job Uoms
+  getJobUoms = () => {
+    JobService.getJobUoms().then(
+      uoms => this.setState({ jobMeasurements: uoms }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of measurement units",
+          type: "error"
+        });
+      }
+    );
+  };
+
   // Trigger Modal
   triggerModal = () => {
     let { showModal } = this.state;
@@ -61,11 +118,23 @@ class Bills extends React.Component {
   };
 
   componentDidMount() {
-    return this.getOrders();
+    this.getJobTypes();
+    this.getJobQualities();
+    this.getJobFeatures();
+    this.getJobUoms();
+    this.getOrders();
   }
 
   render() {
-    let { order, orders, showModal } = this.state;
+    let {
+      order,
+      orders,
+      jobTypes,
+      jobMeasurements,
+      jobQualities,
+      jobFeatures,
+      showModal
+    } = this.state;
 
     return (
       <div className="lists">
@@ -142,56 +211,84 @@ class Bills extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td className="uk-width-auto">Vinyl</td>
-                        <td className="uk-width-large">
-                          12 x 12 sq. ft. &mdash; Transparent with Foamsheet
-                          Pasting
-                        </td>
-                        <td className="uk-width-auto">
-                          <input type="number" className="uk-input" required />
-                        </td>
-                        <td className="uk-width-auto">
-                          <input type="number" className="uk-input" required />
-                        </td>
-                        <td className="uk-width-auto">
-                          <input type="number" className="uk-input" required />
-                        </td>
-                        <td>
-                          <button
-                            type="button"
-                            className="uk-button uk-button-small uk-button-primary"
-                            onClick={this.savePaymentDetails}
-                          >
-                            Save
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="uk-width-auto">Vinyl</td>
-                        <td className="uk-width-large">
-                          12 x 12 sq. ft. &mdash; Transparent with Foamsheet
-                          Pasting
-                        </td>
-                        <td className="uk-width-auto">
-                          <input type="number" className="uk-input" required />
-                        </td>
-                        <td className="uk-width-auto">
-                          <input type="number" className="uk-input" required />
-                        </td>
-                        <td className="uk-width-auto">
-                          <input type="number" className="uk-input" required />
-                        </td>
-                        <td>
-                          <button
-                            type="button"
-                            className="uk-button uk-button-small uk-button-primary"
-                            onClick={this.savePaymentDetails}
-                          >
-                            Save
-                          </button>
-                        </td>
-                      </tr>
+                      {order.jobs && order.jobs.length
+                        ? order.jobs.map((job, index) => (
+                            <tr key={`invoice_item_${index}`}>
+                              <td className="uk-width-auto">
+                                {jobTypes &&
+                                  jobTypes.map(item => {
+                                    // eslint-disable-next-line
+                                    return item.id == job.type
+                                      ? item.type
+                                      : null;
+                                  })}
+                              </td>
+                              <td className="uk-width-large">
+                                {job.size_units
+                                  ? jobMeasurements.map(
+                                      size =>
+                                        // eslint-disable-next-line
+                                        size.id == job.size_units
+                                          ? (
+                                              Methods.calculateSqFt(
+                                                job.size_width,
+                                                size.unit
+                                              ) *
+                                              Methods.calculateSqFt(
+                                                job.size_height,
+                                                size.unit
+                                              )
+                                            ).toFixed(2) + " sq.ft."
+                                          : null
+                                    )
+                                  : "-"}
+                                {" — "}
+                                {jobTypes.map(item => {
+                                  // eslint-disable-next-line
+                                  return item.id == job.type ? item.type : null;
+                                })}
+                                {jobFeatures && jobFeatures.length
+                                  ? jobFeatures.map(item => {
+                                      // eslint-disable-next-line
+                                      return item.id == job.feature
+                                        ? ` with ${item.feature}`
+                                        : null;
+                                    })
+                                  : null}
+                              </td>
+                              <td className="uk-width-auto">
+                                <input
+                                  type="number"
+                                  className="uk-input"
+                                  disabled
+                                />
+                              </td>
+                              <td className="uk-width-auto">
+                                <input
+                                  type="number"
+                                  className="uk-input"
+                                  required
+                                />
+                              </td>
+                              <td className="uk-width-auto">
+                                <input
+                                  type="number"
+                                  className="uk-input"
+                                  disabled
+                                />
+                              </td>
+                              <td>
+                                <button
+                                  type="button"
+                                  className="uk-button uk-button-small uk-button-primary"
+                                  onClick={this.savePaymentDetails}
+                                >
+                                  Save
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        : null}
                     </tbody>
                   </table>
                 </div>
