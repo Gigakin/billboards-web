@@ -20,6 +20,9 @@ class Handovers extends React.Component {
     super(props);
     this.state = {
       order: null,
+      totalPaidOfOrder: 0,
+      totalBalanceOfOrder: 0,
+      totalAmountOfOrder: 0,
       ordersList: null,
       jobTypes: [],
       jobQualities: [],
@@ -52,7 +55,26 @@ class Handovers extends React.Component {
   // Get Order Details
   getOrderDetails = orderid => {
     OrderService.getOrderById(orderid).then(
-      details => this.setState({ order: details }),
+      details => {
+        // Calculate total
+        let totalAmount = 0;
+        let totalPaid = 0;
+        let totalBalance = 0;
+        if (details.jobs && details.jobs.length) {
+          details.jobs.forEach(job => {
+            totalPaid = job.advance;
+            totalBalance = job.rate.charge * job.totalSizeInSqFt - job.advance;
+            totalAmount = job.rate.charge * job.totalSizeInSqFt;
+          });
+        }
+
+        this.setState({
+          order: details,
+          totalAmountOfOrder: totalAmount,
+          totalBalanceOfOrder: totalBalance,
+          totalPaidOfOrder: totalPaid
+        });
+      },
       error => {
         Notification.Notify({
           text: "Failed to get order details",
@@ -179,6 +201,9 @@ class Handovers extends React.Component {
     let {
       order,
       ordersList,
+      totalAmountOfOrder,
+      totalBalanceOfOrder,
+      totalPaidOfOrder,
       jobTypes,
       jobMeasurements,
       jobQualities,
@@ -252,9 +277,9 @@ class Handovers extends React.Component {
                     </thead>
                     <tbody>
                       <tr>
-                        <td>₹22500</td>
-                        <td>₹2500</td>
-                        <td>₹20000</td>
+                        <td>{`₹${totalAmountOfOrder}`}</td>
+                        <td>{`₹${totalPaidOfOrder}`}</td>
+                        <td>{`₹${totalBalanceOfOrder}`}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -335,11 +360,13 @@ class Handovers extends React.Component {
                                     })
                                   : "-"}
                               </td>
-                              <td>-</td>
                               <td>
-                                {job.is_handed_over
-                                  ? "Handed Over"
-                                  : "Yet to be handed over"}
+                                {job.rate && job.rate.charge
+                                  ? `₹${job.rate.charge * job.totalSizeInSqFt}`
+                                  : "-"}
+                              </td>
+                              <td>
+                                {job.is_handed_over ? "Handed Over" : "-"}
                               </td>
                             </tr>
                           ))
