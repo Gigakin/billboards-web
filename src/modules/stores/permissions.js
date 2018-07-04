@@ -77,7 +77,7 @@ const printer = {
   canStartPrinting: true,
   canCreateNewOrder: false,
   canDeleteOrder: false,
-  canCompleteOrder: true,
+  canCompleteOrder: false,
   canSeeFrontdeskNotes: true,
   canSeeDesignerNotes: true,
   canSeePrinterNotes: false,

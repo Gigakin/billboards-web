@@ -125,6 +125,16 @@ let addPrinterFile = (orderid, jobid, formdata) => {
   });
 };
 
+// Change Order Status
+let changeOrderStatus = (orderid, status) => {
+  return Axios.post(`${Constants.URLS.PATHS.ORDERS}/${orderid}/status`, {
+    status: status
+  }).then(response => {
+    if (response.data) return response.data;
+    return response;
+  });
+};
+
 // Change Job Status
 let changeJobStatus = (jobid, status) => {
   return Axios.post(`${Constants.URLS.PATHS.JOBS}/${jobid}/status`, {
@@ -160,6 +170,7 @@ export default {
   addCustomerFile,
   addDesignerFile,
   addPrinterFile,
+  changeOrderStatus,
   changeJobStatus,
   handoverJobs
 };

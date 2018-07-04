@@ -109,9 +109,25 @@ class JobOrderDetails extends React.Component {
   };
 
   // Complete Ordeer
-  completeOrder = event => {
-    event.preventDefault();
-    return this.props.history.push("/orders");
+  completeOrder = orderid => {
+    if (orderid) {
+      // Status = 3 (Ready for invoicing)
+      OrderService.changeOrderStatus(orderid, 3).then(
+        response => {
+          Notification.Notify({
+            text: `Order # ${orderid} is ready for invoicing!`,
+            type: "success"
+          });
+          return this.props.history.push(`/orders`);
+        },
+        error => {
+          return Notification.Notify({
+            text: `Failed to mark the order as complete!`,
+            type: "error"
+          });
+        }
+      );
+    }
   };
 
   // Download File
@@ -502,7 +518,7 @@ class JobOrderDetails extends React.Component {
                     <button
                       type="button"
                       className="uk-button uk-button-small uk-button-primary"
-                      onClick={this.completeOrder}
+                      onClick={() => this.completeOrder(order.id)}
                     >
                       Complete Order
                     </button>
