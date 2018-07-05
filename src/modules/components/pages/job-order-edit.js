@@ -291,7 +291,15 @@ class EditJobOrder extends React.Component {
   // Save Jobs
   saveJobs = event => {
     let { order, jobs } = this.state;
-    OrderService.addJobs(order.id, jobs).then(
+    
+    let newJobs = [];
+    jobs.forEach(job => {
+      if (!job.id) return newJobs.push(job);
+      return;
+    });
+    
+    console.log(newJobs);
+    OrderService.addJobs(order.id, newJobs).then(
       response => {
         // Upload files
         if (response.jobsWithFiles && response.jobsWithFiles.length) {
@@ -938,7 +946,6 @@ class EditJobOrder extends React.Component {
                                   className="uk-input"
                                   onChange={this.captureJobDetails}
                                   disabled={!permissions.canAddJobs}
-                                  required
                                 />
                               </div>
                             </div>
