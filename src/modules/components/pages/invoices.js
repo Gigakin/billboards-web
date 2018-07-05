@@ -3,7 +3,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 // Assets
-import Strings from "../../strings";
 import Methods from "../../methods";
 
 // Components
@@ -23,7 +22,6 @@ class Bills extends React.Component {
       order: null,
       orders: [],
       jobTypes: [],
-      jobQualities: [],
       jobFeatures: [],
       jobMeasurements: [],
       showModal: false
@@ -53,6 +51,19 @@ class Bills extends React.Component {
     );
   };
 
+  // Get Order Details
+  getOrderDetails = orderid => {
+    OrderService.getOrderById(orderid).then(
+      details => this.setState({ order: details }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get the list of orders",
+          type: "error"
+        });
+      }
+    );
+  };
+
   // Get Job Types
   getJobTypes = () => {
     JobService.getJobTypes().then(
@@ -60,19 +71,6 @@ class Bills extends React.Component {
       error => {
         return Notification.Notify({
           text: "Failed to get list of job types",
-          type: "error"
-        });
-      }
-    );
-  };
-
-  // Get Job Qualities
-  getJobQualities = () => {
-    JobService.getJobQualities().then(
-      jobqualities => this.setState({ jobQualities: jobqualities }),
-      error => {
-        return Notification.Notify({
-          text: "Failed to get list of job qualities",
           type: "error"
         });
       }
@@ -113,13 +111,12 @@ class Bills extends React.Component {
 
   // Set Modal Data
   setModalData = item => {
-    if (item) return this.setState({ order: item });
+    if (item) return this.getOrderDetails(item.id);
     return false;
   };
 
   componentDidMount() {
     this.getJobTypes();
-    this.getJobQualities();
     this.getJobFeatures();
     this.getJobUoms();
     this.getOrders();
@@ -131,7 +128,6 @@ class Bills extends React.Component {
       orders,
       jobTypes,
       jobMeasurements,
-      jobQualities,
       jobFeatures,
       showModal
     } = this.state;
@@ -223,19 +219,19 @@ class Bills extends React.Component {
                                       : null;
                                   })}
                               </td>
-                              <td className="uk-width-large">
-                                {job.size_units
+                              <td className="uk-width-medium">
+                                {job.sizeUnits
                                   ? jobMeasurements.map(
                                       size =>
                                         // eslint-disable-next-line
-                                        size.id == job.size_units
+                                        size.id == job.sizeUnits
                                           ? (
                                               Methods.calculateSqFt(
-                                                job.size_width,
+                                                job.sizeWidth,
                                                 size.unit
                                               ) *
                                               Methods.calculateSqFt(
-                                                job.size_height,
+                                                job.sizeHeight,
                                                 size.unit
                                               )
                                             ).toFixed(2) + " sq.ft."
@@ -258,8 +254,9 @@ class Bills extends React.Component {
                               </td>
                               <td className="uk-width-auto">
                                 <input
-                                  type="number"
+                                  type="text"
                                   className="uk-input"
+                                  value={job.totalSizeInSqFt}
                                   disabled
                                 />
                               </td>
@@ -267,6 +264,7 @@ class Bills extends React.Component {
                                 <input
                                   type="number"
                                   className="uk-input"
+                                  value={job.advance}
                                   required
                                 />
                               </td>
