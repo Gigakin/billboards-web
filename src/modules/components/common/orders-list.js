@@ -533,7 +533,7 @@ class OrdersList extends React.Component {
                               </button>
                               <button
                                 type="button"
-                                onClick={() => this.viewInvoice(item)}
+                                onClick={() => this.viewInvoice(item.id)}
                                 className="uk-button uk-button-secondary uk-button-small uk-margin-small-right"
                               >
                                 View Invoice
