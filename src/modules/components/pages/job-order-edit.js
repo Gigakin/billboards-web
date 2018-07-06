@@ -291,13 +291,13 @@ class EditJobOrder extends React.Component {
   // Save Jobs
   saveJobs = event => {
     let { order, jobs } = this.state;
-    
+
     let newJobs = [];
     jobs.forEach(job => {
       if (!job.id) return newJobs.push(job);
       return;
     });
-    
+
     console.log(newJobs);
     OrderService.addJobs(order.id, newJobs).then(
       response => {
@@ -1154,6 +1154,9 @@ class EditJobOrder extends React.Component {
                                           this.captureJobRate(event, index)
                                         }
                                         min={1}
+                                        disabled={
+                                          order.status && order.status.id === 3
+                                        }
                                         required
                                       />
                                     </div>
