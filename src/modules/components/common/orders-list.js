@@ -13,6 +13,7 @@ import Swal from "sweetalert";
 import Methods from "../../methods";
 
 // Services
+import AccountOwnerService from "../../services/account-owners-service";
 import PermissionService from "../../services/permission-service";
 
 // Classes
@@ -26,6 +27,7 @@ class OrdersList extends React.Component {
 
     this.state = {
       permissions: {},
+      accountOwners: [],
       tableData: rearrangedOrders,
       currentPage: 0
     };
@@ -33,6 +35,19 @@ class OrdersList extends React.Component {
     this.originalList = Methods.clone(rearrangedOrders);
     this.filteredList = [];
   }
+
+  // Get Account Owners
+  getAccountOwners = () => {
+    AccountOwnerService.getAccountOwners().then(
+      owners => this.setState({ accountOwners: owners }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of account owners",
+          type: "error"
+        });
+      }
+    );
+  };
 
   // Rearrange Orders
   rearrangeOrders = orders => {
@@ -268,8 +283,12 @@ class OrdersList extends React.Component {
     // Get permissions
     let role = PermissionService.getRole();
     let permissions = PermissionService.getPermissions(role);
-    if (permissions) return this.setState({ permissions: permissions });
-    return;
+    if (permissions) {
+      this.getAccountOwners();
+      return this.setState({
+        permissions: permissions
+      });
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -283,7 +302,7 @@ class OrdersList extends React.Component {
   }
 
   render() {
-    let { tableData, permissions } = this.state;
+    let { tableData, accountOwners, permissions } = this.state;
     let {
       showActionButtons,
       showInvoiceButtons,
@@ -352,13 +371,27 @@ class OrdersList extends React.Component {
                     Account Owner
                   </label>
                   <div className="uk-form-controls">
-                    <input
+                    <select
                       id="owner"
                       type="text"
                       onChange={this.filterDataByAccountOwner}
-                      className="uk-input"
+                      className="uk-select"
                       autoComplete="off"
-                    />
+                    >
+                      <option value="" defaultChecked>
+                        All
+                      </option>
+                      {accountOwners && accountOwners.length
+                        ? accountOwners.map((owner, index) => (
+                            <option
+                              key={`account_owner_item_${index}`}
+                              value={owner.owner}
+                            >
+                              {owner.owner}
+                            </option>
+                          ))
+                        : null}
+                    </select>
                   </div>
                 </div>
                 <div className="uk-width-1-3 uk-margin-left uk-margin-right">
