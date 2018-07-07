@@ -254,7 +254,7 @@ class JobOrderDetails extends React.Component {
               {/* Order Details */}
               <div className="order-details__header">
                 <div className="uk-text-lead">{order.name}</div>
-                <div className="uk-text-subtitle">{party.name}</div>
+                <div className="uk-text-subtitle">{order.description}</div>
               </div>
 
               <div className="order-details__jobs-list">
