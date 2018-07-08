@@ -60,18 +60,8 @@ class Handovers extends React.Component {
           });
         }
 
-        // Modify Order
-        let modifiedOrder = { ...details };
-
-        if (details.jobs && details.jobs.length) {
-          modifiedOrder.jobs = [];
-          details.jobs.forEach(job => {
-            if (job.status === 3) return modifiedOrder.jobs.push(job);
-          });
-        }
-
         this.setState({
-          order: modifiedOrder,
+          order: details,
           totalAmountOfOrder: totalAmount,
           totalBalanceOfOrder: totalBalance,
           totalPaidOfOrder: totalPaid
@@ -259,8 +249,10 @@ class Handovers extends React.Component {
             >
               {/* Order Details */}
               <div className="uk-width-1-1">
-                <div className="uk-text-lead">{order.job}</div>
-                <div className="uk-text-meta">Order ID: {order.id}</div>
+                <div className="uk-text-subtitle">
+                  {order.name} <small>for {order.party.name}</small>
+                </div>
+                <div className="uk-text-subtitle">{order.description}</div>
               </div>
               {/* Amount Overview */}
               <div className="uk-width-1-1 uk-margin">
@@ -309,7 +301,9 @@ class Handovers extends React.Component {
                           <tr
                             key={`modal_item_${index}`}
                             className={
-                              job.is_handed_over ? "table-row-faded-out" : null
+                              job.is_handed_over || job.status !== 3
+                                ? "table-row-faded-out"
+                                : null
                             }
                           >
                             <td>
@@ -317,7 +311,9 @@ class Handovers extends React.Component {
                                 type="checkbox"
                                 className="uk-checkbox"
                                 onClick={() => this.markJob(job.id)}
-                                disabled={job.is_handed_over}
+                                disabled={
+                                  job.is_handed_over || job.status !== 3
+                                }
                               />
                             </td>
                             <td>
