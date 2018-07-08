@@ -60,8 +60,18 @@ class Handovers extends React.Component {
           });
         }
 
+        // Modify Order
+        let modifiedOrder = { ...details };
+
+        if (details.jobs && details.jobs.length) {
+          modifiedOrder.jobs = [];
+          details.jobs.forEach(job => {
+            if (job.status === 3) return modifiedOrder.jobs.push(job);
+          });
+        }
+
         this.setState({
-          order: details,
+          order: modifiedOrder,
           totalAmountOfOrder: totalAmount,
           totalBalanceOfOrder: totalBalance,
           totalPaidOfOrder: totalPaid
@@ -294,74 +304,76 @@ class Handovers extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {order.jobs && order.jobs.length
-                        ? order.jobs.map((job, index) => (
-                            <tr
-                              key={`modal_item_${index}`}
-                              className={
-                                job.is_handed_over
-                                  ? "table-row-faded-out"
-                                  : null
-                              }
-                            >
-                              <td>
-                                <input
-                                  type="checkbox"
-                                  className="uk-checkbox"
-                                  onClick={() => this.markJob(job.id)}
-                                  disabled={job.is_handed_over}
-                                />
-                              </td>
-                              <td>
-                                {jobTypes
-                                  ? jobTypes.map(item => {
-                                      return item.id === job.type
-                                        ? item.type
-                                        : null;
-                                    })
-                                  : "-"}
-                              </td>
-                              <td>
-                                {job.sizeUnits
-                                  ? jobMeasurements.map(
-                                      size =>
-                                        // eslint-disable-next-line
-                                        size.id == job.sizeUnits
-                                          ? (
-                                              Methods.calculateSqFt(
-                                                job.sizeWidth,
-                                                size.unit
-                                              ) *
-                                              Methods.calculateSqFt(
-                                                job.sizeHeight,
-                                                size.unit
-                                              )
-                                            ).toFixed(2) + " sq.ft"
-                                          : null
-                                    )
-                                  : "-"}
-                              </td>
-                              <td>
-                                {jobQualities
-                                  ? jobQualities.map(item => {
+                      {order.jobs && order.jobs.length ? (
+                        order.jobs.map((job, index) => (
+                          <tr
+                            key={`modal_item_${index}`}
+                            className={
+                              job.is_handed_over ? "table-row-faded-out" : null
+                            }
+                          >
+                            <td>
+                              <input
+                                type="checkbox"
+                                className="uk-checkbox"
+                                onClick={() => this.markJob(job.id)}
+                                disabled={job.is_handed_over}
+                              />
+                            </td>
+                            <td>
+                              {jobTypes
+                                ? jobTypes.map(item => {
+                                    return item.id === job.type
+                                      ? item.type
+                                      : null;
+                                  })
+                                : "-"}
+                            </td>
+                            <td>
+                              {job.sizeUnits
+                                ? jobMeasurements.map(
+                                    size =>
                                       // eslint-disable-next-line
-                                      return item.id == job.quality
-                                        ? item.quality
-                                        : null;
-                                    })
-                                  : "-"}
-                              </td>
-                              <td>
-                                {job.rate && job.rate.charge
-                                  ? `₹${job.rate.charge * job.totalSizeInSqFt}`
-                                  : "-"}
-                              </td>
-                              <td>
-                                {job.is_handed_over ? "Handed Over" : "-"}
-                              </td>
-                            </tr>
-                          ))
-                        : "No jobs in this order"}
+                                      size.id == job.sizeUnits
+                                        ? (
+                                            Methods.calculateSqFt(
+                                              job.sizeWidth,
+                                              size.unit
+                                            ) *
+                                            Methods.calculateSqFt(
+                                              job.sizeHeight,
+                                              size.unit
+                                            )
+                                          ).toFixed(2) + " sq.ft"
+                                        : null
+                                  )
+                                : "-"}
+                            </td>
+                            <td>
+                              {jobQualities
+                                ? jobQualities.map(item => {
+                                    // eslint-disable-next-line
+                                    return item.id == job.quality
+                                      ? item.quality
+                                      : null;
+                                  })
+                                : "-"}
+                            </td>
+                            <td>
+                              {job.rate && job.rate.charge
+                                ? `₹${job.rate.charge * job.totalSizeInSqFt}`
+                                : "-"}
+                            </td>
+                            <td>{job.is_handed_over ? "Handed Over" : "-"}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td className="uk-text-center" colSpan={6}>
+                            There are no jobs that can be handed over right now!
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
