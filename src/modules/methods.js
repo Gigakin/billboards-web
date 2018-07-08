@@ -1,3 +1,6 @@
+// Modules
+import Moment from "moment";
+
 // Conversion
 const calculateSqFt = (value, unit) => {
   const ins = 0.0833333333;
@@ -38,10 +41,19 @@ const downloadFile = file => {
   }
 };
 
+// Format Date
+const formatDate = (date, format) => {
+  if (date) {
+    if (format) return Moment(date).format(format);
+    return Moment(date).format("MMMM DD, YYYY");
+  }
+};
+
 // Methods
 export default {
   clone,
   calculateSqFt,
   capitalize,
-  downloadFile
+  downloadFile,
+  formatDate
 };

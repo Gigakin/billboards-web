@@ -338,6 +338,30 @@ class JobOrderDetails extends React.Component {
                                 : "-"}
                             </span>
                           </div>
+                          <div className="uk-width-1-2">
+                            <span className="uk-text-small">
+                              Priority Status :{" "}
+                            </span>
+                            {job.is_high_priority ? (
+                              <span className="uk-text-small uk-text-danger">
+                                High Priority
+                              </span>
+                            ) : (
+                              <span className="uk-text-small uk-text-primary">
+                                Normal Priority
+                              </span>
+                            )}
+                          </div>
+                          <div className="uk-width-1-2">
+                            <span className="uk-text-small">
+                              Delivery Expected By :{" "}
+                            </span>
+                            <span className="uk-text-small uk-text-primary">
+                              {job.delivery_expected_by
+                                ? Methods.formatDate(job.delivery_expected_by)
+                                : "-"}
+                            </span>
+                          </div>
                           <div className="uk-width-1-1">
                             <span className="uk-text-small">
                               Notes : {job.notes ? job.notes : "No notes"}
