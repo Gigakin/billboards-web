@@ -536,7 +536,7 @@ class JobOrderDetails extends React.Component {
                     className="uk-button uk-button-small uk-button-default"
                     onClick={this.backToList}
                   >
-                    Back to List
+                    Back to Orders List
                   </button>
                 </div>
               </div>
