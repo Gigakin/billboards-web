@@ -161,7 +161,12 @@ class NewJobOrder extends React.Component {
         OrderService.createOrder(order).then(
           response => {
             Notification.Notify({
-              text: response.message ? response.message : "Order created"
+              text: "Order created!",
+              type: "success"
+            });
+            Notification.Notify({
+              text: "New party created succssfully!",
+              type: "success"
             });
             // Reset details
             return this.setState({
@@ -188,7 +193,8 @@ class NewJobOrder extends React.Component {
       OrderService.createOrder(order).then(
         response => {
           Notification.Notify({
-            text: response.message ? response.message : "Order created"
+            text: "Order created!",
+            type: "success"
           });
           // Reset details
           return this.setState({

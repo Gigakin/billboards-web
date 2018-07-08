@@ -108,14 +108,7 @@ class ViewInvoice extends React.Component {
   }
 
   render() {
-    let {
-      order,
-      party,
-      jobTypes,
-      jobFeatures,
-      jobMeasurements,
-      jobQualities
-    } = this.state;
+    let { order, party, jobTypes, jobFeatures, jobMeasurements } = this.state;
 
     return (
       <div className="lists">
