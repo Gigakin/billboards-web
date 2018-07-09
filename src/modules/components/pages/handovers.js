@@ -27,7 +27,8 @@ class Handovers extends React.Component {
       jobTypes: [],
       jobQualities: [],
       jobMeasurements: [],
-      markedJobs: []
+      markedJobs: [],
+      canAcceptAmounts: true
     };
   }
 
@@ -130,34 +131,63 @@ class Handovers extends React.Component {
     return false;
   };
 
-  // Mark Job
-  markJob = jobid => {
-    if (jobid) {
-      jobid = parseInt(jobid, 10);
-      let { markedJobs } = this.state;
-      // check if job is already marked
-      let isMarked = false;
-      if (markedJobs && markedJobs.length) {
-        markedJobs.forEach(itemid => {
-          if (itemid === jobid) return (isMarked = true);
-        });
-      }
+  // Capture Amount Received
+  captureAmountReceived = (event, index) => {
+    let value = event.target.value;
+    if (!value) value = 0;
+    let jobs = [...this.state.order.jobs];
 
-      if (isMarked) {
-        var jobIndex = markedJobs.indexOf(jobid);
-        if (jobIndex !== -1) {
-          this.setState({
-            markedJobs: this.state.markedJobs.filter(
-              element => element !== jobid
-            )
-          });
-        }
-      } else {
-        return this.setState({
-          markedJobs: this.state.markedJobs.concat(jobid)
-        });
-      }
+    // Reset error
+    this.refs[`handover_job_error_${index}`].innerHTML = "";
+    this.setState({ canAcceptAmounts: true });
+
+    let totalCost = jobs[index].rate.charge * jobs[index].totalSizeInSqFt;
+    if (totalCost < value) {
+      this.refs[
+        `handover_job_error_${index}`
+      ].innerHTML = `Amount cannot be more than the total cost: ₹${totalCost}`;
+      this.setState({ canAcceptAmounts: false });
+      return;
     }
+
+    jobs[index].amount_received = value;
+    jobs.splice(index, 1, jobs[index]);
+    this.setState({
+      order: {
+        ...this.state.order,
+        jobs: [...jobs]
+      }
+    });
+  };
+
+  // Capture Payment Mode
+  capturePaymentMode = (event, index) => {
+    let value = event.target.value;
+    if (!value) value = "cash";
+    let jobs = [...this.state.order.jobs];
+    jobs[index].payment_mode = value;
+    jobs.splice(index, 1, jobs[index]);
+    this.setState({
+      order: {
+        ...this.state.order,
+        jobs: [...jobs]
+      }
+    });
+  };
+
+  // Capture Payment Mode Details
+  capturePaymentModeDetails = (event, index) => {
+    let value = event.target.value;
+    if (!value) value = 0;
+    let jobs = [...this.state.order.jobs];
+    jobs[index].payment_mode_details = value;
+    jobs.splice(index, 1, jobs[index]);
+    this.setState({
+      order: {
+        ...this.state.order,
+        jobs: [...jobs]
+      }
+    });
   };
 
   // Handover
@@ -199,7 +229,7 @@ class Handovers extends React.Component {
       jobTypes,
       jobMeasurements,
       jobQualities,
-      markedJobs,
+      canAcceptAmounts,
       showModal
     } = this.state;
 
@@ -242,14 +272,14 @@ class Handovers extends React.Component {
             <Modal
               isOpen={showModal}
               overlayClassName="uk-modal uk-open"
-              className="uk-modal-dialog uk-modal-body"
+              className="uk-modal-dialog uk-modal-body ReactModal__Content--1020"
               shouldCloseOnOverlayClick={true}
               shouldCloseOnEsc={true}
               ariaHideApp={false}
             >
               {/* Order Details */}
               <div className="uk-width-1-1">
-                <div className="uk-text-subtitle">
+                <div className="uk-text-lead">
                   {order.name} <small>for {order.party.name}</small>
                 </div>
                 <div className="uk-text-subtitle">{order.description}</div>
@@ -287,12 +317,15 @@ class Handovers extends React.Component {
                   <table className="uk-table uk-table-small uk-table-divider">
                     <thead>
                       <tr>
-                        <th />
                         <th>Type</th>
                         <th>Size</th>
                         <th>Quality</th>
-                        <th>Amount</th>
                         <th>Status</th>
+                        <th>Amount</th>
+                        <th>Amount Received</th>
+                        <th>Payment Mode</th>
+                        <th>Cheque #/Card Number/Wallet Name</th>
+                        <th />
                       </tr>
                     </thead>
                     <tbody>
@@ -306,16 +339,6 @@ class Handovers extends React.Component {
                                 : null
                             }
                           >
-                            <td>
-                              <input
-                                type="checkbox"
-                                className="uk-checkbox"
-                                onClick={() => this.markJob(job.id)}
-                                disabled={
-                                  job.is_handed_over || job.status !== 3
-                                }
-                              />
-                            </td>
                             <td>
                               {jobTypes
                                 ? jobTypes.map(item => {
@@ -355,12 +378,70 @@ class Handovers extends React.Component {
                                   })
                                 : "-"}
                             </td>
+                            <td>{job.is_handed_over ? "Handed Over" : "-"}</td>
                             <td>
                               {job.rate && job.rate.charge
                                 ? `₹${job.rate.charge * job.totalSizeInSqFt}`
                                 : "-"}
                             </td>
-                            <td>{job.is_handed_over ? "Handed Over" : "-"}</td>
+                            <td>
+                              <input
+                                type="number"
+                                className="uk-input"
+                                onChange={event =>
+                                  this.captureAmountReceived(event, index)
+                                }
+                                disabled={
+                                  job.is_handed_over || job.status !== 3
+                                }
+                                min={0}
+                              />
+                              <span
+                                className="uk-text-danger uk-text-small"
+                                ref={`handover_job_error_${index}`}
+                              />
+                            </td>
+                            <td>
+                              <select
+                                className="uk-select"
+                                onChange={event =>
+                                  this.capturePaymentMode(event, index)
+                                }
+                                disabled={
+                                  job.is_handed_over || job.status !== 3
+                                }
+                              >
+                                <option value="cash">Cash</option>
+                                <option value="card">Debit/Credit Card</option>
+                                <option value="cheque">Cheque</option>
+                                <option value="wallet">Wallet</option>
+                              </select>
+                            </td>
+                            <td>
+                              <input
+                                type="text"
+                                className="uk-input"
+                                disabled={
+                                  job.is_handed_over ||
+                                  job.status !== 3 ||
+                                  job.payment_mode === "cash"
+                                }
+                              />
+                            </td>
+                            <td>
+                              <button
+                                type="button"
+                                onClick={this.handover}
+                                className="uk-button uk-button-small uk-button-primary"
+                                disabled={
+                                  job.is_handed_over ||
+                                  job.status !== 3 ||
+                                  !canAcceptAmounts
+                                }
+                              >
+                                Handover
+                              </button>
+                            </td>
                           </tr>
                         ))
                       ) : (
@@ -380,14 +461,6 @@ class Handovers extends React.Component {
                     className="uk-button uk-button-danger uk-button-small uk-margin-small-right"
                   >
                     Close
-                  </button>
-                  <button
-                    type="button"
-                    onClick={this.handover}
-                    className="uk-button uk-button-primary uk-button-small"
-                    disabled={!markedJobs || markedJobs.length === 0}
-                  >
-                    Handover
                   </button>
                 </div>
               </div>
