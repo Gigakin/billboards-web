@@ -25,6 +25,7 @@ class JobOrderDetails extends React.Component {
       jobQualities: [],
       jobFeatures: [],
       jobMeasurements: [],
+      jobStatuses: [],
       isDesignFileUploaded: false,
       isPrintFileUploaded: false,
       permissions: {}
@@ -93,6 +94,19 @@ class JobOrderDetails extends React.Component {
   getJobUoms = () => {
     JobService.getJobUoms().then(
       uoms => this.setState({ jobMeasurements: uoms }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of measurement units",
+          type: "error"
+        });
+      }
+    );
+  };
+
+  // Get Job Uoms
+  getJobStatuses = () => {
+    JobService.getJobStatuses().then(
+      uoms => this.setState({ jobStatuses: uoms }),
       error => {
         return Notification.Notify({
           text: "Failed to get list of measurement units",
@@ -211,6 +225,7 @@ class JobOrderDetails extends React.Component {
       this.getJobQualities();
       this.getJobFeatures();
       this.getJobUoms();
+      this.getJobStatuses();
       this.getOrderDetails(params.id);
     }
   }
@@ -224,6 +239,7 @@ class JobOrderDetails extends React.Component {
       jobMeasurements,
       jobQualities,
       jobFeatures,
+      jobStatuses,
       permissions
     } = this.state;
 
@@ -359,6 +375,18 @@ class JobOrderDetails extends React.Component {
                             <span className="uk-text-small uk-text-primary">
                               {job.delivery_expected_by
                                 ? Methods.formatDate(job.delivery_expected_by)
+                                : "-"}
+                            </span>
+                          </div>
+                          <div className="uk-width-1-2">
+                            <span className="uk-text-small">
+                              Current Status :{" "}
+                            </span>
+                            <span className="uk-text-small uk-text-primary">
+                              {jobStatuses && jobStatuses.length
+                                ? jobStatuses.map(
+                                    j => (j.id === job.status ? j.status : null)
+                                  )
                                 : "-"}
                             </span>
                           </div>
