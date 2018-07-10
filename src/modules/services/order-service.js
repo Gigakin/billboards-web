@@ -156,6 +156,17 @@ let handoverJobs = (orderid, jobslist) => {
   });
 };
 
+// Accept Payments
+let acceptPayment = (orderid, jobid, job) => {
+  return Axios.post(
+    `${Constants.URLS.PATHS.ORDERS}/${orderid}/jobs/${jobid}/payments`,
+    job
+  ).then(response => {
+    if (response.data) return response.data;
+    return response;
+  });
+};
+
 // Exports
 export default {
   getOrders,
@@ -172,5 +183,6 @@ export default {
   addPrinterFile,
   changeOrderStatus,
   changeJobStatus,
-  handoverJobs
+  handoverJobs,
+  acceptPayment
 };

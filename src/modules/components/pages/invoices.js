@@ -24,6 +24,7 @@ class Bills extends React.Component {
       jobTypes: [],
       jobFeatures: [],
       jobMeasurements: [],
+      canAcceptPayment: true,
       showModal: false
     };
   }
@@ -103,6 +104,73 @@ class Bills extends React.Component {
     );
   };
 
+  // Capture Payment
+  capturePayment = (event, index) => {
+    let value = event.target.value;
+    if (!value) value = 0;
+    let jobs = [...this.state.order.jobs];
+
+    // Reset error
+    this.refs[`accept_payment_error_${index}`].innerHTML = "";
+    this.setState({ canAcceptPayment: true });
+
+    let totalCost = jobs[index].rate.charge * jobs[index].totalSizeInSqFt;
+    if (totalCost < value) {
+      this.refs[
+        `accept_payment_error_${index}`
+      ].innerHTML = `Amount cannot be more than the total cost: ₹${totalCost}`;
+      this.setState({ canAcceptPayment: false });
+      return;
+    }
+
+    jobs[index].advance = value;
+    jobs.splice(index, 1, jobs[index]);
+    this.setState({
+      order: {
+        ...this.state.order,
+        jobs: [...jobs]
+      }
+    });
+  };
+
+  // Calculate Balance
+  calculateBalance = index => {
+    let { jobs } = this.state.order;
+    let balance = 0;
+    balance =
+      jobs[index].rate.charge * jobs[index].totalSizeInSqFt -
+      jobs[index].advance;
+    return balance;
+  };
+
+  // Save Payment Details
+  savePaymentDetails = jobid => {
+    let { order } = this.state;
+    if (order.jobs && order.jobs.length) {
+      let thisJob = null;
+      order.jobs.forEach(j => {
+        // eslint-disable-next-line
+        if (j.id == jobid) thisJob = j;
+        return;
+      });
+
+      OrderService.acceptPayment(order.id, thisJob.id, thisJob).then(
+        response => {
+          return Notification.Notify({
+            text: "Payment was accepted",
+            type: "success"
+          });
+        },
+        error => {
+          return Notification.Notify({
+            text: "Failed to accept the payment",
+            type: "error"
+          });
+        }
+      );
+    }
+  };
+
   // Trigger Modal
   triggerModal = () => {
     let { showModal } = this.state;
@@ -129,6 +197,7 @@ class Bills extends React.Component {
       jobTypes,
       jobMeasurements,
       jobFeatures,
+      canAcceptPayment,
       showModal
     } = this.state;
 
@@ -195,7 +264,7 @@ class Bills extends React.Component {
               <div className="uk-width-1-1 uk-margin">
                 <div className="uk-text-subtitle ">Jobs in this order</div>
                 <div className="sor-table__table uk-margin-small">
-                  <table className="uk-table uk-table-small uk-table-middle uk-table-divider">
+                  <table className="uk-table uk-table-small uk-table-divider">
                     <thead>
                       <tr>
                         <th>Job</th>
@@ -256,7 +325,7 @@ class Bills extends React.Component {
                                 <input
                                   type="text"
                                   className="uk-input"
-                                  value={job.totalSizeInSqFt}
+                                  value={job.rate.charge * job.totalSizeInSqFt}
                                   disabled
                                 />
                               </td>
@@ -264,14 +333,24 @@ class Bills extends React.Component {
                                 <input
                                   type="number"
                                   className="uk-input"
+                                  onChange={event =>
+                                    this.capturePayment(event, index)
+                                  }
                                   value={job.advance}
                                   required
+                                />
+                                <span
+                                  className="uk-text-danger uk-text-small"
+                                  ref={`accept_payment_error_${index}`}
                                 />
                               </td>
                               <td className="uk-width-auto">
                                 <input
                                   type="number"
                                   className="uk-input"
+                                  value={this.calculateBalance(index)}
+                                  max={job.rate ? job.rate.cost : ""}
+                                  min={0}
                                   disabled
                                 />
                               </td>
@@ -279,7 +358,12 @@ class Bills extends React.Component {
                                 <button
                                   type="button"
                                   className="uk-button uk-button-small uk-button-primary"
-                                  onClick={this.savePaymentDetails}
+                                  onClick={() =>
+                                    this.savePaymentDetails(job.id)
+                                  }
+                                  disabled={
+                                    !canAcceptPayment || job.advance === 0
+                                  }
                                 >
                                   Save
                                 </button>
