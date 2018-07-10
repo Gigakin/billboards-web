@@ -222,6 +222,11 @@ class Handovers extends React.Component {
     }
   };
 
+  // Print Delivery Memo
+  printDeliveryMemo = jobid => {
+    console.log("What to do here?", jobid);
+  };
+
   componentDidMount() {
     this.getJobTypes();
     this.getJobQualities();
@@ -344,9 +349,7 @@ class Handovers extends React.Component {
                           <tr
                             key={`modal_item_${index}`}
                             className={
-                              job.is_handed_over || job.status !== 3
-                                ? "table-row-faded-out"
-                                : null
+                              job.status !== 3 ? "table-row-faded-out" : null
                             }
                           >
                             <td>
@@ -446,18 +449,28 @@ class Handovers extends React.Component {
                               />
                             </td>
                             <td>
-                              <button
-                                type="button"
-                                onClick={() => this.handover(job.id)}
-                                className="uk-button uk-button-small uk-button-primary"
-                                disabled={
-                                  job.is_handed_over ||
-                                  job.status !== 3 ||
-                                  !canAcceptAmounts
-                                }
-                              >
-                                Handover
-                              </button>
+                              {job.is_handed_over ? (
+                                <button
+                                  type="button"
+                                  onClick={() => this.printDeliveryMemo(job.id)}
+                                  className="uk-button uk-button-small uk-button-primary"
+                                >
+                                  Print DM
+                                </button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  onClick={() => this.handover(job.id)}
+                                  className="uk-button uk-button-small uk-button-primary"
+                                  disabled={
+                                    job.is_handed_over ||
+                                    job.status !== 3 ||
+                                    !canAcceptAmounts
+                                  }
+                                >
+                                  Handover
+                                </button>
+                              )}
                             </td>
                           </tr>
                         ))
