@@ -191,25 +191,35 @@ class Handovers extends React.Component {
   };
 
   // Handover
-  handover = () => {
-    let { order, markedJobs } = this.state;
-    OrderService.handoverJobs(order.id, markedJobs).then(
-      response => {
-        this.getOrders();
-        this.getOrderDetails(order.id);
-        this.setState({ markedJobs: [] });
-        return Notification.Notify({
-          text: "Selected jobs were marked as handed over.",
-          type: "success"
-        });
-      },
-      error => {
-        return Notification.Notify({
-          text: "Failed to hand over jobs. Please try again.",
-          type: "error"
-        });
-      }
-    );
+  handover = jobid => {
+    let { order } = this.state;
+
+    if (order.jobs && order.jobs.length) {
+      let thisJob = null;
+      order.jobs.forEach(job => {
+        if (job.id === jobid) {
+          thisJob = job;
+          return;
+        }
+      });
+
+      OrderService.handoverJobs(order.id, thisJob).then(
+        response => {
+          this.getOrders();
+          this.getOrderDetails(order.id);
+          return Notification.Notify({
+            text: "The job was marked as handed over.",
+            type: "success"
+          });
+        },
+        error => {
+          return Notification.Notify({
+            text: "Failed to hand over the job. Please try again.",
+            type: "error"
+          });
+        }
+      );
+    }
   };
 
   componentDidMount() {
@@ -388,6 +398,7 @@ class Handovers extends React.Component {
                               <input
                                 type="number"
                                 className="uk-input"
+                                value={job.amount_received}
                                 onChange={event =>
                                   this.captureAmountReceived(event, index)
                                 }
@@ -404,6 +415,7 @@ class Handovers extends React.Component {
                             <td>
                               <select
                                 className="uk-select"
+                                value={job.payment_mode}
                                 onChange={event =>
                                   this.capturePaymentMode(event, index)
                                 }
@@ -421,6 +433,11 @@ class Handovers extends React.Component {
                               <input
                                 type="text"
                                 className="uk-input"
+                                value={
+                                  job.payment_mode_details
+                                    ? job.payment_mode_details
+                                    : undefined
+                                }
                                 disabled={
                                   job.is_handed_over ||
                                   job.status !== 3 ||
@@ -431,7 +448,7 @@ class Handovers extends React.Component {
                             <td>
                               <button
                                 type="button"
-                                onClick={this.handover}
+                                onClick={() => this.handover(job.id)}
                                 className="uk-button uk-button-small uk-button-primary"
                                 disabled={
                                   job.is_handed_over ||
