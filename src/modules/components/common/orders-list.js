@@ -12,6 +12,9 @@ import Swal from "sweetalert";
 // Assets
 import Methods from "../../methods";
 
+// Components
+import Notification from "./notification";
+
 // Services
 import AccountOwnerService from "../../services/account-owners-service";
 import PermissionService from "../../services/permission-service";
