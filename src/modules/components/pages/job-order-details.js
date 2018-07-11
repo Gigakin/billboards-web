@@ -355,9 +355,7 @@ class JobOrderDetails extends React.Component {
                             </span>
                           </div>
                           <div className="uk-width-1-2">
-                            <span className="uk-text-small">
-                              Priority Status :{" "}
-                            </span>
+                            <span className="uk-text-small">Priority : </span>
                             {job.is_high_priority ? (
                               <span className="uk-text-small uk-text-danger">
                                 High Priority
@@ -373,21 +371,36 @@ class JobOrderDetails extends React.Component {
                               Delivery Expected By :{" "}
                             </span>
                             <span className="uk-text-small uk-text-primary">
-                              {job.delivery_expected_by
-                                ? Methods.formatDate(job.delivery_expected_by)
-                                : "-"}
+                              {job.delivery_expected_by ? (
+                                <span className="uk-text-primary">
+                                  {Methods.formatDate(job.delivery_expected_by)}
+                                </span>
+                              ) : (
+                                <span className="uk-text-muted">
+                                  Not specified
+                                </span>
+                              )}
                             </span>
                           </div>
                           <div className="uk-width-1-2">
                             <span className="uk-text-small">
                               Current Status :{" "}
                             </span>
-                            <span className="uk-text-small uk-text-primary">
-                              {jobStatuses && jobStatuses.length
-                                ? jobStatuses.map(
-                                    j => (j.id === job.status ? j.status : null)
-                                  )
-                                : "-"}
+                            <span className="uk-text-small">
+                              {jobStatuses && jobStatuses.length ? (
+                                jobStatuses.map(
+                                  j =>
+                                    j.id === job.status ? (
+                                      <span className="uk-text-primary">
+                                        {j.status}
+                                      </span>
+                                    ) : null
+                                )
+                              ) : (
+                                <span className="uk-text-muted">
+                                  Not specified
+                                </span>
+                              )}
                             </span>
                           </div>
                           <div className="uk-width-1-1">
