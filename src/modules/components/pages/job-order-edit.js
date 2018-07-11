@@ -370,10 +370,10 @@ class EditJobOrder extends React.Component {
 
   // Capture Job Rate
   captureJobRate = (event, index) => {
-    let value = parseFloat(event.target.value);
+    let value = event.target.value;
     if (!value) value = 0;
     const data = [...this.state.jobs];
-    data[index].rate.charge = value;
+    data[index].rate.charge = parseFloat(value);
     data.splice(index, 1, data[index]);
     this.setState({ jobs: data });
   };
@@ -396,7 +396,7 @@ class EditJobOrder extends React.Component {
       this.setState({ canSubmitAdvances: false });
       return;
     }
-    data[index].advance = amount;
+    data[index].advance = parseFloat(amount);
     data.splice(index, 1, data[index]);
     this.setState({ jobs: data });
   };
@@ -1169,8 +1169,10 @@ class EditJobOrder extends React.Component {
                                         className="uk-input"
                                         value={
                                           job.rate
-                                            ? job.rate.charge *
-                                              job.totalSizeInSqFt
+                                            ? parseFloat(
+                                                job.rate.charge *
+                                                  job.totalSizeInSqFt
+                                              ).toFixed(2)
                                             : ""
                                         }
                                         disabled
@@ -1210,7 +1212,9 @@ class EditJobOrder extends React.Component {
                                       <input
                                         type="number"
                                         className="uk-input"
-                                        value={this.calculateBalance(index)}
+                                        value={parseFloat(
+                                          this.calculateBalance(index)
+                                        ).toFixed(2)}
                                         max={job.rate ? job.rate.cost : ""}
                                         min={0}
                                         disabled
