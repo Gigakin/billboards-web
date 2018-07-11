@@ -63,9 +63,9 @@ class Handovers extends React.Component {
 
         this.setState({
           order: details,
-          totalAmountOfOrder: totalAmount,
-          totalBalanceOfOrder: totalBalance,
-          totalPaidOfOrder: totalPaid
+          totalAmountOfOrder: parseFloat(totalAmount).toFixed(2),
+          totalBalanceOfOrder: parseFloat(totalBalance).toFixed(2),
+          totalPaidOfOrder: parseFloat(totalPaid).toFixed(2)
         });
       },
       error => {
@@ -150,7 +150,7 @@ class Handovers extends React.Component {
       return;
     }
 
-    jobs[index].amount_received = value;
+    jobs[index].amount_received = parseFloat(value).toFixed(2);
     jobs.splice(index, 1, jobs[index]);
     this.setState({
       order: {
@@ -394,7 +394,9 @@ class Handovers extends React.Component {
                             <td>{job.is_handed_over ? "Handed Over" : "-"}</td>
                             <td>
                               {job.rate && job.rate.charge
-                                ? `₹${job.rate.charge * job.totalSizeInSqFt}`
+                                ? `₹${parseFloat(
+                                    job.rate.charge * job.totalSizeInSqFt
+                                  ).toFixed(2)}`
                                 : "-"}
                             </td>
                             <td>
