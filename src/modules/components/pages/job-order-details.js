@@ -546,7 +546,7 @@ class JobOrderDetails extends React.Component {
                                   <button
                                     type="button"
                                     className="uk-button uk-button-small uk-button-secondary"
-                                    disabled={job.status === 3 ? true : false}
+                                    disabled={job.status !== 2 ? true : false}
                                     onClick={() =>
                                       this.changeJobStatus(job.id, 3)
                                     }
