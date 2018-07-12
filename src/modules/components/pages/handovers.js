@@ -49,17 +49,27 @@ class Handovers extends React.Component {
   getOrderDetails = orderid => {
     OrderService.getOrderById(orderid).then(
       details => {
-        // Calculate total
+        // Total Amount
         let totalAmount = 0;
-        let totalPaid = 0;
-        let totalBalance = 0;
         if (details.jobs && details.jobs.length) {
           details.jobs.forEach(job => {
-            totalPaid = job.advance;
-            totalBalance = job.rate.charge * job.totalSizeInSqFt - job.advance;
-            totalAmount = job.rate.charge * job.totalSizeInSqFt;
+            let jobCost = parseFloat(job.rate.charge * job.totalSizeInSqFt);
+            totalAmount = Math.ceil(totalAmount + jobCost);
           });
         }
+
+        // Paid amount
+        let totalPaid = 0;
+        if (details.payments && details.payments.length) {
+          details.payments.forEach(p => {
+            p.amount = parseFloat(p.amount);
+            totalPaid = totalPaid + p.amount;
+          });
+        }
+
+        // Balance
+        let totalBalance = 0;
+        totalBalance = Math.ceil(totalAmount - totalPaid);
 
         this.setState({
           order: details,
@@ -135,22 +145,26 @@ class Handovers extends React.Component {
   captureAmountReceived = (event, index) => {
     let value = event.target.value;
     if (!value) value = 0;
+    let { order } = this.state;
     let jobs = [...this.state.order.jobs];
 
     // Reset error
     this.refs[`handover_job_error_${index}`].innerHTML = "";
     this.setState({ canAcceptAmounts: true });
 
-    let totalCost = jobs[index].rate.charge * jobs[index].totalSizeInSqFt;
-    if (totalCost < value) {
+    let balance = Math.ceil(
+      parseFloat(jobs[index].rate.charge * jobs[index].totalSizeInSqFt) -
+        parseFloat(order.payments[index].amount)
+    );
+    if (balance < value) {
       this.refs[
         `handover_job_error_${index}`
-      ].innerHTML = `Amount cannot be more than the total cost: ₹${totalCost}`;
+      ].innerHTML = `Amount cannot be more than the balance remaining: ₹${balance}`;
       this.setState({ canAcceptAmounts: false });
       return;
     }
 
-    jobs[index].amount_received = parseFloat(value).toFixed(2);
+    jobs[index].amount_received = parseFloat(value);
     jobs.splice(index, 1, jobs[index]);
     this.setState({
       order: {
@@ -188,6 +202,78 @@ class Handovers extends React.Component {
         jobs: [...jobs]
       }
     });
+  };
+
+  // Render Balance Amount
+  renderBalanceAmount = job => {
+    let { jobs, payments } = this.state.order;
+
+    // Total Paid
+    let totalPaid = 0;
+    payments.forEach(p => {
+      if (p.job_id === job.id) {
+        totalPaid = Math.ceil(parseFloat(totalPaid + p.amount));
+      }
+    });
+
+    // Total Cost
+    let totalCost = 0;
+    jobs.forEach(j => {
+      if (j.id === job.id) {
+        totalCost = Math.ceil(
+          parseFloat(job.rate.charge * job.totalSizeInSqFt)
+        );
+      }
+    });
+
+    return `₹${Math.ceil(totalCost - totalPaid).toFixed(2)}`;
+  };
+
+  // Render Handover Button
+  renderHandoverButton = job => {
+    let { jobs, payments } = this.state.order;
+
+    // Total Paid
+    let totalPaid = 0;
+    payments.forEach(p => {
+      if (p.job_id === job.id) {
+        totalPaid = Math.ceil(parseFloat(totalPaid + p.amount));
+      }
+    });
+
+    // Total Cost
+    let totalCost = 0;
+    jobs.forEach(j => {
+      if (j.id === job.id) {
+        totalCost = Math.ceil(
+          parseFloat(job.rate.charge * job.totalSizeInSqFt)
+        );
+      }
+    });
+
+    // Remaining Balance
+    let hasRemainingBalance = true;
+    let totalBalance = Math.ceil(totalCost - totalPaid);
+    let amountReceived = parseFloat(job.amount_received).toFixed(2);
+    if (amountReceived == totalBalance) {
+      hasRemainingBalance = false;
+    }
+
+    return (
+      <button
+        type="button"
+        onClick={() => this.handover(job.id)}
+        className="uk-button uk-button-small uk-button-primary"
+        disabled={
+          job.is_handed_over ||
+          job.status !== 3 ||
+          !this.state.canAcceptAmounts ||
+          hasRemainingBalance
+        }
+      >
+        Handover
+      </button>
+    );
   };
 
   // Handover
@@ -244,7 +330,6 @@ class Handovers extends React.Component {
       jobTypes,
       jobMeasurements,
       jobQualities,
-      canAcceptAmounts,
       showModal
     } = this.state;
 
@@ -337,9 +422,10 @@ class Handovers extends React.Component {
                         <th>Quality</th>
                         <th>Status</th>
                         <th>Amount</th>
+                        <th>Balance</th>
                         <th>Amount Received</th>
                         <th>Payment Mode</th>
-                        <th>Cheque #/Card Number/Wallet Name</th>
+                        <th>Cheque/Card/Wallet Details</th>
                         <th />
                       </tr>
                     </thead>
@@ -395,15 +481,17 @@ class Handovers extends React.Component {
                             <td>
                               {job.rate && job.rate.charge
                                 ? `₹${parseFloat(
-                                    job.rate.charge * job.totalSizeInSqFt
+                                    Math.ceil(
+                                      job.rate.charge * job.totalSizeInSqFt
+                                    )
                                   ).toFixed(2)}`
                                 : "-"}
                             </td>
+                            <td>{this.renderBalanceAmount(job, index)}</td>
                             <td>
                               <input
                                 type="number"
                                 className="uk-input"
-                                value={job.amount_received}
                                 onChange={event =>
                                   this.captureAmountReceived(event, index)
                                 }
@@ -443,6 +531,9 @@ class Handovers extends React.Component {
                                     ? job.payment_mode_details
                                     : undefined
                                 }
+                                onChange={event =>
+                                  this.capturePaymentModeDetails(event, index)
+                                }
                                 disabled={
                                   job.is_handed_over ||
                                   job.status !== 3 ||
@@ -460,18 +551,7 @@ class Handovers extends React.Component {
                                   Print DM
                                 </button>
                               ) : (
-                                <button
-                                  type="button"
-                                  onClick={() => this.handover(job.id)}
-                                  className="uk-button uk-button-small uk-button-primary"
-                                  disabled={
-                                    job.is_handed_over ||
-                                    job.status !== 3 ||
-                                    !canAcceptAmounts
-                                  }
-                                >
-                                  Handover
-                                </button>
+                                this.renderHandoverButton(job, index)
                               )}
                             </td>
                           </tr>
