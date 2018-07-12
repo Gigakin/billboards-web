@@ -255,6 +255,7 @@ class Handovers extends React.Component {
     let hasRemainingBalance = true;
     let totalBalance = Math.ceil(totalCost - totalPaid);
     let amountReceived = parseFloat(job.amount_received).toFixed(2);
+    // eslint-disable-next-line
     if (amountReceived == totalBalance) {
       hasRemainingBalance = false;
     }
