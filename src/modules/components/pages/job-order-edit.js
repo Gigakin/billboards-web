@@ -361,7 +361,7 @@ class EditJobOrder extends React.Component {
       },
       error => {
         return Notification.Notify({
-          text: "Failed to set advnace amounts for jobs",
+          text: "Failed to set advance amounts for jobs",
           type: "error"
         });
       }
@@ -373,7 +373,7 @@ class EditJobOrder extends React.Component {
     let value = event.target.value;
     if (!value) value = 0;
     const data = [...this.state.jobs];
-    data[index].rate.charge = parseFloat(value);
+    data[index].rate.charge = parseFloat(Math.ceil(value));
     data.splice(index, 1, data[index]);
     this.setState({ jobs: data });
   };
@@ -383,7 +383,9 @@ class EditJobOrder extends React.Component {
     const data = [...this.state.jobs];
     let amount = parseFloat(event.target.value);
     if (!amount) amount = 0;
-    let totalCost = data[index].rate.charge * data[index].totalSizeInSqFt;
+    let totalCost = Math.ceil(
+      data[index].rate.charge * data[index].totalSizeInSqFt
+    );
 
     // Reset amount exceeds error
     this.setState({ canSubmitAdvances: true });
@@ -408,7 +410,7 @@ class EditJobOrder extends React.Component {
     balance =
       jobs[index].rate.charge * jobs[index].totalSizeInSqFt -
       jobs[index].advance;
-    return balance;
+    return Math.ceil(balance);
   };
 
   // Switch Tab
@@ -1170,8 +1172,10 @@ class EditJobOrder extends React.Component {
                                         value={
                                           job.rate
                                             ? parseFloat(
-                                                job.rate.charge *
-                                                  job.totalSizeInSqFt
+                                                Math.ceil(
+                                                  job.rate.charge *
+                                                    job.totalSizeInSqFt
+                                                )
                                               ).toFixed(2)
                                             : ""
                                         }
