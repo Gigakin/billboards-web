@@ -497,7 +497,9 @@ class Handovers extends React.Component {
                                   this.captureAmountReceived(event, index)
                                 }
                                 disabled={
-                                  job.is_handed_over || job.status !== 3
+                                  job.is_paid ||
+                                  job.is_handed_over ||
+                                  job.status !== 3
                                 }
                                 min={0}
                               />

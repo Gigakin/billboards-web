@@ -109,21 +109,40 @@ class Bills extends React.Component {
     let value = event.target.value;
     if (!value) value = 0;
     let jobs = [...this.state.order.jobs];
+    let { payments } = this.state.order;
 
     // Reset error
     this.refs[`accept_payment_error_${index}`].innerHTML = "";
     this.setState({ canAcceptPayment: true });
 
-    let totalCost = jobs[index].rate.charge * jobs[index].totalSizeInSqFt;
-    if (totalCost < value) {
+    // Total Cost
+    let totalCost = Math.ceil(
+      parseFloat(jobs[index].rate.charge) *
+        parseFloat(jobs[index].totalSizeInSqFt)
+    );
+
+    // Balance
+    let totalBalance = 0;
+    if (payments && payments.length) {
+      payments.forEach(p => {
+        // eslint-disable-next-line
+        if (p.job_id == jobs[index].id) {
+          totalBalance = parseFloat(totalBalance) + parseFloat(p.amount);
+        }
+      });
+    }
+
+    totalBalance = totalCost - totalBalance;
+
+    if (totalBalance < value) {
       this.refs[
         `accept_payment_error_${index}`
-      ].innerHTML = `Amount cannot be more than the total cost: ₹${totalCost}`;
+      ].innerHTML = `Amount cannot be more than the balance: ₹${totalBalance}`;
       this.setState({ canAcceptPayment: false });
       return;
     }
 
-    jobs[index].advance = value;
+    jobs[index].amount_received = value;
     jobs.splice(index, 1, jobs[index]);
     this.setState({
       order: {
@@ -134,13 +153,29 @@ class Bills extends React.Component {
   };
 
   // Calculate Balance
-  calculateBalance = index => {
-    let { jobs } = this.state.order;
-    let balance = 0;
-    balance =
-      jobs[index].rate.charge * jobs[index].totalSizeInSqFt -
-      jobs[index].advance;
-    return balance;
+  calculateBalance = (job, index) => {
+    let { payments } = this.state.order;
+
+    // Total Cost
+    let totalCost = 0;
+    if (job.rate && job.rate.charge && job.totalSizeInSqFt) {
+      totalCost = Math.ceil(
+        parseFloat(job.rate.charge) * parseFloat(job.totalSizeInSqFt)
+      ).toFixed(2);
+    }
+
+    if (payments && payments.length) {
+      let totalPaid = 0;
+      payments.forEach(p => {
+        // eslint-disable-next-line
+        if (p.job_id == job.id) {
+          totalPaid = parseFloat(totalPaid) + parseFloat(p.amount);
+          return;
+        }
+      });
+      return `₹${totalCost - totalPaid}`;
+    }
+    return "-";
   };
 
   // Save Payment Details
@@ -171,6 +206,54 @@ class Bills extends React.Component {
     }
   };
 
+  // Render Save Button
+  renderSaveButton = job => {
+    let { payments } = this.state.order;
+
+    // Total Cost
+    let totalCost = 0;
+    if (job.rate && job.rate.charge && job.totalSizeInSqFt) {
+      totalCost = Math.ceil(
+        parseFloat(job.rate.charge) * parseFloat(job.totalSizeInSqFt)
+      ).toFixed(2);
+    }
+
+    let totalPaid = 0;
+    if (payments && payments.length) {
+      payments.forEach(p => {
+        if (p.job_id === job.id) {
+          totalPaid = parseFloat(totalPaid) + parseFloat(p.amount);
+          return;
+        }
+      });
+    }
+
+    // Total Balance
+    let totalBalance = totalCost - totalPaid;
+
+    // Has remaining balance
+    let hasRemainingBalance = true;
+    // eslint-disable-next-line
+    if (totalBalance == job.amount_received) {
+      hasRemainingBalance = false;
+    }
+
+    return (
+      <button
+        type="button"
+        className="uk-button uk-button-small uk-button-primary"
+        onClick={() => this.savePaymentDetails(job.id)}
+        disabled={
+          !this.state.canAcceptPayment ||
+          job.amount_received === 0 ||
+          hasRemainingBalance
+        }
+      >
+        Save
+      </button>
+    );
+  };
+
   // Trigger Modal
   triggerModal = () => {
     let { showModal } = this.state;
@@ -197,7 +280,6 @@ class Bills extends React.Component {
       jobTypes,
       jobMeasurements,
       jobFeatures,
-      canAcceptPayment,
       showModal
     } = this.state;
 
@@ -270,8 +352,8 @@ class Bills extends React.Component {
                         <th>Job</th>
                         <th>Description</th>
                         <th>Job Amount</th>
-                        <th>Payment Received</th>
                         <th>Balance</th>
+                        <th>Payment Received</th>
                         <th />
                       </tr>
                     </thead>
@@ -322,13 +404,16 @@ class Bills extends React.Component {
                                   : null}
                               </td>
                               <td className="uk-width-auto">
-                                <input
-                                  type="text"
-                                  className="uk-input"
-                                  value={job.rate.charge * job.totalSizeInSqFt}
-                                  disabled
-                                />
+                                {`₹${Math.ceil(
+                                  parseFloat(job.rate.charge) *
+                                    parseFloat(job.totalSizeInSqFt)
+                                ).toFixed(2)}`}
                               </td>
+
+                              <td className="uk-width-auto">
+                                {this.calculateBalance(job, index)}
+                              </td>
+
                               <td className="uk-width-auto">
                                 <input
                                   type="number"
@@ -336,7 +421,7 @@ class Bills extends React.Component {
                                   onChange={event =>
                                     this.capturePayment(event, index)
                                   }
-                                  value={job.advance}
+                                  value={job.amount_received}
                                   required
                                 />
                                 <span
@@ -344,30 +429,7 @@ class Bills extends React.Component {
                                   ref={`accept_payment_error_${index}`}
                                 />
                               </td>
-                              <td className="uk-width-auto">
-                                <input
-                                  type="number"
-                                  className="uk-input"
-                                  value={this.calculateBalance(index)}
-                                  max={job.rate ? job.rate.cost : ""}
-                                  min={0}
-                                  disabled
-                                />
-                              </td>
-                              <td>
-                                <button
-                                  type="button"
-                                  className="uk-button uk-button-small uk-button-primary"
-                                  onClick={() =>
-                                    this.savePaymentDetails(job.id)
-                                  }
-                                  disabled={
-                                    !canAcceptPayment || job.advance === 0
-                                  }
-                                >
-                                  Save
-                                </button>
-                              </td>
+                              <td>{this.renderSaveButton(job, index)}</td>
                             </tr>
                           ))
                         : null}
