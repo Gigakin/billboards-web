@@ -509,14 +509,14 @@ class JobOrderDetails extends React.Component {
                                           "printer"
                                         )
                                       }
-                                      disabled={job.status !== 3 ? true : false}
+                                      disabled={job.status !== 2 ? true : false}
                                       required
                                     />
 
                                     <button
                                       type="button"
                                       className="uk-button uk-button-small uk-button-default uk-margin-small-right"
-                                      disabled={job.status !== 3 ? true : false}
+                                      disabled={job.status !== 2 ? true : false}
                                     >
                                       <span uk-icon="cloud-upload" /> Attach
                                       REAP File
@@ -533,7 +533,7 @@ class JobOrderDetails extends React.Component {
                                     className="uk-button uk-button-small uk-button-secondary"
                                     disabled={job.status !== 1 ? true : false}
                                     onClick={() =>
-                                      this.changeJobStatus(job.id, 3)
+                                      this.changeJobStatus(job.id, 2)
                                     }
                                   >
                                     <span uk-icon="check" />{" "}
@@ -546,13 +546,13 @@ class JobOrderDetails extends React.Component {
                                   <button
                                     type="button"
                                     className="uk-button uk-button-small uk-button-secondary"
-                                    disabled={job.status === 4 ? true : false}
+                                    disabled={job.status === 3 ? true : false}
                                     onClick={() =>
-                                      this.changeJobStatus(job.id, 4)
+                                      this.changeJobStatus(job.id, 3)
                                     }
                                   >
                                     <span uk-icon="check" />{" "}
-                                    {job.status === 4
+                                    {job.status === 3
                                       ? "Completed"
                                       : "Mark as Printing Complete"}
                                   </button>

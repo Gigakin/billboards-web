@@ -552,6 +552,7 @@ class OrdersList extends React.Component {
                                 type="button"
                                 onClick={() => this.handover(item)}
                                 className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                                disabled={item.status.id === 1}
                               >
                                 Handover
                               </button>
