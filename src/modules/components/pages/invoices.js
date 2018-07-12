@@ -191,6 +191,8 @@ class Bills extends React.Component {
 
       OrderService.acceptPayment(order.id, thisJob.id, thisJob).then(
         response => {
+          this.getOrders();
+          this.getOrderDetails(this.state.order.id);
           return Notification.Notify({
             text: "Payment was accepted",
             type: "success"
@@ -422,6 +424,7 @@ class Bills extends React.Component {
                                     this.capturePayment(event, index)
                                   }
                                   value={job.amount_received}
+                                  disabled={job.is_paid}
                                   required
                                 />
                                 <span
