@@ -582,6 +582,16 @@ class JobOrderDetails extends React.Component {
                   >
                     Back to Orders List
                   </button>
+                  {permissions.canCompleteOrder ? (
+                    <button
+                      type="button"
+                      className="uk-button uk-button-small uk-button-primary"
+                      onClick={() => this.completeOrder(order.id)}
+                      disabled={order.status && order.status.id !== 2}
+                    >
+                      Complete Order
+                    </button>
+                  ) : null}
                 </div>
               </div>
             </div>
