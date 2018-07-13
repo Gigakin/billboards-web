@@ -252,7 +252,7 @@ class ViewInvoice extends React.Component {
                         <th>#</th>
                         <th>Product/Service Description</th>
                         <th>HSN/SA Code</th>
-                        <th>UOM</th>
+                        <th>Size</th>
                         <th>Qty</th>
                         <th>Rate</th>
                         <th>Amount</th>
@@ -284,7 +284,13 @@ class ViewInvoice extends React.Component {
                                     })
                                   : null}
                               </td>
-                              <td>{job.hsn_code ? job.hsn_code : "-"}</td>
+                              <td>
+                                {jobTypes.map(item => {
+                                  return item.id === job.type
+                                    ? item.hsn_code
+                                    : null;
+                                })}
+                              </td>
                               <td>
                                 {job.sizeUnits
                                   ? jobMeasurements.map(
@@ -313,10 +319,24 @@ class ViewInvoice extends React.Component {
                               </td>
                               <td>
                                 {job.rate && job.rate.charge
-                                  ? `₹${job.rate.charge + job.totalSizeInSqFt}`
+                                  ? `₹${Math.ceil(
+                                      parseFloat(job.rate.charge) *
+                                        parseInt(job.quantity) *
+                                        parseFloat(job.totalSizeInSqFt)
+                                    ).toFixed(2)}`
                                   : null}
                               </td>
-                              <td>₹45</td>
+                              <td>
+                                <input
+                                  type="number"
+                                  className="uk-input"
+                                  onChange={event =>
+                                    this.calculateDiscount(event, index)
+                                  }
+                                  value={0}
+                                  required
+                                />
+                              </td>
                               <td>₹60</td>
                               <td>₹45</td>
                               <td>₹60</td>
