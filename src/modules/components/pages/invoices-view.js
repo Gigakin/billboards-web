@@ -321,7 +321,7 @@ class ViewInvoice extends React.Component {
                                 {job.rate && job.rate.charge
                                   ? `₹${Math.ceil(
                                       parseFloat(job.rate.charge) *
-                                        parseInt(job.quantity) *
+                                        parseInt(job.quantity, 10) *
                                         parseFloat(job.totalSizeInSqFt)
                                     ).toFixed(2)}`
                                   : null}
