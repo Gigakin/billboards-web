@@ -419,59 +419,61 @@ class JobOrderDetails extends React.Component {
                             <div className="uk-flex uk-flex-between">
                               {/* Downloads */}
                               <div className="uk-flex">
-                                {permissions.canDownloadCustomerDesignFile
-                                  ? order.files && order.files.length
-                                    ? order.files.map((file, index) => {
-                                        if (
-                                          // eslint-disable-next-line
-                                          file.job == job.id &&
-                                          // eslint-disable-next-line
-                                          file.type == 1
-                                        ) {
-                                          return (
-                                            <button
-                                              type="button"
-                                              key={`download_customer_file_button_${index}`}
-                                              className="uk-button uk-button-small uk-button-default uk-margin-small-right"
-                                              onClick={() =>
-                                                this.downloadFile(file)
-                                              }
-                                            >
-                                              <span uk-icon="cloud-download" />{" "}
-                                              Download Customer Design File
-                                            </button>
-                                          );
-                                        }
-                                        return null;
-                                      })
-                                    : null
+                                {order.files && order.files.length
+                                  ? order.files.map((file, index) => {
+                                      if (
+                                        // eslint-disable-next-line
+                                        file.job == job.id &&
+                                        // eslint-disable-next-line
+                                        file.type == 1
+                                      ) {
+                                        return (
+                                          <button
+                                            type="button"
+                                            key={`download_customer_file_button_${index}`}
+                                            className="uk-button uk-button-small uk-button-default uk-margin-small-right"
+                                            onClick={() =>
+                                              this.downloadFile(file)
+                                            }
+                                            disabled={
+                                              !permissions.canDownloadCustomerDesignFile
+                                            }
+                                          >
+                                            <span uk-icon="cloud-download" />{" "}
+                                            Download Customer Design File
+                                          </button>
+                                        );
+                                      }
+                                      return null;
+                                    })
                                   : null}
-                                {permissions.canDownloadDesignerDesignFile
-                                  ? order.files && order.files.length
-                                    ? order.files.map((file, index) => {
-                                        if (
-                                          // eslint-disable-next-line
-                                          file.job == job.id &&
-                                          // eslint-disable-next-line
-                                          file.type == 2
-                                        ) {
-                                          return (
-                                            <button
-                                              type="button"
-                                              key={`download_designer_file_button_${index}`}
-                                              className="uk-button uk-button-small uk-button-default uk-margin-small-right"
-                                              onClick={() =>
-                                                this.downloadFile(file)
-                                              }
-                                            >
-                                              <span uk-icon="cloud-download" />{" "}
-                                              Download Design File
-                                            </button>
-                                          );
-                                        }
-                                        return null;
-                                      })
-                                    : null
+                                {order.files && order.files.length
+                                  ? order.files.map((file, index) => {
+                                      if (
+                                        // eslint-disable-next-line
+                                        file.job == job.id &&
+                                        // eslint-disable-next-line
+                                        file.type == 2
+                                      ) {
+                                        return (
+                                          <button
+                                            type="button"
+                                            key={`download_designer_file_button_${index}`}
+                                            className="uk-button uk-button-small uk-button-default uk-margin-small-right"
+                                            onClick={() =>
+                                              this.downloadFile(file)
+                                            }
+                                            disabled={
+                                              !permissions.canDownloadDesignerDesignFile
+                                            }
+                                          >
+                                            <span uk-icon="cloud-download" />{" "}
+                                            Download Design File
+                                          </button>
+                                        );
+                                      }
+                                      return null;
+                                    })
                                   : null}
                                 {permissions.canAttachDesignFile ? (
                                   <div uk-form-custom="">
