@@ -169,13 +169,13 @@ class NewJobOrder extends React.Component {
               type: "success"
             });
             // Reset details
-            return this.setState({
+            this.setState({
               party: {},
               order: { owner: 1 },
               currentTab: "order"
             });
-            // TODO: Maybe take the user to the
-            // TODO: newly created order details page??
+            // Back to orders list
+            return this.props.history.push("/orders");
           },
           error => {
             return Notification.Notify({
@@ -197,13 +197,13 @@ class NewJobOrder extends React.Component {
             type: "success"
           });
           // Reset details
-          return this.setState({
+          this.setState({
             party: {},
             order: { owner: 1 },
             currentTab: "order"
           });
-          // TODO: Maybe take the user to the
-          // TODO: newly created order details page??
+          // Back to orders list
+          return this.props.history.push("/orders");
         },
         error => {
           return Notification.Notify({
