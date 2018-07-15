@@ -445,7 +445,7 @@ class Bills extends React.Component {
                     onClick={this.triggerModal}
                     className="uk-button uk-button-danger uk-button-small uk-margin-small-right"
                   >
-                    Cancel
+                    Close
                   </button>
                 </div>
               </div>
