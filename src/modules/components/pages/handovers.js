@@ -421,7 +421,7 @@ class Handovers extends React.Component {
                         <th>Type</th>
                         <th>Size</th>
                         <th>Quality</th>
-                        <th>Status</th>
+                        <th>Handover Status</th>
                         <th>Amount</th>
                         <th>Balance</th>
                         <th>Amount Received</th>
@@ -478,7 +478,7 @@ class Handovers extends React.Component {
                                   })
                                 : "-"}
                             </td>
-                            <td>{job.is_handed_over ? "Handed Over" : "-"}</td>
+                            <td>{job.is_handed_over ? "Yes" : "No"}</td>
                             <td>
                               {job.rate && job.rate.charge
                                 ? `₹${parseFloat(
