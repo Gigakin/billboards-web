@@ -893,6 +893,7 @@ class EditJobOrder extends React.Component {
                                             }
                                             disabled={!permissions.canAddJobs}
                                             value={feature.feature}
+                                            required
                                           />{" "}
                                           {feature.feature}
                                         </label>
