@@ -486,14 +486,14 @@ class JobOrderDetails extends React.Component {
                                           "designer"
                                         )
                                       }
-                                      disabled={job.status !== 1 ? true : false}
+                                      disabled={job.status !== 1}
                                       required
                                     />
 
                                     <button
                                       type="button"
                                       className="uk-button uk-button-small uk-button-default uk-margin-small-right"
-                                      disabled={job.status !== 1 ? true : false}
+                                      disabled={job.status !== 1}
                                     >
                                       <span uk-icon="cloud-upload" /> Attach
                                       Design File
@@ -511,14 +511,14 @@ class JobOrderDetails extends React.Component {
                                           "printer"
                                         )
                                       }
-                                      disabled={job.status !== 2 ? true : false}
+                                      disabled={job.status !== 1}
                                       required
                                     />
 
                                     <button
                                       type="button"
                                       className="uk-button uk-button-small uk-button-default uk-margin-small-right"
-                                      disabled={job.status !== 2 ? true : false}
+                                      disabled={job.status !== 1}
                                     >
                                       <span uk-icon="cloud-upload" /> Attach
                                       REAP File
@@ -533,7 +533,9 @@ class JobOrderDetails extends React.Component {
                                   <button
                                     type="button"
                                     className="uk-button uk-button-small uk-button-secondary"
-                                    disabled={job.status !== 1 ? true : false}
+                                    disabled={
+                                      job.status !== 1 || !job.hasDesignFile
+                                    }
                                     onClick={() =>
                                       this.changeJobStatus(job.id, 2)
                                     }
@@ -548,7 +550,9 @@ class JobOrderDetails extends React.Component {
                                   <button
                                     type="button"
                                     className="uk-button uk-button-small uk-button-secondary"
-                                    disabled={job.status !== 2 ? true : false}
+                                    disabled={
+                                      job.status !== 1 || !job.hasPrintFile
+                                    }
                                     onClick={() =>
                                       this.changeJobStatus(job.id, 3)
                                     }
