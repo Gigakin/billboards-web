@@ -283,6 +283,7 @@ class NewJobOrder extends React.Component {
                               onChange={this.captureOrderDetails}
                               value={this.state.order.name}
                               className="uk-input"
+                              maxLength={255}
                               autoFocus
                               required
                             />
@@ -296,6 +297,7 @@ class NewJobOrder extends React.Component {
                             id="description"
                             onChange={this.captureOrderDetails}
                             value={this.state.order.description}
+                            maxLength={255}
                             className="uk-input"
                             required
                           />

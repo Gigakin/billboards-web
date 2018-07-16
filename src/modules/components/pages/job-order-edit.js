@@ -606,6 +606,7 @@ class EditJobOrder extends React.Component {
                             onChange={this.capturePartyDetails}
                             value={party.name}
                             className="uk-input"
+                            maxLength={80}
                             required
                             disabled
                           />
@@ -620,6 +621,7 @@ class EditJobOrder extends React.Component {
                             onChange={this.capturePartyDetails}
                             value={party.contact_person}
                             className="uk-input"
+                            maxLength={45}
                             disabled
                           />
                         </div>
@@ -633,6 +635,7 @@ class EditJobOrder extends React.Component {
                             onChange={this.capturePartyDetails}
                             value={party.email}
                             className="uk-input"
+                            maxLength={255}
                             required
                             disabled
                           />
@@ -646,6 +649,7 @@ class EditJobOrder extends React.Component {
                             id="gstin"
                             onChange={this.capturePartyDetails}
                             value={party.gstin}
+                            maxLength={255}
                             className="uk-input"
                             disabled
                           />
@@ -659,6 +663,7 @@ class EditJobOrder extends React.Component {
                             id="address_line_1"
                             onChange={this.capturePartyDetails}
                             value={party.address_line_1}
+                            maxLength={255}
                             className="uk-input"
                             required
                             disabled
@@ -673,6 +678,7 @@ class EditJobOrder extends React.Component {
                             id="city"
                             onChange={this.capturePartyDetails}
                             value={party.city}
+                            maxLength={255}
                             className="uk-input"
                             required
                             disabled
@@ -780,6 +786,7 @@ class EditJobOrder extends React.Component {
                                   id="quantity"
                                   onChange={this.captureJobDetails}
                                   disabled={!permissions.canAddJobs}
+                                  maxLength={11}
                                   className="uk-input"
                                   min={1}
                                   required
@@ -834,6 +841,7 @@ class EditJobOrder extends React.Component {
                                   className="uk-input uk-width-1-3@s"
                                   placeholder="Width"
                                   autoComplete="off"
+                                  maxLength={11}
                                   min={1}
                                   required
                                 />
@@ -845,6 +853,7 @@ class EditJobOrder extends React.Component {
                                   className="uk-input uk-width-1-3@s"
                                   placeholder="Height"
                                   autoComplete="off"
+                                  maxLength={211}
                                   min={1}
                                   required
                                 />
@@ -933,6 +942,7 @@ class EditJobOrder extends React.Component {
                                   className="uk-textarea"
                                   onChange={this.captureJobDetails}
                                   disabled={!permissions.canAddJobs}
+                                  maxLength={1200}
                                 />
                               </div>
                             </div>
@@ -1157,6 +1167,7 @@ class EditJobOrder extends React.Component {
                                           this.captureJobRate(event, index)
                                         }
                                         min={1}
+                                        maxLength={11}
                                         disabled={
                                           order.status && order.status.id === 3
                                         }
@@ -1181,6 +1192,7 @@ class EditJobOrder extends React.Component {
                                             : ""
                                         }
                                         disabled
+                                        maxLength={11}
                                         required
                                       />
                                     </div>
@@ -1200,6 +1212,7 @@ class EditJobOrder extends React.Component {
                                         value={job.advance}
                                         max={job.rate ? job.rate.cost : ""}
                                         min={0}
+                                        maxLength={11}
                                         disabled={
                                           order.status && order.status.id !== 1
                                         }
@@ -1221,6 +1234,7 @@ class EditJobOrder extends React.Component {
                                           this.calculateBalance(index)
                                         ).toFixed(2)}
                                         max={job.rate ? job.rate.cost : ""}
+                                        maxLength={11}
                                         min={0}
                                         disabled
                                       />

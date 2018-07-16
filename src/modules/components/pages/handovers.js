@@ -496,6 +496,7 @@ class Handovers extends React.Component {
                                 onChange={event =>
                                   this.captureAmountReceived(event, index)
                                 }
+                                maxLength={11}
                                 disabled={
                                   job.is_paid ||
                                   job.is_handed_over ||
@@ -542,6 +543,7 @@ class Handovers extends React.Component {
                                   job.status !== 3 ||
                                   job.payment_mode === "cash"
                                 }
+                                maxLength={45}
                               />
                             </td>
                             <td>

@@ -99,6 +99,7 @@ class Login extends React.Component {
                         id="username"
                         onChange={this.captureCredentials}
                         className="uk-input"
+                        maxLength={255}
                         autoFocus
                         required
                       />
@@ -114,6 +115,7 @@ class Login extends React.Component {
                         id="password"
                         onChange={this.captureCredentials}
                         className="uk-input"
+                        maxLength={255}
                         required
                       />
                     </div>
