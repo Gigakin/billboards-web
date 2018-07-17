@@ -27,8 +27,24 @@
         }
       }
 
-      th { padding: 16px; }
-      td { padding: 10px 16px; }
+      .collapsible_toggle {
+        display: none;
+      }
+      .tr-content {
+        display: none;
+        padding: 10px 15px;
+        border: 0;
+      }
+      .collapsible_toggle:checked ~ .tr-content {
+        display: block;
+      }
+
+      th {
+        padding: 16px;
+      }
+      td {
+        padding: 10px 16px;
+      }
     }
   }
 }

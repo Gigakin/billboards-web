@@ -1,9 +1,3 @@
-/*
-  Component: Orders List
-  Props: columns (array)
-         data (array)
-*/
-
 // Modules
 import React from "react";
 import { withRouter } from "react-router-dom";
@@ -163,6 +157,9 @@ class OrdersList extends React.Component {
         }
         if (query === "inprogress") {
           if (item.status.id === 2) return this.filteredList.push(item);
+        }
+        if (query === "readyforinvoicing") {
+          if (item.status.id === 3) return this.filteredList.push(item);
         }
       }
       return false;
@@ -364,6 +361,9 @@ class OrdersList extends React.Component {
                       </option>
                       <option value="draft">Draft</option>
                       <option value="inprogress">In Progress</option>
+                      <option value="readyforinvoicing">
+                        Ready for Invoicing
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -448,11 +448,11 @@ class OrdersList extends React.Component {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
-              {tableData && tableData.length ? (
-                tableData.map((item, index) => {
-                  return (
-                    <tr key={`sortable_item_${index}`} className="is-link">
+            {tableData && tableData.length ? (
+              tableData.map((item, index) => {
+                return (
+                  <tbody key={`sortable_item_${index}`}>
+                    <tr className="is-link">
                       {showPriorityIcon ? (
                         <td onClick={() => this.viewDetails(item.id)}>
                           {item.isHighPriority ? (
@@ -479,6 +479,14 @@ class OrdersList extends React.Component {
                         <span>
                           {showActionButtons ? (
                             <span>
+                              {/* Add Jobs/Review Order Details */}
+                              <label
+                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
+                                htmlFor={`collapsible_toggle_${index}`}
+                              >
+                                Quick View
+                              </label>
+
                               {/* Add Jobs/Review Order Details */}
                               {permissions.canEditOrderDetails ? (
                                 <button
@@ -580,9 +588,23 @@ class OrdersList extends React.Component {
                         </span>
                       </td>
                     </tr>
-                  );
-                })
-              ) : (
+                    <input
+                      type="checkbox"
+                      className="collapsible_toggle"
+                      id={`collapsible_toggle_${index}`}
+                    />
+                    <tr className="tr-content">
+                      <td colSpan={7}>
+                        <div className="uk-width-1-1">
+                          <li>Backlit with Pasting</li>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                );
+              })
+            ) : (
+              <tbody>
                 <tr>
                   <td colSpan={7}>
                     <span className="uk-padding">
@@ -596,8 +618,8 @@ class OrdersList extends React.Component {
                     </span>
                   </td>
                 </tr>
-              )}
-            </tbody>
+              </tbody>
+            )}
           </table>
         </div>
         {/* Pagination */}
