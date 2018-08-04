@@ -96,7 +96,7 @@ class JobOrders extends React.Component {
   // Edit Order
   editOrder = order => {
     if (order) {
-      return this.props.history.push(`/orders/${order.id}/edit`);
+      return this.props.history.push(`/orders/${order.id}/edit?tab=jobs`);
     }
   };
 

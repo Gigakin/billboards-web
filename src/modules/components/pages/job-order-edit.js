@@ -437,6 +437,21 @@ class EditJobOrder extends React.Component {
       this.getJobCharges();
       this.getOrderDetails(params.id);
     }
+
+    // Determine active tab
+    let activeTab = "order";
+    let UrlParams = new URLSearchParams(window.location.search);
+    if (UrlParams.has("tab")) {
+      let validTabs = ["order", "party", "jobs", "review"];
+      validTabs.forEach(tab => {
+        if (UrlParams.get("tab") === tab) {
+          activeTab = UrlParams.get("tab");
+        }
+      });
+    }
+    this.setState({
+      currentTab: activeTab
+    });
   }
 
   render() {

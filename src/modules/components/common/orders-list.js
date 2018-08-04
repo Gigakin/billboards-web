@@ -483,7 +483,7 @@ class OrdersList extends React.Component {
                         <span>
                           {showActionButtons ? (
                             <span>
-                              {/* Add Jobs/Review Order Details */}
+                              {/* Quick View */}
                               <label
                                 className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
                                 htmlFor={`collapsible_toggle_${index}`}
