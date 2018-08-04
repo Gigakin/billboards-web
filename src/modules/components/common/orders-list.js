@@ -304,6 +304,10 @@ class OrdersList extends React.Component {
   render() {
     let { tableData, accountOwners, permissions } = this.state;
     let {
+      jobTypes,
+      jobFeatures,
+      jobQualities,
+      jobStatuses,
       showActionButtons,
       showInvoiceButtons,
       showHandoverButton,
@@ -595,8 +599,44 @@ class OrdersList extends React.Component {
                     />
                     <tr className="tr-content">
                       <td colSpan={7}>
+                        {item.description ? (
+                          <div className="uk-width-1-1 uk-margin-small-bottom">
+                            <span className="uk-text-muted">
+                              {item.description}
+                            </span>
+                          </div>
+                        ) : null}
                         <div className="uk-width-1-1">
-                          <li>Backlit with Pasting</li>
+                          {item.jobs && item.jobs.length
+                            ? item.jobs.map((job, index) => (
+                                <li key={`quickview_job_item_${index}`}>
+                                  {jobTypes.map(item => {
+                                    // eslint-disable-next-line
+                                    return item.id == job.type
+                                      ? item.type
+                                      : null;
+                                  })}
+                                  {jobFeatures && jobFeatures.length
+                                    ? jobFeatures.map(item => {
+                                        // eslint-disable-next-line
+                                        return item.id == job.feature
+                                          ? ` with ${item.feature}`
+                                          : null;
+                                      })
+                                    : null}
+                                  {jobStatuses && jobStatuses.length
+                                    ? jobStatuses.map(
+                                        j =>
+                                          j.id === job.status ? (
+                                            <span className="uk-text-primary">
+                                              {` - ${j.status}`}
+                                            </span>
+                                          ) : null
+                                      )
+                                    : null}
+                                </li>
+                              ))
+                            : "There are no jobs in this order yet!"}
                         </div>
                       </td>
                     </tr>
@@ -650,6 +690,10 @@ class OrdersList extends React.Component {
 // Default Props
 OrdersList.defaultProps = {
   data: [],
+  jobTypes: [],
+  jobFeatures: [],
+  jobStatuses: [],
+  jobQualities: [],
   showHandoverButton: false,
   showActionButtons: true,
   showInvoiceButtons: false,
