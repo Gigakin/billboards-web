@@ -1,6 +1,7 @@
 // Modules
 import React from "react";
 import { Link } from "react-router-dom";
+import _ from "lodash";
 
 // Assets
 import Strings from "../../strings";
@@ -11,6 +12,7 @@ import Notification from "../common/notification";
 
 // Services
 import OrderService from "../../services/order-service";
+import PermissionService from "../../services/permission-service";
 import JobService from "../../services/job-service";
 
 // Classes
@@ -22,7 +24,8 @@ class JobOrders extends React.Component {
       jobTypes: [],
       jobQualities: [],
       jobFeatures: [],
-      jobStatuses: []
+      jobStatuses: [],
+      userRole: null
     };
   }
 
@@ -30,7 +33,48 @@ class JobOrders extends React.Component {
   getOrders = () => {
     OrderService.getOrders().then(
       orders => {
-        return this.setState({ orders: orders });
+        if (orders && orders.length) {
+          let { userRole } = this.state;
+          if (userRole) {
+            let filteredOrders = [];
+
+            // Designer
+            if (userRole === "designer") {
+              orders.forEach(o => {
+                if (o.jobs && o.jobs.length) {
+                  o.jobs.forEach(j => {
+                    if (j.status === 1) return filteredOrders.push(o);
+                  });
+                }
+              });
+            }
+
+            // Printer
+            else if (userRole === "printer") {
+              orders.forEach(o => {
+                if (o.jobs && o.jobs.length) {
+                  o.jobs.forEach(j => {
+                    if (j.status === 2) return filteredOrders.push(o);
+                  });
+                }
+              });
+            }
+
+            // Other roles
+            else {
+              filteredOrders = orders;
+            }
+
+            // Filtered Orders
+            // Remove duplicate orders
+            filteredOrders = _.uniq(filteredOrders, "id");
+            return this.setState({ orders: filteredOrders });
+          } else {
+            return this.setState({
+              orders: orders
+            });
+          }
+        }
       },
       error => {
         return Notification.Notify({
@@ -117,6 +161,12 @@ class JobOrders extends React.Component {
       }
     );
   };
+
+  componentWillMount() {
+    let role = PermissionService.getRole();
+    if (role) this.setState({ userRole: role });
+    return;
+  }
 
   componentDidMount() {
     this.getOrders();
