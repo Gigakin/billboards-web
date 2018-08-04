@@ -306,7 +306,6 @@ class OrdersList extends React.Component {
     let {
       jobTypes,
       jobFeatures,
-      jobQualities,
       jobStatuses,
       showActionButtons,
       showInvoiceButtons,
