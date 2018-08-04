@@ -628,7 +628,10 @@ class OrdersList extends React.Component {
                                     ? jobStatuses.map(
                                         j =>
                                           j.id === job.status ? (
-                                            <span className="uk-text-primary">
+                                            <span
+                                              key={`job_status_${j.id}`}
+                                              className="uk-text-primary"
+                                            >
                                               {` - ${j.status}`}
                                             </span>
                                           ) : null
