@@ -62,6 +62,7 @@ class EditJobOrder extends React.Component {
       advanceAmounts: {},
       currentTab: "order",
       canSubmitAdvances: false,
+      isFileSelected: false,
       permissions: {}
     };
     this.filesToBeUploaded = [];
@@ -202,10 +203,24 @@ class EditJobOrder extends React.Component {
     event.preventDefault();
     let file = event.target.files[0];
     return this.setState({
+      isFileSelected: true,
       jobDetails: {
         ...this.state.jobDetails,
         hasFileAttachment: true,
         file: file
+      }
+    });
+  };
+
+  // Remove file to be Uploaded
+  removeFileToBeUploaded = event => {
+    event.preventDefault();
+    return this.setState({
+      isFileSelected: false,
+      jobDetails: {
+        ...this.state.jobDetails,
+        hasFileAttachment: false,
+        file: null
       }
     });
   };
@@ -467,7 +482,8 @@ class EditJobOrder extends React.Component {
       jobMeasurements,
       currentTab,
       permissions,
-      canSubmitAdvances
+      canSubmitAdvances,
+      isFileSelected
     } = this.state;
 
     return (
@@ -932,19 +948,42 @@ class EditJobOrder extends React.Component {
                               <label className="uk-form-label">
                                 Customer's Design File
                               </label>
-                              <div className="js-upload" uk-form-custom="">
-                                <input
-                                  type="file"
-                                  onChange={this.captureFileToBeUploaded}
-                                />
-                                <button
-                                  type="button"
-                                  className="uk-button uk-button-default"
-                                  disabled={!permissions.canAddJobs}
-                                  tabIndex="-1"
-                                >
-                                  Select File
-                                </button>
+                              <div className="uk-flex uk-flex-middle">
+                                <div className="js-upload" uk-form-custom="">
+                                  <input
+                                    type="file"
+                                    onChange={this.captureFileToBeUploaded}
+                                  />
+                                  <button
+                                    type="button"
+                                    className="uk-button uk-button-default"
+                                    disabled={!permissions.canAddJobs}
+                                    tabIndex="-1"
+                                  >
+                                    Select File
+                                  </button>
+                                </div>
+                                {/* File name */}
+                                {isFileSelected && jobDetails.file ? (
+                                  <div className="uk-flex-auto uk-margin-small-left">
+                                    <span className="uk-text-muted uk-text-small">
+                                      {jobDetails.file
+                                        ? `File to be uploaded: ${
+                                            jobDetails.file.name
+                                          }`
+                                        : "Cannot read file name"}
+                                    </span>
+                                    <button
+                                      className="uk-button uk-button-link uk-margin-small-left"
+                                      onClick={this.removeFileToBeUploaded}
+                                    >
+                                      <i
+                                        className="uk-text-danger"
+                                        uk-icon="icon: close; ratio: 0.75"
+                                      />
+                                    </button>
+                                  </div>
+                                ) : null}
                               </div>
                             </div>
 
