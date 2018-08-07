@@ -1,6 +1,7 @@
 // Modules
 import React from "react";
 import { Link } from "react-router-dom";
+import Moment from "moment";
 
 // Assets
 import Strings from "../../strings";
@@ -8,6 +9,7 @@ import Methods from "../../methods";
 
 // Components
 import JobList from "../common/job-list";
+import CustomDatePicker from "../common/date-picker";
 import Notification from "../common/notification";
 
 // Services
@@ -63,6 +65,7 @@ class EditJobOrder extends React.Component {
       currentTab: "order",
       canSubmitAdvances: false,
       isFileSelected: false,
+      selectedDate: Moment(),
       permissions: {}
     };
     this.filesToBeUploaded = [];
@@ -175,6 +178,19 @@ class EditJobOrder extends React.Component {
         [event.target.id]: event.target.value
       }
     });
+  };
+
+  // Capture delivery date
+  captureDeliveryDate = date => {
+    if (date) {
+      return this.setState({
+        selectedDate: date,
+        jobDetails: {
+          ...this.state.jobDetails,
+          delivery_expected_by: date
+        }
+      });
+    }
   };
 
   // Capture Feature One
@@ -313,7 +329,6 @@ class EditJobOrder extends React.Component {
       return;
     });
 
-    console.log(newJobs);
     OrderService.addJobs(order.id, newJobs).then(
       response => {
         // Upload files
@@ -483,7 +498,8 @@ class EditJobOrder extends React.Component {
       currentTab,
       permissions,
       canSubmitAdvances,
-      isFileSelected
+      isFileSelected,
+      selectedDate
     } = this.state;
 
     return (
@@ -1006,13 +1022,12 @@ class EditJobOrder extends React.Component {
                               <label className="uk-form-label">
                                 Delivery Expected By
                               </label>
-                              <div className="uk-form-controls">
-                                <input
-                                  type="date"
-                                  id="delivery_expected_by"
+                              <div className="uk-form-controls uk-width-1-1">
+                                <CustomDatePicker
                                   className="uk-input"
-                                  onChange={this.captureJobDetails}
                                   disabled={!permissions.canAddJobs}
+                                  onChange={this.captureDeliveryDate}
+                                  selected={selectedDate}
                                 />
                               </div>
                             </div>
