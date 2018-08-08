@@ -14,6 +14,20 @@ let props = {
   build: "./public/assets/css"
 };
 
+// Assets: Argon
+gulp.task("assets:argon", () => {
+  return gulp
+    .src(`${props.source}/argon/argon.css`)
+    .pipe(
+      uglifycss({
+        maxLineLen: 80,
+        uglyComments: true
+      })
+    )
+    .pipe(concat("theme.min.css"))
+    .pipe(gulp.dest(props.build));
+});
+
 // Compile: Less
 gulp.task("compile:less", () => {
   return gulp
@@ -45,7 +59,7 @@ gulp.task("watch", () => {
 });
 
 // Release
-gulp.task("release", ["compile:less"]);
+gulp.task("release", ["assets:argon", "compile:less"]);
 
 // Build
 gulp.task("build", ["release", "watch"]);
