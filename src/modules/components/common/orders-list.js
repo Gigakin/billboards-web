@@ -457,7 +457,7 @@ class OrdersList extends React.Component {
                 return (
                   <tbody key={`sortable_item_${index}`}>
                     <tr className="is-link">
-                      <td>
+                      <td className="uk-flex uk-flex-center">
                         {/* Quick View */}
                         <label htmlFor={`collapsible_toggle_${index}`}>
                           <span
