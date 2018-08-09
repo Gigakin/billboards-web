@@ -41,10 +41,16 @@ class JobOrders extends React.Component {
             // Designer
             if (userRole === "designer") {
               orders.forEach(o => {
+                // Orders with Jobs
                 if (o.jobs && o.jobs.length) {
                   o.jobs.forEach(j => {
                     if (j.status === 1) return filteredOrders.push(o);
                   });
+                }
+
+                // Draft orders
+                if (!o.jobs || o.jobs.length === 0) {
+                  return filteredOrders.push(o);
                 }
               });
             }
