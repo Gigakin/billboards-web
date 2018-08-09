@@ -442,6 +442,7 @@ class OrdersList extends React.Component {
           <table className="uk-table uk-table-middle uk-table-striped uk-table-divider">
             <thead>
               <tr>
+                <th />
                 {showPriorityIcon ? <th /> : null}
                 <th>Order #</th>
                 <th>Order Name</th>
@@ -456,10 +457,37 @@ class OrdersList extends React.Component {
                 return (
                   <tbody key={`sortable_item_${index}`}>
                     <tr className="is-link">
+                      <td>
+                        {/* Quick View */}
+                        <label htmlFor={`collapsible_toggle_${index}`}>
+                          <span
+                            ref={`collapsible_toggle_trigger_${index}`}
+                            onClick={() => {
+                              let elemRef = this.refs[`collapsible_toggle_trigger_${index}`];
+                              if (elemRef.hasAttribute("is-open")) {
+                                elemRef.setAttribute("uk-tooltip", "Show Details");
+                                elemRef.setAttribute("uk-icon", "chevron-right");
+                                elemRef.removeAttribute("is-open");
+                              } else {
+                                elemRef.setAttribute("uk-tooltip", "Hide Details");
+                                elemRef.setAttribute("uk-icon", "chevron-down");
+                                elemRef.setAttribute("is-open", true);
+                              }
+                            }}
+                            uk-tooltip="Show details"
+                            className="uk-icon-button"
+                            uk-icon="chevron-right"
+                          />
+                        </label>
+                      </td>
                       {showPriorityIcon ? (
                         <td onClick={() => this.viewDetails(item.id)}>
                           {item.isHighPriority ? (
-                            <span className="uk-text-danger" uk-icon="bolt" />
+                            <span
+                              className="uk-text-danger"
+                              uk-tooltip="Priority Order"
+                              uk-icon="bolt"
+                            />
                           ) : null}
                         </td>
                       ) : null}
@@ -482,14 +510,6 @@ class OrdersList extends React.Component {
                         <span>
                           {showActionButtons ? (
                             <span>
-                              {/* Quick View */}
-                              <label
-                                className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
-                                htmlFor={`collapsible_toggle_${index}`}
-                              >
-                                Quick View
-                              </label>
-
                               {/* Add Jobs/Review Order Details */}
                               {permissions.canEditOrderDetails ? (
                                 <button
