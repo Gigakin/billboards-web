@@ -13,7 +13,6 @@ import Notification from "../common/notification";
 // Services
 import OrderService from "../../services/order-service";
 import PermissionService from "../../services/permission-service";
-import JobService from "../../services/job-service";
 
 // Classes
 class JobOrders extends React.Component {
