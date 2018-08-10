@@ -21,10 +21,6 @@ class JobOrders extends React.Component {
     super(props);
     this.state = {
       orders: [],
-      jobTypes: [],
-      jobQualities: [],
-      jobFeatures: [],
-      jobStatuses: [],
       userRole: null
     };
   }
@@ -91,58 +87,6 @@ class JobOrders extends React.Component {
     );
   };
 
-  // Get Job Types
-  getJobTypes = () => {
-    JobService.getJobTypes().then(
-      jobtypes => this.setState({ jobTypes: jobtypes }),
-      error => {
-        return Notification.Notify({
-          text: "Failed to get list of job types",
-          type: "error"
-        });
-      }
-    );
-  };
-
-  // Get Job Qualities
-  getJobQualities = () => {
-    JobService.getJobQualities().then(
-      jobqualities => this.setState({ jobQualities: jobqualities }),
-      error => {
-        return Notification.Notify({
-          text: "Failed to get list of job qualities",
-          type: "error"
-        });
-      }
-    );
-  };
-
-  // Get Job Features
-  getJobFeatures = () => {
-    JobService.getJobFeatures().then(
-      jobfeatures => this.setState({ jobFeatures: jobfeatures }),
-      error => {
-        return Notification.Notify({
-          text: "Failed to get list of job features",
-          type: "error"
-        });
-      }
-    );
-  };
-
-  // Get Job Uoms
-  getJobStatuses = () => {
-    JobService.getJobStatuses().then(
-      uoms => this.setState({ jobStatuses: uoms }),
-      error => {
-        return Notification.Notify({
-          text: "Failed to get list of measurement units",
-          type: "error"
-        });
-      }
-    );
-  };
-
   // Edit Order
   editOrder = order => {
     if (order) {
@@ -183,20 +127,10 @@ class JobOrders extends React.Component {
 
   componentDidMount() {
     this.getOrders();
-    this.getJobTypes();
-    this.getJobQualities();
-    this.getJobFeatures();
-    this.getJobStatuses();
   }
 
   render() {
-    let {
-      orders,
-      jobFeatures,
-      jobQualities,
-      jobTypes,
-      jobStatuses
-    } = this.state;
+    let { orders } = this.state;
     return (
       <div className="lists">
         <div className="uk-width-1-1">
@@ -221,10 +155,6 @@ class JobOrders extends React.Component {
           <div className="uk-width-1-1">
             <OrdersList
               data={orders}
-              jobTypes={jobTypes}
-              jobFeatures={jobFeatures}
-              jobQualities={jobQualities}
-              jobStatuses={jobStatuses}
               methods={{
                 editOrder: this.editOrder,
                 reviewOrder: this.reviewOrder,

@@ -12,6 +12,7 @@ import Notification from "./notification";
 // Services
 import AccountOwnerService from "../../services/account-owners-service";
 import PermissionService from "../../services/permission-service";
+import JobService from "../../services/job-service";
 
 // Classes
 class OrdersList extends React.Component {
@@ -26,7 +27,11 @@ class OrdersList extends React.Component {
       permissions: {},
       accountOwners: [],
       tableData: rearrangedOrders,
-      currentPage: 0
+      currentPage: 0,
+      jobTypes: [],
+      jobQualities: [],
+      jobFeatures: [],
+      jobStatuses: []
     };
     this.pageSize = 10;
     this.originalList = Methods.clone(rearrangedOrders);
@@ -40,6 +45,58 @@ class OrdersList extends React.Component {
       error => {
         return Notification.Notify({
           text: "Failed to get list of account owners",
+          type: "error"
+        });
+      }
+    );
+  };
+
+  // Get Job Types
+  getJobTypes = () => {
+    JobService.getJobTypes().then(
+      jobtypes => this.setState({ jobTypes: jobtypes }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of job types",
+          type: "error"
+        });
+      }
+    );
+  };
+
+  // Get Job Qualities
+  getJobQualities = () => {
+    JobService.getJobQualities().then(
+      jobqualities => this.setState({ jobQualities: jobqualities }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of job qualities",
+          type: "error"
+        });
+      }
+    );
+  };
+
+  // Get Job Features
+  getJobFeatures = () => {
+    JobService.getJobFeatures().then(
+      jobfeatures => this.setState({ jobFeatures: jobfeatures }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of job features",
+          type: "error"
+        });
+      }
+    );
+  };
+
+  // Get Job Uoms
+  getJobStatuses = () => {
+    JobService.getJobStatuses().then(
+      uoms => this.setState({ jobStatuses: uoms }),
+      error => {
+        return Notification.Notify({
+          text: "Failed to get list of measurement units",
           type: "error"
         });
       }
@@ -279,16 +336,23 @@ class OrdersList extends React.Component {
     return false;
   };
 
-  componentDidMount() {
+  componentWillMount() {
     // Get permissions
     let role = PermissionService.getRole();
     let permissions = PermissionService.getPermissions(role);
     if (permissions) {
-      this.getAccountOwners();
       return this.setState({
         permissions: permissions
       });
     }
+  }
+
+  componentDidMount() {
+    this.getJobTypes();
+    this.getJobQualities();
+    this.getJobFeatures();
+    this.getJobStatuses();
+    this.getAccountOwners();
   }
 
   componentWillReceiveProps(props) {
@@ -302,11 +366,15 @@ class OrdersList extends React.Component {
   }
 
   render() {
-    let { tableData, accountOwners, permissions } = this.state;
     let {
+      tableData,
+      accountOwners,
+      permissions,
       jobTypes,
       jobFeatures,
-      jobStatuses,
+      jobStatuses
+    } = this.state;
+    let {
       showActionButtons,
       showInvoiceButtons,
       showHandoverButton,
@@ -463,13 +531,24 @@ class OrdersList extends React.Component {
                           <span
                             ref={`collapsible_toggle_trigger_${index}`}
                             onClick={() => {
-                              let elemRef = this.refs[`collapsible_toggle_trigger_${index}`];
+                              let elemRef = this.refs[
+                                `collapsible_toggle_trigger_${index}`
+                              ];
                               if (elemRef.hasAttribute("is-open")) {
-                                elemRef.setAttribute("uk-tooltip", "Show Details");
-                                elemRef.setAttribute("uk-icon", "chevron-right");
+                                elemRef.setAttribute(
+                                  "uk-tooltip",
+                                  "Show Details"
+                                );
+                                elemRef.setAttribute(
+                                  "uk-icon",
+                                  "chevron-right"
+                                );
                                 elemRef.removeAttribute("is-open");
                               } else {
-                                elemRef.setAttribute("uk-tooltip", "Hide Details");
+                                elemRef.setAttribute(
+                                  "uk-tooltip",
+                                  "Hide Details"
+                                );
                                 elemRef.setAttribute("uk-icon", "chevron-down");
                                 elemRef.setAttribute("is-open", true);
                               }
