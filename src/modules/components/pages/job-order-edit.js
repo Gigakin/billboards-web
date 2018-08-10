@@ -269,7 +269,13 @@ class EditJobOrder extends React.Component {
     let { jobDetails, jobs } = this.state;
     this.jobsForm.reset();
     return this.setState({
-      jobs: jobs.concat(jobDetails)
+      isFileSelected: false,
+      jobs: jobs.concat(jobDetails),
+      jobDetails: {
+        ...this.state.jobDetails,
+        hasFileAttachment: false,
+        file: null
+      }
     });
   };
 

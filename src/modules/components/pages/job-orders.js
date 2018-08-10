@@ -150,6 +150,13 @@ class JobOrders extends React.Component {
     }
   };
 
+  // Review Order
+  reviewOrder = order => {
+    if (order) {
+      return this.props.history.push(`/orders/${order.id}/edit?tab=review`);
+    }
+  };
+
   // Delete Order
   deleteOrder = order => {
     OrderService.deleteOrder(order.id).then(
@@ -220,6 +227,7 @@ class JobOrders extends React.Component {
               jobStatuses={jobStatuses}
               methods={{
                 editOrder: this.editOrder,
+                reviewOrder: this.reviewOrder,
                 deleteOrder: this.deleteOrder
               }}
             />

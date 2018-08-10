@@ -82,7 +82,7 @@ class OrdersList extends React.Component {
 
   // Edit Order
   editOrder = order => {
-    return this.props.methods.editOrder(order);
+    return this.props.methods.reviewOrder(order);
   };
 
   // Delete Order
