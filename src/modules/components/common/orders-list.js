@@ -26,16 +26,24 @@ class OrdersList extends React.Component {
     this.state = {
       permissions: {},
       accountOwners: [],
-      tableData: rearrangedOrders,
-      currentPage: 0,
+      tableData: [],
+      currentPage: 1,
       jobTypes: [],
       jobQualities: [],
       jobFeatures: [],
       jobStatuses: []
     };
+
     this.pageSize = 10;
-    this.originalList = Methods.clone(rearrangedOrders);
+    this.originalList = [];
+    this.paginatedList = [];
     this.filteredList = [];
+
+    if (rearrangedOrders && rearrangedOrders.length) {
+      this.state.tableData = rearrangedOrders[0];
+      this.originalList = Methods.clone(rearrangedOrders[0]);
+      this.paginatedList = Methods.clone(rearrangedOrders);
+    }
   }
 
   // Get Account Owners
@@ -113,7 +121,12 @@ class OrdersList extends React.Component {
       orders.forEach(order => {
         if (!order.isHighPriority) return rearrangedOrders.push(order);
       });
-      return rearrangedOrders;
+
+      // Return
+      return Methods.splitArrayIntoChunks({
+        array: rearrangedOrders,
+        chunksize: this.pageSize
+      });
     }
   };
 
@@ -336,6 +349,45 @@ class OrdersList extends React.Component {
     return false;
   };
 
+  // Render Pagination
+  renderPagination = () => {
+    let { currentPage } = this.state;
+    if (this.paginatedList && this.paginatedList.length) {
+      // Do not create pagination if
+      // list items are not more than 1
+      if (this.paginatedList.length <= 1) {
+        return null;
+      }
+
+      return (
+        <ul className="uk-pagination uk-margin-top">
+          {this.paginatedList.map((item, index) => (
+            <li
+              key={`pagination_item_${index}`}
+              className={currentPage === index + 1 ? "uk-active" : null}
+            >
+              <a onClick={() => this.paginate(index + 1)}>{index + 1}</a>
+            </li>
+          ))}
+        </ul>
+      );
+    }
+
+    // Table data is empty, so
+    // do not render anything
+    return null;
+  };
+
+  // Paginate
+  paginate = pagenumber => {
+    if (pagenumber) {
+      return this.setState({
+        tableData: this.paginatedList[pagenumber - 1],
+        currentPage: pagenumber
+      });
+    }
+  };
+
   componentWillMount() {
     // Get permissions
     let role = PermissionService.getRole();
@@ -360,8 +412,14 @@ class OrdersList extends React.Component {
       // Rearrange Data
       let rearrangedOrders = this.rearrangeOrders(props.data);
       // Update state data for table
-      this.originalList = Methods.clone(rearrangedOrders);
-      return this.setState({ tableData: rearrangedOrders });
+      if (rearrangedOrders && rearrangedOrders.length) {
+        this.paginatedList = Methods.clone(rearrangedOrders);
+        this.originalList = Methods.clone(rearrangedOrders[0]);
+        return this.setState({ tableData: rearrangedOrders[0] });
+      }
+      // Otherwise, insert empty arrays
+      this.originalList = [];
+      return this.setState({ tableData: [] });
     }
   }
 
@@ -750,7 +808,8 @@ class OrdersList extends React.Component {
                   <td colSpan={7}>
                     <span className="uk-padding">
                       <div className="uk-text-center">
-                        Nothing here!<br />
+                        Nothing here!
+                        <br />
                         <div className="uk-text-meta uk-margin-small-top">
                           Looking for something? Try using more specific
                           keywords.
@@ -765,23 +824,7 @@ class OrdersList extends React.Component {
         </div>
         {/* Pagination */}
         <div className="uk-width-1-1 uk-flex uk-flex-right">
-          <ul className="uk-pagination uk-margin-top">
-            <li className="uk-disabled">
-              <a href="#1">Previous</a>
-            </li>
-            <li className="uk-active">
-              <a href="#1">1</a>
-            </li>
-            <li>
-              <a href="#2">2</a>
-            </li>
-            <li>
-              <a href="#3">3</a>
-            </li>
-            <li>
-              <a href="#4">Next</a>
-            </li>
-          </ul>
+          {this.renderPagination()}
         </div>
       </div>
     );

@@ -49,11 +49,28 @@ const formatDate = (date, format) => {
   }
 };
 
+// Split Array into Chunks
+const splitArrayIntoChunks = (options = { array: [], chunksize: 10 }) => {
+  if (options) {
+    let { array, chunksize } = options;
+    if (array && array.length) {
+      let index;
+      let chunks = [];
+      for (index = 0; index < array.length; index += chunksize) {
+        chunks.push(array.slice(index, index + chunksize));
+      }
+      return chunks;
+    }
+  }
+  return [];
+};
+
 // Methods
 export default {
   clone,
   calculateSqFt,
   capitalize,
   downloadFile,
-  formatDate
+  formatDate,
+  splitArrayIntoChunks
 };
