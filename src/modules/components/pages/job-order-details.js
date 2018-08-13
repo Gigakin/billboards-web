@@ -593,7 +593,7 @@ class JobOrderDetails extends React.Component {
                       type="button"
                       className="uk-button uk-button-small uk-button-primary"
                       onClick={() => this.completeOrder(order.id)}
-                      disabled={order.status && order.status.id !== 2}
+                      disabled={order.status && order.status.id !== 1}
                     >
                       Complete Order
                     </button>

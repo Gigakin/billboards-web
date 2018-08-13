@@ -345,12 +345,12 @@ class EditJobOrder extends React.Component {
             return null;
           });
           // Map with jobid and upload files
-          response.jobsWithFiles.forEach((jobid, index) => {
-            this.uploadCustomerDesignFile(
-              order.id,
-              jobid,
-              jobsWithAttachments[index].file
-            );
+          response.jobsWithFiles.forEach(jobid => {
+            jobsWithAttachments.forEach(job => {
+              if (job && job.file) {
+                this.uploadCustomerDesignFile(order.id, jobid, job.file);
+              }
+            });
           });
         }
         // Refresh jobs

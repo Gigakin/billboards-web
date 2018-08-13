@@ -152,7 +152,7 @@ class OrdersList extends React.Component {
 
   // Edit Order
   editOrder = order => {
-    return this.props.methods.reviewOrder(order);
+    return this.props.methods.editOrder(order);
   };
 
   // Delete Order
@@ -660,10 +660,10 @@ class OrdersList extends React.Component {
                               ) : null}
 
                               {/* Review Order Details */}
-                              {permissions.canReviewOrderDetails ? (
+                              {permissions.editOrderDetails ? (
                                 <button
                                   type="button"
-                                  onClick={() => this.editOrder(item)}
+                                  onClick={() => this.reviewOrder(item)}
                                   className="uk-button uk-button-primary uk-button-small uk-margin-small-right"
                                   disabled={
                                     item.status.id !== 1 ||
